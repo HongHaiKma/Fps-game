@@ -9,6 +9,10 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/[Pp]roject[Ss]ettings/
+/[Pp]ackages/
+Assembly-CSharp.csproj
+Assembly-CSharp-Editor.csproj
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
