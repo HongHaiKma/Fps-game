@@ -39,6 +39,11 @@ public class PlayerController : MonoBehaviour
     public GameObject m_CanonGun;
     public GunType m_GunType;
 
+    [Header("---Test Gun---")]
+    public FixedJoystick m_AimingJoyStick;
+    public FloatingJoystick m_AimingJoyStick2;
+    public DynamicJoystick m_AimingJoyStick3;
+
     private void OnEnable()
     {
         m_GunType = GunType.GUN_SNIPER;
@@ -91,7 +96,10 @@ public class PlayerController : MonoBehaviour
         m_CharCon.Move(v3_MoveInput * Time.deltaTime);
 
         // Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * m_MouseSen;
-        Vector2 mouseInput = new Vector2(UltimateJoystick.GetHorizontalAxisRaw("Aim"), UltimateJoystick.GetVerticalAxisRaw("Aim")) * m_MouseSen;
+        // Vector2 mouseInput = new Vector2(UltimateJoystick.GetHorizontalAxisRaw("Aim"), UltimateJoystick.GetVerticalAxisRaw("Aim")) * m_MouseSen;
+        // Vector2 mouseInput = new Vector2(m_AimingJoyStick.Horizontal, m_AimingJoyStick.Vertical) * m_MouseSen;
+        // Vector2 mouseInput = new Vector2(m_AimingJoyStick2.Horizontal, m_AimingJoyStick2.Vertical) * m_MouseSen;
+        Vector2 mouseInput = new Vector2(m_AimingJoyStick3.Horizontal, m_AimingJoyStick3.Vertical) * m_MouseSen;
 
         tf_Onwer.rotation = Quaternion.Euler(tf_Onwer.rotation.eulerAngles.x, tf_Onwer.rotation.eulerAngles.y + mouseInput.x, tf_Onwer.rotation.eulerAngles.z);
         tf_CamPoint.rotation = Quaternion.Euler(tf_CamPoint.rotation.eulerAngles + new Vector3(-mouseInput.y * 1.3f, 0f, 0f));
