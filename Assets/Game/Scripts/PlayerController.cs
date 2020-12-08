@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviour
         xAngle = 0.0f;
         yAngle = 0.0f;
         tf_Onwer.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
+
+        // Vector3 a = new Vector3(5f, 5f, 5f);
+        // Vector3 b = new Vector3(0f, 0f, 0f);
+
+        // Debug.Log("Magnitude: " + (a - b).magnitude);
     }
 
     private void Update()
@@ -106,16 +111,6 @@ public class PlayerController : MonoBehaviour
         m_CharCon.Move(v3_MoveInput * Time.deltaTime);
 
         // // Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * m_MouseSen;
-        // // UltimateJoystick.
-        // // Vector2 mouseInput = new Vector2(UltimateJoystick.GetHorizontalAxisRaw("Aim"), UltimateJoystick.GetVerticalAxisRaw("Aim")) * m_MouseSen;
-        // // Vector2 mouseInput = new Vector2(m_AimingJoyStick.Horizontal, m_AimingJoyStick.Vertical) * m_MouseSen;
-        // // Vector2 mouseInput = new Vector2(m_AimingJoyStick2.Horizontal, m_AimingJoyStick2.Vertical) * m_MouseSen;
-        // // Vector2 mouseInput = new Vector2(m_AimingJoyStick3.Horizontal, m_AimingJoyStick2.Vertical) * m_MouseSen;
-
-        // v2_JoyStickOldPos = v2_JoyStickNewPos;
-        // // Vector2 mouseInput = new Vector2(m_AimingJoyStick3.Horizontal, m_AimingJoyStick3.Vertical);
-        // Vector2 mouseInput = new Vector2(UltimateJoystick.GetHorizontalAxis("Aim"), UltimateJoystick.GetVerticalAxis("Aim"));
-        // v2_JoyStickNewPos = mouseInput;
 
         // Vector2 mouseInputSen = (mouseInput * m_MouseSen * 10f);
 
@@ -138,38 +133,49 @@ public class PlayerController : MonoBehaviour
         // //     FireBullet();
         // // }
 
-        // if (m_JoyStick.GetJoystickState())
-        // {
-        //     Debug.Log("111111111111111111");
-        // }
-        // else
-        // {
-        //     Debug.Log("222222222222222222");
-        // }
 
-        // if (Input.touchCount > 0)
-        // {
         if (m_JoyStick.GetJoystickState())
         {
-            // Input.
-            //Touch began, save position
-            if (Input.touchCount > 0)
+            Touch t2 = new Touch();
+
+            if (Input.touchCount > 1)
             {
-                if (Input.GetTouch(1).phase == TouchPhase.Began)
+                t2 = Input.GetTouch(0);
+
+                for (int i = 1; i < Input.touchCount; i++)
                 {
-                    firstpoint = Input.GetTouch(1).position;
+                    Touch t = Input.GetTouch(i);
+
+                    if (t2.position.x < t.position.x)
+                    {
+                        t2 = t;
+                        // touchX = true;
+                        break;
+                    }
+                }
+
+                // if (touchX) // = 2
+                // {
+                if (t2.phase == TouchPhase.Began)
+                {
+                    firstpoint = t2.position;
                     xAngTemp = xAngle;
                     yAngTemp = yAngle;
                 }
                 //Move finger by screen
-                if (Input.GetTouch(1).phase == TouchPhase.Moved)
+                if (t2.phase == TouchPhase.Moved)
                 {
-                    secondpoint = Input.GetTouch(1).position;
+                    secondpoint = t2.position;
+
                     //Mainly, about rotate camera. For example, for Screen.width rotate on 180 degree
                     xAngle = xAngTemp + (secondpoint.x - firstpoint.x) * 180.0f / Screen.width;
                     yAngle = yAngTemp - (secondpoint.y - firstpoint.y) * 90.0f / Screen.height;
+
                     //Rotate camera
-                    tf_Onwer.rotation = Quaternion.Euler(yAngle * 1.8f, xAngle * 1.8f, 0.0f);
+                    if ((secondpoint - firstpoint).magnitude > 100f)
+                    {
+                        tf_Onwer.rotation = Quaternion.Euler(yAngle * 1.65f, xAngle * 1.65f, 0.0f);
+                    }
                 }
             }
         }
@@ -191,13 +197,10 @@ public class PlayerController : MonoBehaviour
                     xAngle = xAngTemp + (secondpoint.x - firstpoint.x) * 180.0f / Screen.width;
                     yAngle = yAngTemp - (secondpoint.y - firstpoint.y) * 90.0f / Screen.height;
                     //Rotate camera
-                    tf_Onwer.rotation = Quaternion.Euler(yAngle * 1.8f, xAngle * 1.8f, 0.0f);
+                    tf_Onwer.rotation = Quaternion.Euler(yAngle * 1.65f, xAngle * 1.65f, 0.0f);
                 }
             }
         }
-        // }
-
-
 
         if (m_ShotCd < m_MaxShotCd)
         {
