@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet_Pistol : Bullet
+public class Bullet_Canon : Bullet
 {
     [Header("---Bullet_Pistol Movements---")]
     public float m_GravityModifier;

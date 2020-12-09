@@ -9,7 +9,10 @@ public class CamController : MonoBehaviour
 
     private void LateUpdate()
     {
+        // m_Tf.position = m_TargetTf.position + new Vector3(2.79f, 2.3f, -0.9f);
         m_Tf.position = m_TargetTf.position;
+        // m_Tf.position = m_TargetTf.position + new Vector3(2.79f, 2.3f, -0.9f);
+        // m_Tf.position = m_TargetTf.position;
         m_Tf.rotation = m_TargetTf.rotation;
     }
 }

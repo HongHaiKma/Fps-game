@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ControlFreak2;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,25 +11,24 @@ public class PlayerController : MonoBehaviour
     [Header("---Movements---")]
     public float m_MoveSpd;
     public float m_GravityModifier;
-    public float m_JumpPower;
     public float m_RunSpd;
     public CharacterController m_CharCon;
     public Transform tf_CamPoint;
+    public Transform tf_CamPoint2;
     private Vector3 v3_MoveInput;
-    public Animator anim_Owner;
+    public Animator an_Owner;
 
     [Header("---Sensivity---")]
     public float m_MouseSen;
 
     [Header("---Jump---")]
     public bool m_CanJump;
-    public bool m_DoubleJump;
+    public float m_JumpPower;
     public Transform tf_GroundCheck;
     public LayerMask lm_Ground;
 
     [Header("---Fire---")]
-    public GameObject m_Bullet;
-    public GameObject m_Bullet2;
+    public GameObject g_Bullet;
     public Transform tf_FirePoint;
     public float m_ShotCd;
     public float m_MaxShotCd;
@@ -39,57 +39,118 @@ public class PlayerController : MonoBehaviour
     public GameObject m_CanonGun;
     public GunType m_GunType;
 
-    [Header("---Test Aiming Joystick---")]
-    public UltimateJoystick m_JoyStick;
-
-    [Header("---Test Joystick by Touch Phase---")]
-    private Vector3 firstpoint; //change type on Vector3
-    private Vector3 secondpoint;
-    private float xAngle = 0.0f; //angle for axes x for rotation
-    private float yAngle = 0.0f;
-    private float xAngTemp = 0.0f; //temp variable for angle
-    private float yAngTemp = 0.0f;
-
     private void OnEnable()
     {
         m_GunType = GunType.GUN_SNIPER;
         m_ShotBulet = 1;
         m_ShotCd = m_MaxShotCd + 1;
-
-        xAngle = 0.0f;
-        yAngle = 0.0f;
-        tf_Onwer.rotation = Quaternion.Euler(yAngle, xAngle, 0.0f);
-
-        // Vector3 a = new Vector3(5f, 5f, 5f);
-        // Vector3 b = new Vector3(0f, 0f, 0f);
-
-        // Debug.Log("Magnitude: " + (a - b).magnitude);
     }
 
     private void Update()
     {
+        OnRunning();
+
+        OnJumping();
+
+        // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * m_MouseSen; //JOYSTICK
+        Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * m_MouseSen; //MOUSE
+
+        if (mouseInput.magnitude > 0.1f)
+        {
+            OnRotating(mouseInput);
+        }
+
+        if (m_ShotCd < m_MaxShotCd)
+        {
+            m_ShotCd += Time.deltaTime;
+        }
+
+        if (CheckShoot())
+        {
+            OnShooting();
+        }
+
+        // an_Owner.SetFloat("MoveSpd", v3_MoveInput.magnitude);
+        // an_Owner.SetBool("OnGround", m_CanJump);
+    }
+
+    public bool CanShot(Vector3 _des)
+    {
+        return ((m_ShotCd >= m_MaxShotCd) && Helper.InRange(tf_Onwer.position, _des, 15f));
+    }
+
+    public bool CheckShoot()
+    {
+        RaycastHit hit;
+        // Debug.DrawRay(tf_Onwer.position, tf_Onwer.forward, Color.red);
+        Debug.DrawRay(tf_CamPoint2.position, tf_CamPoint2.forward * 20, Color.red);
+        Debug.DrawRay(tf_CamPoint.position, tf_CamPoint.forward * 20, Color.green);
+        // if (Physics.Raycast(tf_CamPoint.position, tf_CamPoint.forward, out hit))
+        if (Physics.Raycast(tf_CamPoint2.position, tf_CamPoint2.forward, out hit))
+        {
+            ITakenDamage iTaken = hit.transform.GetComponent<ITakenDamage>();
+            if (iTaken != null && CanShot(hit.transform.position))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    public void OnShooting()
+    {
+        for (int i = 0; i < m_ShotBulet; i++)
+        {
+            // BUllet
+            Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
+        }
+
+        m_ShotCd = 0f;
+        m_ShotBulet = 1;
+    }
+
+    public void OnRotating(Vector2 _input)
+    {
+        tf_Onwer.rotation = Quaternion.Euler(tf_Onwer.rotation.eulerAngles.x, tf_Onwer.rotation.eulerAngles.y + _input.x, tf_Onwer.rotation.eulerAngles.z);
+        tf_CamPoint.rotation = Quaternion.Euler(tf_CamPoint.rotation.eulerAngles + new Vector3(-_input.y * 1.3f, 0f, 0f));
+    }
+
+    public void OnRunning()
+    {
         float yStore = v3_MoveInput.y;
 
-        Vector3 vertMove = tf_Onwer.forward * UltimateJoystick.GetVerticalAxisRaw("Movement");
-        Vector3 horiMove = tf_Onwer.right * UltimateJoystick.GetHorizontalAxisRaw("Movement");
-        // Vector3 vertMove = tf_Onwer.forward * Input.GetAxis("Vertical");
-        // Vector3 horiMove = tf_Onwer.right * Input.GetAxis("Horizontal");
+        // Vector3 horiMove = tf_Onwer.right * CF2Input.GetAxis("Joystick Move X"); //JOYSTICK
+        // Vector3 vertMove = tf_Onwer.forward * CF2Input.GetAxis("Joystick Move Y"); //JOYSTICK
+
+
+        Vector3 vertMove = tf_Onwer.forward * Input.GetAxis("Vertical"); //MOUSE
+        Vector3 horiMove = tf_Onwer.right * Input.GetAxis("Horizontal"); //MOUSE
 
         v3_MoveInput = vertMove + horiMove;
         v3_MoveInput.Normalize();
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Debug.Log("m_DoubleJump: " + m_DoubleJump);
-            v3_MoveInput = v3_MoveInput * m_RunSpd;
-        }
-        else
-        {
-            v3_MoveInput = v3_MoveInput * m_MoveSpd;
-        }
+        // if (Input.GetKey(KeyCode.LeftShift))
+        // {
+        //     v3_MoveInput = v3_MoveInput * m_RunSpd;
+        // }
+        // else
+        // {
+        //     v3_MoveInput = v3_MoveInput * m_MoveSpd;
+        // }
 
         v3_MoveInput.y = yStore;
 
+        OnGroundHandle();
+
+        m_CharCon.Move(v3_MoveInput * 15f * Time.deltaTime); //MOUSE 
+        // m_CharCon.Move(v3_MoveInput * Time.deltaTime); //JOYSTICK
+    }
+
+    public void OnGroundHandle()
+    {
         if (m_CharCon.isGrounded)
         {
             v3_MoveInput.y = Physics.gravity.y * m_GravityModifier * Time.deltaTime;
@@ -98,195 +159,38 @@ public class PlayerController : MonoBehaviour
         {
             v3_MoveInput.y += Physics.gravity.y * m_GravityModifier * Time.deltaTime;
         }
+    }
 
-        m_CanJump = Physics.OverlapSphere(tf_GroundCheck.position, 0.25f, lm_Ground).Length > 0;
+    // public 
 
-        if (Input.GetKeyDown(KeyCode.Space) && m_CanJump)
-        {
-            v3_MoveInput.y = m_JumpPower;
+    public void OnJumping()
+    {
+        // m_CanJump = Physics.OverlapSphere(tf_GroundCheck.position, 0.25f, lm_Ground).Length > 0;
 
-        }
-
-
-        m_CharCon.Move(v3_MoveInput * Time.deltaTime);
-
-        // // Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * m_MouseSen;
-
-        // Vector2 mouseInputSen = (mouseInput * m_MouseSen * 10f);
-
-        // // Vector3 mouseInput = new Vector3(m_AimingJoyStick3.Horizontal, m_AimingJoyStick3.Vertical) * m_MouseSen;
-
-        // Debug.Log("v2_JoyStickNewPos " + v2_JoyStickNewPos);
-        // Debug.Log("v2_JoyStickOldPos " + v2_JoyStickOldPos);
-
-        // // mouseInput.Normalize();
-        // // mouseInputSen.Normalize();
-        // if ((v2_JoyStickNewPos - v2_JoyStickOldPos).magnitude > 0f)
+        // if (Input.GetKeyDown(KeyCode.Space) && m_CanJump)
         // {
-        //     tf_Onwer.rotation = Quaternion.Euler(tf_Onwer.rotation.eulerAngles.x, tf_Onwer.rotation.eulerAngles.y + mouseInputSen.x, tf_Onwer.rotation.eulerAngles.z);
-        //     tf_CamPoint.rotation = Quaternion.Euler(tf_CamPoint.rotation.eulerAngles + new Vector3(-mouseInputSen.y * 1.3f, 0f, 0f));
+        //     v3_MoveInput.y = m_JumpPower;
         // }
-
-
-        // // if (Input.GetMouseButtonDown(0))
-        // // {
-        // //     FireBullet();
-        // // }
-
-
-        if (m_JoyStick.GetJoystickState())
-        {
-            Touch t2 = new Touch();
-
-            if (Input.touchCount > 1)
-            {
-                t2 = Input.GetTouch(0);
-
-                for (int i = 1; i < Input.touchCount; i++)
-                {
-                    Touch t = Input.GetTouch(i);
-
-                    if (t2.position.x < t.position.x)
-                    {
-                        t2 = t;
-                        // touchX = true;
-                        break;
-                    }
-                }
-
-                // if (touchX) // = 2
-                // {
-                if (t2.phase == TouchPhase.Began)
-                {
-                    firstpoint = t2.position;
-                    xAngTemp = xAngle;
-                    yAngTemp = yAngle;
-                }
-                //Move finger by screen
-                if (t2.phase == TouchPhase.Moved)
-                {
-                    secondpoint = t2.position;
-
-                    //Mainly, about rotate camera. For example, for Screen.width rotate on 180 degree
-                    xAngle = xAngTemp + (secondpoint.x - firstpoint.x) * 180.0f / Screen.width;
-                    yAngle = yAngTemp - (secondpoint.y - firstpoint.y) * 90.0f / Screen.height;
-
-                    //Rotate camera
-                    if ((secondpoint - firstpoint).magnitude > 100f)
-                    {
-                        tf_Onwer.rotation = Quaternion.Euler(yAngle * 1.65f, xAngle * 1.65f, 0.0f);
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (Input.touchCount > 0)
-            {
-                if (Input.GetTouch(0).phase == TouchPhase.Began)
-                {
-                    firstpoint = Input.GetTouch(0).position;
-                    xAngTemp = xAngle;
-                    yAngTemp = yAngle;
-                }
-                //Move finger by screen
-                if (Input.GetTouch(0).phase == TouchPhase.Moved)
-                {
-                    secondpoint = Input.GetTouch(0).position;
-                    //Mainly, about rotate camera. For example, for Screen.width rotate on 180 degree
-                    xAngle = xAngTemp + (secondpoint.x - firstpoint.x) * 180.0f / Screen.width;
-                    yAngle = yAngTemp - (secondpoint.y - firstpoint.y) * 90.0f / Screen.height;
-                    //Rotate camera
-                    tf_Onwer.rotation = Quaternion.Euler(yAngle * 1.65f, xAngle * 1.65f, 0.0f);
-                }
-            }
-        }
-
-        if (m_ShotCd < m_MaxShotCd)
-        {
-            m_ShotCd += Time.deltaTime;
-        }
-
-        RaycastHit hit;
-        if (Physics.Raycast(tf_CamPoint.position, tf_CamPoint.forward, out hit))
-        {
-            ITakenDamage iTaken = hit.transform.GetComponent<ITakenDamage>();
-            if (iTaken != null && CanShot(hit.transform.position))
-            {
-                if (m_GunType == GunType.GUN_SNIPER)
-                {
-                    FireBullet();
-                }
-                else
-                {
-                    // StartCoroutine(FireBullet2());
-                    FireBullet2();
-                }
-                // Debug.Log(hit.transform.name);
-            }
-        }
-
-        anim_Owner.SetFloat("MoveSpd", v3_MoveInput.magnitude);
-        anim_Owner.SetBool("OnGround", m_CanJump);
     }
 
-    public bool CanShot(Vector3 _des)
-    {
-        return ((m_ShotCd >= m_MaxShotCd) && Helper.InRange(tf_Onwer.position, _des, 15f));
-    }
-
-    public void CheckDistance()
-    {
-
-    }
-
-    public void FireBullet()
-    {
-        for (int i = 0; i < m_ShotBulet; i++)
-        {
-            Instantiate(m_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
-        }
-
-        m_ShotCd = 0f;
-        m_ShotBulet = 1;
-    }
-
-    public void FireBullet2()
-    {
-        // for (int i = 0; i < m_ShotBulet; i++)
-        // {
-        //     Instantiate(m_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
-        //     yield return new WaitForSeconds(0.3f);
-        //     Instantiate(m_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
-        //     yield return new WaitForSeconds(0.3f);
-        //     Instantiate(m_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
-        //     yield return new WaitForSeconds(0.3f);
-        // }
-        for (int i = 0; i < m_ShotBulet; i++)
-        {
-            Instantiate(m_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
-        }
-        m_ShotCd = 0f;
-        m_ShotBulet = 3;
-    }
-
-    public void ChangeGun()
-    {
-        if (m_GunType == GunType.GUN_SNIPER)
-        {
-            m_GunType = GunType.GUN_CANON;
-            m_CanonGun.SetActive(true);
-            m_SniperGun.SetActive(false);
-            m_MaxShotCd = 1.5f;
-        }
-        else
-        {
-            m_GunType = GunType.GUN_SNIPER;
-            m_CanonGun.SetActive(false);
-            m_SniperGun.SetActive(true);
-            m_MaxShotCd = 3f;
-        }
-    }
+    // public void Shoot2()
+    // {
+    //     // for (int i = 0; i < m_ShotBulet; i++)
+    //     // {
+    //     //     Instantiate(m_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
+    //     //     yield return new WaitForSeconds(0.3f);
+    //     //     Instantiate(m_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
+    //     //     yield return new WaitForSeconds(0.3f);
+    //     //     Instantiate(m_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
+    //     //     yield return new WaitForSeconds(0.3f);
+    //     // }
+    //     for (int i = 0; i < m_ShotBulet; i++)
+    //     {
+    //         Instantiate(g_Bullet2, tf_FirePoint.position, tf_FirePoint.rotation);
+    //     }
+    //     m_ShotCd = 0f;
+    //     m_ShotBulet = 3;
+    // }
 
     private void OnTriggerEnter(Collider other)
     {
