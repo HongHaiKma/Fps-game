@@ -6,7 +6,7 @@ using ControlFreak2;
 public class PlayerController : MonoBehaviour
 {
     [Header("---Components---")]
-    public Transform tf_Onwer;
+    public Transform tf_Owner;
 
     [Header("---Movements---")]
     public float m_MoveSpd;
@@ -27,70 +27,72 @@ public class PlayerController : MonoBehaviour
     public Transform tf_GroundCheck;
     public LayerMask lm_Ground;
 
-    [Header("---Fire---")]
+    [Header("---Shoot---")]
     public GameObject g_Bullet;
     public Transform tf_FirePoint;
-    public float m_ShotCd;
-    public float m_MaxShotCd;
+    public float m_ShootCd;
+    public float m_MaxShootCd;
     public int m_ShotBulet;
 
     [Header("---Test Gun---")]
-    public GameObject m_SniperGun;
-    public GameObject m_CanonGun;
     public GunType m_GunType;
+    public Transform m_TestLook;
 
     private void OnEnable()
     {
         m_GunType = GunType.GUN_SNIPER;
         m_ShotBulet = 1;
-        m_ShotCd = m_MaxShotCd + 1;
+        m_ShootCd = m_MaxShootCd + 1;
     }
 
     private void Update()
     {
+        // OnRotating();
+
         OnRunning();
 
         OnJumping();
 
         // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * m_MouseSen; //JOYSTICK
+
         Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * m_MouseSen; //MOUSE
+
+        // Debug.Log(Input.GetAxis("Mouse Y"));
 
         if (mouseInput.magnitude > 0.1f)
         {
             OnRotating(mouseInput);
         }
 
-        if (m_ShotCd < m_MaxShotCd)
+        if (m_ShootCd < m_MaxShootCd)
         {
-            m_ShotCd += Time.deltaTime;
+            m_ShootCd += Time.deltaTime;
         }
 
         if (CheckShoot())
         {
             OnShooting();
         }
-
-        // an_Owner.SetFloat("MoveSpd", v3_MoveInput.magnitude);
-        // an_Owner.SetBool("OnGround", m_CanJump);
     }
 
     public bool CanShot(Vector3 _des)
     {
-        return ((m_ShotCd >= m_MaxShotCd) && Helper.InRange(tf_Onwer.position, _des, 15f));
+        return ((m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, _des, 15f));
     }
 
     public bool CheckShoot()
     {
         RaycastHit hit;
-        // Debug.DrawRay(tf_Onwer.position, tf_Onwer.forward, Color.red);
-        Debug.DrawRay(tf_CamPoint2.position, tf_CamPoint2.forward * 20, Color.red);
-        Debug.DrawRay(tf_CamPoint.position, tf_CamPoint.forward * 20, Color.green);
-        // if (Physics.Raycast(tf_CamPoint.position, tf_CamPoint.forward, out hit))
-        if (Physics.Raycast(tf_CamPoint2.position, tf_CamPoint2.forward, out hit))
+        // Debug.DrawRay(tf_CamPoint2.position, tf_CamPoint2.forward * 20, Color.red);
+        // Debug.DrawRay(tf_CamPoint.position, tf_CamPoint.forward * 20, Color.green);
+        if (Physics.Raycast(tf_CamPoint.position, tf_CamPoint.forward, out hit))
         {
             ITakenDamage iTaken = hit.transform.GetComponent<ITakenDamage>();
             if (iTaken != null && CanShot(hit.transform.position))
             {
+                // tf_Onwer.LookAt(hit.transform);
+                // tf_CamPoint.LookAt(hit.transform);
+                tf_FirePoint.LookAt(hit.transform);
                 return true;
             }
 
@@ -104,18 +106,29 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < m_ShotBulet; i++)
         {
-            // BUllet
             Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
         }
 
-        m_ShotCd = 0f;
+        m_ShootCd = 0f;
         m_ShotBulet = 1;
     }
 
     public void OnRotating(Vector2 _input)
     {
-        tf_Onwer.rotation = Quaternion.Euler(tf_Onwer.rotation.eulerAngles.x, tf_Onwer.rotation.eulerAngles.y + _input.x, tf_Onwer.rotation.eulerAngles.z);
-        tf_CamPoint.rotation = Quaternion.Euler(tf_CamPoint.rotation.eulerAngles + new Vector3(-_input.y * 1.3f, 0f, 0f));
+        tf_Owner.rotation = Quaternion.Euler(tf_Owner.rotation.eulerAngles.x, tf_Owner.rotation.eulerAngles.y + _input.x, tf_Owner.rotation.eulerAngles.z);
+
+        float limit = tf_CamPoint.rotation.eulerAngles.x - _input.y;
+        limit = Helper.ClampAngle(limit, -40, 60);
+        tf_CamPoint.rotation = Quaternion.Euler(limit, tf_CamPoint.rotation.eulerAngles.y, tf_CamPoint.rotation.eulerAngles.z);
+    }
+
+    public void OnRotating()
+    {
+        tf_Owner.LookAt(m_TestLook);
+        tf_Owner.rotation = Quaternion.Euler(0f, tf_Owner.rotation.eulerAngles.y, 0f);
+
+        tf_CamPoint.LookAt(m_TestLook);
+        Debug.DrawRay(tf_CamPoint.position, tf_CamPoint.forward * 20, Color.green);
     }
 
     public void OnRunning()
@@ -126,8 +139,8 @@ public class PlayerController : MonoBehaviour
         // Vector3 vertMove = tf_Onwer.forward * CF2Input.GetAxis("Joystick Move Y"); //JOYSTICK
 
 
-        Vector3 vertMove = tf_Onwer.forward * Input.GetAxis("Vertical"); //MOUSE
-        Vector3 horiMove = tf_Onwer.right * Input.GetAxis("Horizontal"); //MOUSE
+        Vector3 vertMove = tf_Owner.forward * Input.GetAxis("Vertical"); //MOUSE
+        Vector3 horiMove = tf_Owner.right * Input.GetAxis("Horizontal"); //MOUSE
 
         v3_MoveInput = vertMove + horiMove;
         v3_MoveInput.Normalize();
