@@ -5,14 +5,11 @@ using UnityEngine;
 public class CamController : MonoBehaviour
 {
     public Transform m_TargetTf;
-    public Transform m_Tf;
+    public Transform tf_Owner;
 
     private void LateUpdate()
     {
-        // m_Tf.position = m_TargetTf.position + new Vector3(2.79f, 2.3f, -0.9f);
-        m_Tf.position = m_TargetTf.position;
-        // m_Tf.position = m_TargetTf.position + new Vector3(2.79f, 2.3f, -0.9f);
-        // m_Tf.position = m_TargetTf.position;
-        m_Tf.rotation = m_TargetTf.rotation;
+        tf_Owner.position = m_TargetTf.position;
+        tf_Owner.rotation = m_TargetTf.rotation;
     }
 }
