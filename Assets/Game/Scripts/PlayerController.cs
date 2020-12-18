@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
             {
                 // tf_Onwer.LookAt(hit.transform);
                 // tf_CamPoint.LookAt(hit.transform);
-                // tf_FirePoint.LookAt(hit.transform);
+                tf_FirePoint.LookAt(hit.transform);
                 return true;
             }
 
