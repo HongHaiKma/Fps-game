@@ -16,7 +16,7 @@ public class CharacterAiming : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         float yawCam = cam_Main.transform.rotation.eulerAngles.y;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, yawCam, 0f), m_TurnSpd * Time.fixedDeltaTime);
