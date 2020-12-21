@@ -9,6 +9,11 @@ public class Enemytest : MonoBehaviour, ITakenDamage
 
     }
 
+    public virtual void OnHit(string _targetName)
+    {
+
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Enemy hit!!!");

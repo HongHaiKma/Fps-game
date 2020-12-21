@@ -20,4 +20,5 @@ public class Entity : MonoBehaviour
 public interface ITakenDamage
 {
     void OnHit();
+    void OnHit(string _targetName);
 }

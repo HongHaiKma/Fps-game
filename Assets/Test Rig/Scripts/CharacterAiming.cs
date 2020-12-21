@@ -16,6 +16,10 @@ public class CharacterAiming : MonoBehaviour
     public Transform tf_Start1;
     public Transform tf_Start2;
 
+    [Header("Test")]
+    public Transform tf_FirePoint;
+    public Bullet g_Bullet;
+
     void Start()
     {
         cam_Main = Camera.main;
@@ -30,8 +34,20 @@ public class CharacterAiming : MonoBehaviour
 
         Ray ray = new Ray(transform.position, (tf_Start1.position - tf_Start2.position));
         Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
+        }
     }
 
+
+
+    // public bool CanShot(Vector3 _des)
+    // {
+    //     // return ((m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, _des, 15f));
+    //     // return Helper.InRange(tf_Owner.position, _des, 15f));
+    // }
 
     void FixedUpdate()
     {
