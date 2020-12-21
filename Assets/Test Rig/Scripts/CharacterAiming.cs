@@ -13,6 +13,9 @@ public class CharacterAiming : MonoBehaviour
     public Transform tf_Start;
     public Transform tf_End;
 
+    public Transform tf_Start1;
+    public Transform tf_Start2;
+
     void Start()
     {
         cam_Main = Camera.main;
@@ -23,6 +26,10 @@ public class CharacterAiming : MonoBehaviour
     private void Update()
     {
         Debug.DrawLine(tf_Start.position, tf_End.position, Color.red);
+        Debug.DrawLine(tf_Start1.position, tf_Start2.position, Color.blue);
+
+        Ray ray = new Ray(transform.position, (tf_Start1.position - tf_Start2.position));
+        Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
     }
 
 
