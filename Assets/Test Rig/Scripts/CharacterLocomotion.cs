@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using ControlFreak2;
 
 public class CharacterLocomotion : MonoBehaviour
 {
@@ -21,8 +22,16 @@ public class CharacterLocomotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        v2_Input.x = Input.GetAxis("Horizontal");
-        v2_Input.y = Input.GetAxis("Vertical");
+        // v2_Input.x = Input.GetAxis("Horizontal");
+        // v2_Input.y = Input.GetAxis("Vertical");
+
+        v2_Input.x = CF2Input.GetAxis("Joystick Move X");
+        v2_Input.y = CF2Input.GetAxis("Joystick Move Y");
+
+        // Debug.Log(CF2Input.GetAxis("Mouse X"));
+
+        // anim_Onwer.SetFloat("InputX", v2_Input.x);
+        // anim_Onwer.SetFloat("InputY", v2_Input.y);
 
         anim_Onwer.SetFloat("InputX", v2_Input.x);
         anim_Onwer.SetFloat("InputY", v2_Input.y);
