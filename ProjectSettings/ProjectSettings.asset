@@ -172,7 +172,7 @@ PlayerSettings:
   applicationIdentifier: {}
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 19
+  AndroidMinSdkVersion: 24
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -612,7 +612,10 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    4: CF_FORCE_MOBILE_MODE
+    7: CF_FORCE_MOBILE_MODE
+    14: CF_FORCE_MOBILE_MODE
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using ControlFreak2;
+using Cinemachine;
 
 public class CharacterAiming : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class CharacterAiming : MonoBehaviour
     [Header("Test")]
     public Transform tf_FirePoint;
     public Bullet g_Bullet;
+    public CinemachineFreeLook aaa;
 
     void Start()
     {
@@ -34,6 +37,16 @@ public class CharacterAiming : MonoBehaviour
 
         Ray ray = new Ray(transform.position, (tf_Start1.position - tf_Start2.position));
         Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+
+        // if (CF2Input.GetAxis("Mouse X") == 0)
+        // {
+        //     aaa.m_YAxis.m_InputAxisValue = 0;
+        // }
+
+        // if (CF2Input.GetAxis("Mouse Y") == 0)
+        // {
+        //     aaa.m_XAxis.m_InputAxisValue = 0;
+        // }
 
         // if (Input.GetMouseButtonDown(0))
         // {
