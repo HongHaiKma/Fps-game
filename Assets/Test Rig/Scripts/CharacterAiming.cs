@@ -23,8 +23,8 @@ public class CharacterAiming : MonoBehaviour
     void Start()
     {
         cam_Main = Camera.main;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -35,10 +35,10 @@ public class CharacterAiming : MonoBehaviour
         Ray ray = new Ray(transform.position, (tf_Start1.position - tf_Start2.position));
         Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
-        }
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
+        // }
     }
 
 

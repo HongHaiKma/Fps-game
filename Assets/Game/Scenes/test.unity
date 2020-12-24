@@ -1338,6 +1338,90 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[2].name
+      value: Mouse X
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[3].name
+      value: Mouse Y
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].name
+      value: Select Weapon 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].scale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].axisType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].deltaMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].smoothingTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].affectSourceKeys
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].keyboardPositive
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].affectedKeyPositive
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].digitalToScrollDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].analogToDigitalThresh
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].digitalToAnalogAccelTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].digitalToAnalogDecelTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].digitalToScrollAutoRepeat
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].scrollToAnalogStepDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].scrollToDeltaSmoothingTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].scrollToAnalogSmoothingTime
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: axes.list.Array.data[52].digitalToScrollRepeatInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: mouseConfig.horzDeltaBinding.targetList.Array.data[0].singleAxis
+      value: Mouse X
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: mouseConfig.vertDeltaBinding.targetList.Array.data[0].singleAxis
+      value: Mouse Y
+      objectReference: {fileID: 0}
     - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: touchSmoothing
       value: 0.2
@@ -1349,6 +1433,14 @@ PrefabInstance:
     - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: swipeOverTargetList.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: horzSwipeBinding.targetList.Array.data[0].singleAxis
+      value: Joystick Look X
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: vertSwipeBinding.targetList.Array.data[0].singleAxis
+      value: Joystick Look Y
       objectReference: {fileID: 0}
     - target: {fileID: 22401524, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -9913,7 +10005,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4841833162743056349}
-  m_LocalRotation: {x: 0.15009765, y: -1.6958608e-15, z: 6.2241866e-16, w: 0.9886712}
+  m_LocalRotation: {x: 0.15009762, y: 0.000000029464701, z: -0.000000004473258, w: 0.9886712}
   m_LocalPosition: {x: 85.53168, y: 0, z: 145.30998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10120,7 +10212,7 @@ MonoBehaviour:
     m_MaxSpeed: 2
     m_AccelTime: 0.02
     m_DecelTime: 0.02
-    m_InputAxisName: Mouse Y
+    m_InputAxisName: Joystick Look Y
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: 0
@@ -10144,7 +10236,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.02
     m_DecelTime: 0.02
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Joystick Look X
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -180
