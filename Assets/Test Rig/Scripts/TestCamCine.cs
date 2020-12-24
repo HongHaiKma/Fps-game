@@ -38,7 +38,6 @@ public class TestCamCine : MonoBehaviour
             {
                 // tf_CamCrosshair.position = hit.transform.position;
                 tf_CamCrosshair.position = hit.point;
-                Debug.Log("Hit name: " + hit.transform.gameObject.name);
             }
 
             return false;
