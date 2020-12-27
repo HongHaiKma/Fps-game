@@ -1286,6 +1286,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 174740, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 185172, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1340,7 +1344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400152, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: dontAcceptSharedTouches
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11415418, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: axes.list.Array.size
@@ -2279,6 +2283,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: emulateTouchPressure
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: pressBinding.enabled
       value: 0
       objectReference: {fileID: 0}
@@ -2287,7 +2295,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: cantBeControlledDirectly
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: touchPressureBinding.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: swipeOverTargetList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: pressBinding.axisList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: swipeOverTargetList.Array.data[0]
+      value: 
+      objectReference: {fileID: 1101538406}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: touchPressureBinding.targetList.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
@@ -2295,8 +2323,20 @@ PrefabInstance:
       value: Mouse X
       objectReference: {fileID: 0}
     - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: pressBinding.axisList.Array.data[0].axisPositiveSide
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: vertSwipeBinding.targetList.Array.data[0].singleAxis
       value: Mouse Y
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: touchPressureBinding.targetList.Array.data[0].negativeAxisAsPositive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429874, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+      propertyPath: touchPressureBinding.targetList.Array.data[0].positiveAxisAsPositive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11484022, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
       propertyPath: ignoreFingerRadius
@@ -2928,6 +2968,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1101538406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11484022, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
+  m_PrefabInstance: {fileID: 616740269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371d284a20ca80145bc6ca05d372bb96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1251737323
 GameObject:
   m_ObjectHideFlags: 0
@@ -11085,7 +11136,7 @@ MonoBehaviour:
     m_MaxSpeed: 2
     m_AccelTime: 0.02
     m_DecelTime: 0.02
-    m_InputAxisName: Mouse Y
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: 0
@@ -11109,7 +11160,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.02
     m_DecelTime: 0.02
-    m_InputAxisName: Mouse X
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -180

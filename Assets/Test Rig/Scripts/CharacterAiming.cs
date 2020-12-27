@@ -38,15 +38,29 @@ public class CharacterAiming : MonoBehaviour
         Ray ray = new Ray(transform.position, (tf_Start1.position - tf_Start2.position));
         Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
 
-        // if (CF2Input.GetAxis("Mouse X") == 0)
-        // {
-        //     aaa.m_YAxis.m_InputAxisValue = 0;
-        // }
+        // Debug.Log("Mouse X: " + CF2Input.GetAxis("Mouse X"));
+        // Debug.Log("Mouse Y: " + CF2Input.GetAxis("Mouse Y"));
 
-        // if (CF2Input.GetAxis("Mouse Y") == 0)
-        // {
-        //     aaa.m_XAxis.m_InputAxisValue = 0;
-        // }
+        if (CF2Input.GetAxis("Mouse X") == 0)
+        {
+            // Input.GetAxis("Mouse X") = CF2Input.GetAxis("Mouse X");
+            aaa.m_XAxis.m_InputAxisValue = 0;
+        }
+        else
+        {
+            aaa.m_XAxis.m_InputAxisValue = CF2Input.GetAxis("Mouse X");
+            Debug.Log("Get X axis!!!");
+        }
+
+        if (CF2Input.GetAxis("Mouse Y") == 0)
+        {
+            aaa.m_YAxis.m_InputAxisValue = 0;
+        }
+        else
+        {
+            aaa.m_YAxis.m_InputAxisValue = CF2Input.GetAxis("Mouse Y");
+            Debug.Log("Get Y axis!!!");
+        }
 
         // if (Input.GetMouseButtonDown(0))
         // {
@@ -64,7 +78,7 @@ public class CharacterAiming : MonoBehaviour
 
     void FixedUpdate()
     {
-        float yawCam = cam_Main.transform.rotation.eulerAngles.y;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, yawCam, 0f), m_TurnSpd * Time.fixedDeltaTime);
+        float camMain = cam_Main.transform.rotation.eulerAngles.y;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
     }
 }
