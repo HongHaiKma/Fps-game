@@ -32,40 +32,14 @@ public class CharacterAiming : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawLine(tf_Start.position, tf_End.position, Color.red);
-        Debug.DrawLine(tf_Start1.position, tf_Start2.position, Color.blue);
+        // Debug.DrawLine(tf_Start.position, tf_End.position, Color.red);
+        // Debug.DrawLine(tf_Start1.position, tf_Start2.position, Color.blue);
 
-        Ray ray = new Ray(transform.position, (tf_Start1.position - tf_Start2.position));
-        Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+        // Ray ray = new Ray(transform.position, (tf_Start1.position - tf_Start2.position));
+        // Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
 
-        // Debug.Log("Mouse X: " + CF2Input.GetAxis("Mouse X"));
-        // Debug.Log("Mouse Y: " + CF2Input.GetAxis("Mouse Y"));
-
-        if (CF2Input.GetAxis("Mouse X") == 0)
-        {
-            // Input.GetAxis("Mouse X") = CF2Input.GetAxis("Mouse X");
-            aaa.m_XAxis.m_InputAxisValue = 0;
-        }
-        else
-        {
-            aaa.m_XAxis.m_InputAxisValue = CF2Input.GetAxis("Mouse X");
-            Debug.Log("Get X axis!!!");
-        }
-
-        if (CF2Input.GetAxis("Mouse Y") == 0)
-        {
-            aaa.m_YAxis.m_InputAxisValue = 0;
-        }
-        else
-        {
-            aaa.m_YAxis.m_InputAxisValue = CF2Input.GetAxis("Mouse Y");
-            Debug.Log("Get Y axis!!!");
-        }
-
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
-        // }
+        aaa.m_XAxis.m_InputAxisValue = CF2Input.GetAxis("Mouse X");
+        aaa.m_YAxis.m_InputAxisValue = CF2Input.GetAxis("Mouse Y");
     }
 
 
