@@ -18,7 +18,7 @@ public class CamController : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(tf_Owner.position, tf_Owner.forward, out hit))
+        if (Physics.Raycast(tf_Owner.position, tf_Owner.forward * 80f, out hit))
         {
             Collider col = hit.transform.GetComponent<Collider>();
 

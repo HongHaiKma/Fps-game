@@ -1,11 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using ControlFreak2;
 using Cinemachine;
 
-public class CharacterAiming : MonoBehaviour
+public class Character : MonoBehaviour
 {
     public float m_TurnSpd = 15f;
     Camera cam_Main;
@@ -13,6 +13,7 @@ public class CharacterAiming : MonoBehaviour
 
     [Header("---Components---")]
     public Transform tf_Owner;
+    public Animator anim_Onwer;
 
     [Header("---Shoot---")]
     public GameObject g_Bullet;
@@ -29,7 +30,7 @@ public class CharacterAiming : MonoBehaviour
 
     [Header("Test")]
     public Transform tf_FirePoint;
-    public CinemachineFreeLook aaa;
+    public CinemachineFreeLook m_CinemachineFreeLook;
 
     void Start()
     {
@@ -45,18 +46,23 @@ public class CharacterAiming : MonoBehaviour
     {
         // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 40f, Color.red);
 
+        Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
+
+        anim_Onwer.SetFloat("InputX", moveInput.x);
+        anim_Onwer.SetFloat("InputY", moveInput.y);
+
 #if UNITY_ANDROID
         Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
         if (mouseInput.magnitude > 0.015f)
         {
-            aaa.m_XAxis.m_InputAxisValue = mouseInput.x;
-            aaa.m_YAxis.m_InputAxisValue = mouseInput.y;
+            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
+            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
         }
         else
         {
-            aaa.m_XAxis.m_InputAxisValue = 0f;
-            aaa.m_YAxis.m_InputAxisValue = 0f;
+            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
+            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
         }
 
         if (m_ShootCd < m_MaxShootCd)
@@ -71,8 +77,8 @@ public class CharacterAiming : MonoBehaviour
 #endif
 
 #if UNITY_EDITOR
-        aaa.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
-        aaa.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
+        m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
+        m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
 
         if (Input.GetMouseButtonDown(0))
         {
