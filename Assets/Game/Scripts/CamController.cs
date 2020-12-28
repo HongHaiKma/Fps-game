@@ -4,12 +4,39 @@ using UnityEngine;
 
 public class CamController : MonoBehaviour
 {
-    public Transform m_TargetTf;
     public Transform tf_Owner;
+    public Transform tf_CamCrosshair;
 
-    private void LateUpdate()
+    void Update()
     {
-        tf_Owner.position = m_TargetTf.position;
-        tf_Owner.rotation = m_TargetTf.rotation;
+        Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
+
+        CheckShoot();
     }
+
+    public bool CheckShoot()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(tf_Owner.position, tf_Owner.forward, out hit))
+        {
+            Collider col = hit.transform.GetComponent<Collider>();
+
+            if (col != null)
+            {
+                tf_CamCrosshair.position = hit.point;
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    // public bool CanShot(Vector3 _des)
+    // {
+    //     // return ((m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, _des, 15f));
+    //     // return Helper.InRange(tf_Owner.position, _des, 15f));
+    // }
 }

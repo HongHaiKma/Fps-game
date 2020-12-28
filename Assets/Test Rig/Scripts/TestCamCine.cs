@@ -5,12 +5,11 @@ using UnityEngine;
 public class TestCamCine : MonoBehaviour
 {
     public Transform tf_Owner;
-    public Transform tf_End;
     public Transform tf_CamCrosshair;
 
     void Update()
     {
-        Debug.DrawLine(tf_Owner.position, tf_End.position, Color.green);
+        // Debug.DrawLine(tf_Owner.position, tf_End.position, Color.green);
 
         CheckShoot();
     }
@@ -37,7 +36,9 @@ public class TestCamCine : MonoBehaviour
             if (col != null)
             {
                 // tf_CamCrosshair.position = hit.transform.position;
+                // Debug.Log("Can shotttttttttt!!!!!!");
                 tf_CamCrosshair.position = hit.point;
+                return true;
             }
 
             return false;
