@@ -8,8 +8,14 @@ using Cinemachine;
 public class Character : MonoBehaviour
 {
     public float m_TurnSpd = 15f;
-    Camera cam_Main;
+
+    [Header("---Animation Rigging---")]
     public Rig r_AimLayer;
+    public MultiAimConstraint m_MultiAimConstraint;
+
+    [Header("---Camera---")]
+    Camera cam_Main;
+    public CinemachineFreeLook m_CinemachineFreeLook;
 
     [Header("---Components---")]
     public Transform tf_Owner;
@@ -20,17 +26,7 @@ public class Character : MonoBehaviour
     public float m_ShootCd;
     public float m_MaxShootCd;
     public int m_ShotBulet;
-
-    [Header("Test")]
-    public Transform tf_Start;
-    public Transform tf_End;
-
-    public Transform tf_Start1;
-    public Transform tf_Start2;
-
-    [Header("Test")]
     public Transform tf_FirePoint;
-    public CinemachineFreeLook m_CinemachineFreeLook;
 
     void Start()
     {
@@ -46,11 +42,21 @@ public class Character : MonoBehaviour
     {
         // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 40f, Color.red);
 
+        SetMovingInput();
+
+        SetAimingInput();
+    }
+
+    public void SetMovingInput()
+    {
         Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
 
         anim_Onwer.SetFloat("InputX", moveInput.x);
         anim_Onwer.SetFloat("InputY", moveInput.y);
+    }
 
+    public void SetAimingInput()
+    {
 #if UNITY_ANDROID
         Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
@@ -113,7 +119,6 @@ public class Character : MonoBehaviour
             ITakenDamage iTaken = hit.transform.GetComponent<ITakenDamage>();
             if (iTaken != null && CanShoot(hit.transform.position))
             {
-                Debug.Log("Can shot!!!!!");
                 Collider col = hit.transform.GetComponent<Collider>();
                 return true;
             }
@@ -123,12 +128,6 @@ public class Character : MonoBehaviour
 
         return false;
     }
-
-    // public bool CanShot(Vector3 _des)
-    // {
-    //     // return ((m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, _des, 15f));
-    //     // return Helper.InRange(tf_Owner.position, _des, 15f));
-    // }
 
     void FixedUpdate()
     {
