@@ -8,11 +8,11 @@
 /[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
-# /[Uu]ser[Ss]ettings/
-# /[Pp]roject[Ss]ettings/
+/[Uu]ser[Ss]ettings/
+/[Pp]roject[Ss]ettings/
 /[Pp]ackages/
-# /[Aa]ssets/Plugins/Control-Freak-2/
-# /CF2-Data/
+/[Aa]ssets/Plugins/Control-Freak-2/
+/CF2-Data/
 Assembly-CSharp.csproj
 Assembly-CSharp-Editor.csproj
 
