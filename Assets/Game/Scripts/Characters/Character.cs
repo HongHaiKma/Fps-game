@@ -28,23 +28,26 @@ public class Character : MonoBehaviour
     public int m_ShotBulet;
     public Transform tf_FirePoint;
 
+    [Header("---Test---")]
+    public Transform tf_Target;
+    public Transform tf_CrosshairOwner;
+
     void Start()
     {
         cam_Main = Camera.main;
 
-#if UNITY_EDITOR
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-#endif
+        // #if UNITY_EDITOR
+        // Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // #endif
     }
 
     private void Update()
     {
-        // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 40f, Color.red);
+        // SetMovingInput();
+        // SetAimingInput();
 
-        SetMovingInput();
-
-        SetAimingInput();
+        tf_CrosshairOwner = tf_Target;
     }
 
     public void SetMovingInput()
@@ -57,32 +60,31 @@ public class Character : MonoBehaviour
 
     public void SetAimingInput()
     {
-#if UNITY_ANDROID
-        Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
+        // #if UNITY_ANDROID
+        //         Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
-        if (mouseInput.magnitude > 0.015f)
-        {
-            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
-            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
-        }
-        else
-        {
-            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
-            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
-        }
+        //         if (mouseInput.magnitude > 0.015f)
+        //         {
+        //             m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
+        //             m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
+        //         }
+        //         else
+        //         {
+        //             m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
+        //             m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
+        //         }
 
-        if (m_ShootCd < m_MaxShootCd)
-        {
-            m_ShootCd += Time.deltaTime;
-        }
+        //         if (m_ShootCd < m_MaxShootCd)
+        //         {
+        //             m_ShootCd += Time.deltaTime;
+        //         }
 
-        if (CheckShoot())
-        {
-            OnShooting();
-        }
-#endif
+        //         if (CheckShoot())
+        //         {
+        //             OnShooting();
+        //         }
+        // #elif UNITY_EDITOR
 
-#if UNITY_EDITOR
         m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
         m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
 
@@ -90,7 +92,7 @@ public class Character : MonoBehaviour
         {
             Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
         }
-#endif
+        // #endif
     }
 
     public bool CanShoot(Vector3 _des)
@@ -131,7 +133,10 @@ public class Character : MonoBehaviour
 
     void FixedUpdate()
     {
-        float camMain = cam_Main.transform.rotation.eulerAngles.y;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
+        // float camMain = cam_Main.transform.rotation.eulerAngles.y;
+        // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
+
+        float target = tf_Target.rotation.eulerAngles.y;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, target, 0f), m_TurnSpd * Time.fixedDeltaTime);
     }
 }
