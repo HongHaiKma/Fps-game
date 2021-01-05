@@ -47,7 +47,10 @@ public class Character : MonoBehaviour
         // SetMovingInput();
         // SetAimingInput();
 
-        tf_CrosshairOwner = tf_Target;
+        tf_CrosshairOwner.position = tf_Target.position;
+
+        float target = tf_Target.rotation.eulerAngles.y;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, target, 0f), m_TurnSpd * Time.fixedDeltaTime);
     }
 
     public void SetMovingInput()
@@ -136,7 +139,6 @@ public class Character : MonoBehaviour
         // float camMain = cam_Main.transform.rotation.eulerAngles.y;
         // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
 
-        float target = tf_Target.rotation.eulerAngles.y;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, target, 0f), m_TurnSpd * Time.fixedDeltaTime);
+
     }
 }
