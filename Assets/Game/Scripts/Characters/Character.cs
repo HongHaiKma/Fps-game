@@ -35,11 +35,6 @@ public class Character : MonoBehaviour
     void Start()
     {
         cam_Main = Camera.main;
-
-        // #if UNITY_EDITOR
-        // Cursor.visible = false;
-        // Cursor.lockState = CursorLockMode.Locked;
-        // #endif
     }
 
     private void Update()
@@ -49,8 +44,13 @@ public class Character : MonoBehaviour
 
         tf_CrosshairOwner.position = tf_Target.position;
 
-        float target = tf_Target.rotation.eulerAngles.y;
-        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, target, 0f), m_TurnSpd * Time.fixedDeltaTime);
+        // float target = tf_Target.rotation.eulerAngles.y;
+        // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, target, 0f), m_TurnSpd * Time.fixedDeltaTime);
+
+        var lookPos = tf_Target.position - tf_Owner.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
 
         if (m_ShootCd < m_MaxShootCd)
         {
