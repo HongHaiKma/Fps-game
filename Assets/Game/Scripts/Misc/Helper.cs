@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Helper
 {
-    public static float CalDistance(Vector2 origin, Vector2 des)
+    //DISTANCE
+    public static float CalDistance(Vector2 _origin, Vector2 _des)
     {
-        return Vector2.Distance(origin, des);
+        return Vector2.Distance(_origin, _des);
     }
 
-    public static float CalDistance(Vector3 origin, Vector3 des)
+    public static float CalDistance(Vector3 _origin, Vector3 _des)
     {
-        return Vector3.Distance(origin, des);
+        return Vector3.Distance(_origin, _des);
     }
+
+    // public static float CalDistanceXZ(Vector3 _origin, Vector3 _des)
+    // {
+    //     Vector3 origin = new Vector3();
+    //     Vector3 des = _des;
+
+    //     return Vector3.Distance(origin, des);
+    // }
 
     public static bool InRange(Vector3 _origin, Vector3 _des, float _maxDistance)
     {
@@ -29,7 +38,7 @@ public class Helper
         return Vector3.Distance(origin, des);
     }
 
-    //Rotation
+    //ROTATION
     public static float ClampAngle(float angle, float min, float max)
     {
         if (min < 0 && max > 0 && (angle > max || angle < min))
@@ -54,5 +63,11 @@ public class Helper
         if (angle < min) return min;
         else if (angle > max) return max;
         else return angle;
+    }
+
+    //DEBUG
+    public static void DebugLog(string mess)
+    {
+        Debug.Log(mess);
     }
 }
