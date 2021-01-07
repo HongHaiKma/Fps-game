@@ -95,37 +95,37 @@ public class Character : MonoBehaviour
     public void SetAimingInput()
     {
         // #if UNITY_ANDROID
-        // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
+        Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
-        // if (mouseInput.magnitude > 0.015f)
-        // {
-        //     m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
-        //     m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
-        // }
-        // else
-        // {
-        //     m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
-        //     m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
-        // }
+        if (mouseInput.magnitude > 0.015f)
+        {
+            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
+            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
+        }
+        else
+        {
+            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
+            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
+        }
 
-        // if (m_ShootCd < m_MaxShootCd)
-        // {
-        //     m_ShootCd += Time.deltaTime;
-        // }
+        if (m_ShootCd < m_MaxShootCd)
+        {
+            m_ShootCd += Time.deltaTime;
+        }
 
-        // if (CheckShoot())
-        // {
-        //     OnShooting();
-        // }
+        if (CheckShoot())
+        {
+            OnShooting();
+        }
         // #elif UNITY_EDITOR
 
-        m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
-        m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
+        // m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
+        // m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
-        }
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
+        // }
         // #endif
     }
 
@@ -134,6 +134,7 @@ public class Character : MonoBehaviour
         if (!m_AI)
         {
             tf_CrosshairOwner.position = _pos;
+            Helper.DebugLog("SetOwnerCrosshairPos");
         }
     }
 
