@@ -17,6 +17,7 @@ public class CamController : MonoBehaviour
     public bool CheckShoot()
     {
         RaycastHit hit;
+        EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
 
         if (Physics.Raycast(tf_Owner.position, tf_Owner.forward * 80f, out hit))
         {

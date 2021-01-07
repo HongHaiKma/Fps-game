@@ -16,6 +16,6 @@ public class Enemytest : MonoBehaviour, ITakenDamage
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Enemy hit!!!");
+        Helper.DebugLog("Enemy hit!!!");
     }
 }
