@@ -25,6 +25,7 @@ public class CamController : MonoBehaviour
             if (col != null)
             {
                 tf_CamCrosshair.position = hit.point;
+                EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
                 return true;
             }
 

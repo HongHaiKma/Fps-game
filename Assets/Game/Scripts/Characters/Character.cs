@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using ControlFreak2;
 using Cinemachine;
+using UnityEngine.AI;
 
 public class Character : MonoBehaviour
 {
-    public float m_TurnSpd = 15f;
+    [Header("---Components---")]
+    public Transform tf_Owner;
+    public Animator anim_Onwer;
+    public NavMeshAgent nav_Agent;
 
     [Header("---Animation Rigging---")]
     public Rig r_AimLayer;
@@ -16,21 +20,39 @@ public class Character : MonoBehaviour
     [Header("---Camera---")]
     Camera cam_Main;
     public CinemachineFreeLook m_CinemachineFreeLook;
-
-    [Header("---Components---")]
-    public Transform tf_Owner;
-    public Animator anim_Onwer;
+    public float m_TurnSpd = 15f;
 
     [Header("---Shoot---")]
     public GameObject g_Bullet;
     public float m_ShootCd;
     public float m_MaxShootCd;
     public int m_ShotBulet;
+    public bool m_AI;
     public Transform tf_FirePoint;
 
     [Header("---Test---")]
     public Transform tf_Target;
     public Transform tf_CrosshairOwner;
+
+    private void OnEnable()
+    {
+        StartListenToEvent();
+    }
+
+    private void OnDisable()
+    {
+        StopListenToEvent();
+    }
+
+    public void StartListenToEvent()
+    {
+        EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
+    }
+
+    public void StopListenToEvent()
+    {
+        EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
+    }
 
     void Start()
     {
@@ -39,28 +61,27 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        // SetMovingInput();
-        // SetAimingInput();
+        SetMovingInput();
+        SetAimingInput();
 
-        tf_CrosshairOwner.position = tf_Target.position;
+        // nav_Agent.SetDestination(tf_Target.position);
 
-        // float target = tf_Target.rotation.eulerAngles.y;
-        // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, target, 0f), m_TurnSpd * Time.fixedDeltaTime);
+        // tf_CrosshairOwner.position = tf_Target.position;
 
-        var lookPos = tf_Target.position - tf_Owner.position;
-        lookPos.y = 0;
-        var rotation = Quaternion.LookRotation(lookPos);
-        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
+        // var lookPos = tf_Target.position - tf_Owner.position;
+        // lookPos.y = 0;
+        // var rotation = Quaternion.LookRotation(lookPos);
+        // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
 
-        if (m_ShootCd < m_MaxShootCd)
-        {
-            m_ShootCd += Time.deltaTime;
-        }
+        // if (m_ShootCd < m_MaxShootCd)
+        // {
+        //     m_ShootCd += Time.deltaTime;
+        // }
 
-        if (CheckShoot())
-        {
-            OnShooting();
-        }
+        // if (CheckShoot())
+        // {
+        //     OnShooting();
+        // }
     }
 
     public void SetMovingInput()
@@ -87,25 +108,33 @@ public class Character : MonoBehaviour
         //     m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
         // }
 
-        if (m_ShootCd < m_MaxShootCd)
-        {
-            m_ShootCd += Time.deltaTime;
-        }
+        // if (m_ShootCd < m_MaxShootCd)
+        // {
+        //     m_ShootCd += Time.deltaTime;
+        // }
 
-        if (CheckShoot())
-        {
-            OnShooting();
-        }
+        // if (CheckShoot())
+        // {
+        //     OnShooting();
+        // }
         // #elif UNITY_EDITOR
 
-        // m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
-        // m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
+        m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
+        m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
 
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
-        // }
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
+        }
         // #endif
+    }
+
+    public void SetOwnerCrosshairPos(Vector3 _pos)
+    {
+        if (!m_AI)
+        {
+            tf_CrosshairOwner.position = _pos;
+        }
     }
 
     public bool CanShoot(Vector3 _des)
@@ -129,7 +158,6 @@ public class Character : MonoBehaviour
     {
         RaycastHit hit;
         Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 80f, Color.red);
-        Helper.DebugLog("Fire point raycast");
         // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
 
         if (Physics.Raycast(tf_FirePoint.position, tf_FirePoint.forward * 80f, out hit))
@@ -150,7 +178,7 @@ public class Character : MonoBehaviour
 
     void FixedUpdate()
     {
-        // float camMain = cam_Main.transform.rotation.eulerAngles.y;
-        // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
+        float camMain = cam_Main.transform.rotation.eulerAngles.y;
+        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
     }
 }
