@@ -36,12 +36,12 @@ public class Character : MonoBehaviour
 
     private void OnEnable()
     {
-        StartListenToEvent();
+        // StartListenToEvent();
     }
 
     private void OnDisable()
     {
-        StopListenToEvent();
+        // StopListenToEvent();
     }
 
     public void StartListenToEvent()
@@ -61,27 +61,27 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        SetMovingInput();
-        SetAimingInput();
+        // SetMovingInput();
+        // SetAimingInput();
 
-        // nav_Agent.SetDestination(tf_Target.position);
+        nav_Agent.SetDestination(tf_Target.position);
 
-        // tf_CrosshairOwner.position = tf_Target.position;
+        tf_CrosshairOwner.position = tf_Target.position;
 
-        // var lookPos = tf_Target.position - tf_Owner.position;
-        // lookPos.y = 0;
-        // var rotation = Quaternion.LookRotation(lookPos);
-        // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
+        var lookPos = tf_Target.position - tf_Owner.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
 
-        // if (m_ShootCd < m_MaxShootCd)
-        // {
-        //     m_ShootCd += Time.deltaTime;
-        // }
+        if (m_ShootCd < m_MaxShootCd)
+        {
+            m_ShootCd += Time.deltaTime;
+        }
 
-        // if (CheckShoot())
-        // {
-        //     OnShooting();
-        // }
+        if (CheckShoot())
+        {
+            OnShooting();
+        }
     }
 
     public void SetMovingInput()
@@ -95,28 +95,28 @@ public class Character : MonoBehaviour
     public void SetAimingInput()
     {
         // #if UNITY_ANDROID
-        Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
+        // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
-        if (mouseInput.magnitude > 0.015f)
-        {
-            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
-            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
-        }
-        else
-        {
-            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
-            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
-        }
+        // if (mouseInput.magnitude > 0.015f)
+        // {
+        //     m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
+        //     m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
+        // }
+        // else
+        // {
+        //     m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
+        //     m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
+        // }
 
-        if (m_ShootCd < m_MaxShootCd)
-        {
-            m_ShootCd += Time.deltaTime;
-        }
+        // if (m_ShootCd < m_MaxShootCd)
+        // {
+        //     m_ShootCd += Time.deltaTime;
+        // }
 
-        if (CheckShoot())
-        {
-            OnShooting();
-        }
+        // if (CheckShoot())
+        // {
+        //     OnShooting();
+        // }
         // #elif UNITY_EDITOR
 
         // m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
@@ -134,7 +134,7 @@ public class Character : MonoBehaviour
         if (!m_AI)
         {
             tf_CrosshairOwner.position = _pos;
-            Helper.DebugLog("SetOwnerCrosshairPos");
+            // Helper.DebugLog("SetOwnerCrosshairPos");
         }
     }
 
@@ -179,7 +179,7 @@ public class Character : MonoBehaviour
 
     void FixedUpdate()
     {
-        float camMain = cam_Main.transform.rotation.eulerAngles.y;
-        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
+        // float camMain = cam_Main.transform.rotation.eulerAngles.y;
+        // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
     }
 }
