@@ -1,0 +1,19 @@
+//This Behaviour Tree controls a unit using the player inputs.
+
+tree("Root")
+	parallel
+		repeat mute tree("Move")
+		repeat mute tree("Aim")
+		repeat mute tree("Fire")
+		repeat mute tree("Die")
+
+tree("Move")
+	parallel
+		repeat MoveTo_Destination
+		repeat
+			fallback
+				SetDestination_WASD
+				sequence
+					IsMouseButtonPressed(1)
+					SetDestination_Mouse
+				Succeed
