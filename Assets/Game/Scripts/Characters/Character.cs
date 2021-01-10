@@ -35,7 +35,7 @@ public class Character : MonoBehaviour
 
     [Header("---Test---")]
     public Transform tf_Target;
-    public Transform tf_CrosshairOwner;
+    public Transform tf_Crosshair;
 
     [Header("---Range---")]
     public float m_ShootRange;
@@ -69,18 +69,25 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        SetMovingInput();
-        SetAimingInput();
+        // SetMovingInput();
+        // SetAimingInput();
 
         if (m_ShootCd < m_MaxShootCd)
         {
             m_ShootCd += Time.deltaTime;
         }
 
-        if (CanShoot())
-        {
-            OnShooting();
-        }
+        // if (CanShoot())
+        // {
+        //     OnShooting();
+        // }
+
+    }
+
+    void FixedUpdate()
+    {
+        float camMain = cam_Main.transform.rotation.eulerAngles.y;
+        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
     }
 
     public void LoadCharacterConfig()
@@ -145,7 +152,7 @@ public class Character : MonoBehaviour
     {
         if (!m_AI)
         {
-            tf_CrosshairOwner.position = _pos;
+            tf_Crosshair.position = _pos;
         }
     }
 
@@ -196,7 +203,7 @@ public class Character : MonoBehaviour
             if (iTaken != null && (m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, hit.transform.position, m_ShootRange))
             {
                 Collider col = hit.transform.GetComponent<Collider>();
-                tf_CrosshairOwner.position = hit.point;
+                tf_Crosshair.position = hit.point;
                 return true;
             }
 
@@ -207,12 +214,12 @@ public class Character : MonoBehaviour
     }
     #endregion
 
-    #region  AIMING
+    #region AIMING
 
     [Task]
     public void OnAiming()
     {
-        tf_CrosshairOwner.position = tf_Target.position;
+        tf_Crosshair.position = tf_Target.position;
 
         var lookPos = tf_Target.position - tf_Owner.position;
         lookPos.y = 0;
@@ -221,10 +228,4 @@ public class Character : MonoBehaviour
     }
 
     #endregion
-
-    void FixedUpdate()
-    {
-        float camMain = cam_Main.transform.rotation.eulerAngles.y;
-        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
-    }
 }

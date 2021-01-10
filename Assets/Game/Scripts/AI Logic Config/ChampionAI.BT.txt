@@ -1,21 +1,24 @@
 tree("Root")
-	repeat
-		parallel
-			while
-				sequence
-					IsAI
-				sequence
-					parallel
-						repeat mute tree("Shooting")
-						repeat mute tree("Moving")
-						repeat mute tree("Aiming")
-			while
-				sequence
-					not IsAI
-				sequence
-					parallel
-						SetMovingInput
-						SetAimingInput
+	parallel
+		repeat mute tree("Shooting")
+		repeat
+			mute
+				while
+					sequence
+						IsAI
+					sequence
+						parallel
+							repeat mute tree("Moving")
+							repeat mute tree("Aiming")
+		repeat
+			mute
+				while
+					sequence
+						not IsAI
+					sequence
+						parallel
+							SetMovingInput
+							SetAimingInput
 
 tree("Idling")
 	repeat
