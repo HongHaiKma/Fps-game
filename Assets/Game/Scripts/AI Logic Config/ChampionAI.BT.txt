@@ -1,0 +1,44 @@
+tree("Root")
+	repeat
+		parallel
+			while
+				sequence
+					IsAI
+				sequence
+					parallel
+						repeat mute tree("Shooting")
+						repeat mute tree("Moving")
+						repeat mute tree("Aiming")
+			while
+				sequence
+					not IsAI
+				sequence
+					parallel
+						SetMovingInput
+						SetAimingInput
+
+tree("Idling")
+	repeat
+		sequence
+			Succeed
+
+tree("Moving")
+	repeat
+		while
+			sequence
+				CanChase
+			sequence
+				OnChasing
+
+tree("Shooting")
+	repeat
+		while
+			sequence
+				CanShoot
+			sequence
+				OnShooting
+
+tree("Aiming")
+	repeat
+		sequence
+			OnAiming

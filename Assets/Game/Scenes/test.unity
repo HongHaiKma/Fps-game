@@ -679,7 +679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469247427}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 390.59, y: 6.079, z: 453.72}
+  m_LocalPosition: {x: 362.29, y: 0.61, z: 435.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 535282085}
@@ -2828,7 +2828,6 @@ GameObject:
   - component: {fileID: 999298836}
   - component: {fileID: 999298835}
   - component: {fileID: 999298834}
-  - component: {fileID: 999298837}
   m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -2912,22 +2911,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999298832}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!208 &999298837
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999298832}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!114 &1101538406 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11484022, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
@@ -4261,7 +4244,6 @@ GameObject:
   - component: {fileID: 1977466915}
   - component: {fileID: 1977466914}
   - component: {fileID: 1977466913}
-  - component: {fileID: 1977466916}
   m_Layer: 8
   m_Name: Cube (5)
   m_TagString: Untagged
@@ -4345,22 +4327,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977466911}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!208 &1977466916
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977466911}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &1994771873
 GameObject:
   m_ObjectHideFlags: 0
@@ -6870,6 +6836,7 @@ GameObject:
   - component: {fileID: 3149518928463329272}
   - component: {fileID: 3149518928463329275}
   - component: {fileID: 3148534527924422213}
+  - component: {fileID: 3148534527924422214}
   - component: {fileID: 3148534527924422212}
   - component: {fileID: 3148534527924422211}
   m_Layer: 0
@@ -6923,11 +6890,15 @@ MonoBehaviour:
   g_Bullet: {fileID: 1933021457815705099, guid: 74bd3de3a3f522e49ad810feac6b1b45, type: 3}
   m_ShootCd: 0
   m_MaxShootCd: 2
-  m_ShotBulet: 1
+  m_ShootBullet: 0
+  m_MaxBullet: 0
+  m_CurrentBullet: 0
   m_AI: 0
   tf_FirePoint: {fileID: 3149518928529046053}
   tf_Target: {fileID: 469247431}
   tf_CrosshairOwner: {fileID: 6140066}
+  m_ShootRange: 0
+  m_ChaseRange: 0
 --- !u!195 &3148534527924422213
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6942,7 +6913,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 50
+  m_StoppingDistance: 6.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -6950,6 +6921,28 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3148534527924422214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3148534527924422210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17e43e7170fb45b4b81dcd16d0ff55d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scripts:
+  - {fileID: 4900000, guid: 84c137c1f1368a441b49095df5d4e929, type: 3}
+  autoReset: 1
+  tickOn: 0
+  sourceInfos:
+  - isFoldout: 1
+    breakPoints: 
+    breakPointStatuses: 
+    collapsedLines: 
+    btScript: 
 --- !u!1 &3148546071235311660
 GameObject:
   m_ObjectHideFlags: 0

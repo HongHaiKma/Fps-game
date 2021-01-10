@@ -1,4 +1,4 @@
-//This BT script contains common behaviours
+/This BT script contains common behaviours
 //shared among the different units.
 
 tree("Root")
