@@ -1,19 +1,16 @@
-//This Behaviour Tree controls a unit using the player inputs.
-
 tree("Root")
 	parallel
-		repeat mute tree("Move")
-		repeat mute tree("Aim")
-		repeat mute tree("Fire")
-		repeat mute tree("Die")
+		repeat mute tree("Chasing")
+		repeat mute tree("Idling")
 
-tree("Move")
-	parallel
-		repeat MoveTo_Destination
-		repeat
-			fallback
-				SetDestination_WASD
-				sequence
-					IsMouseButtonPressed(1)
-					SetDestination_Mouse
-				Succeed
+tree("Chasing")
+	repeat
+		sequence
+			while not IsInRange
+				OnChasing
+
+tree("Idling")
+	repeat
+		sequence
+			IsInRange
+			Succeed
