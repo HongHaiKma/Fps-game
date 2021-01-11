@@ -41,6 +41,10 @@ public class Character : MonoBehaviour
     public float m_ShootRange;
     public float m_ChaseRange;
 
+    [Header("---Idling rotate---")]
+    public float m_RotateCd;
+    public float m_RotateCdMax;
+
     private void OnEnable()
     {
         LoadCharacterConfig();
@@ -77,6 +81,11 @@ public class Character : MonoBehaviour
             m_ShootCd += Time.deltaTime;
         }
 
+        if (m_RotateCd < m_RotateCdMax)
+        {
+            m_RotateCd += Time.deltaTime;
+        }
+
         // if (CanShoot())
         // {
         //     OnShooting();
@@ -94,6 +103,22 @@ public class Character : MonoBehaviour
     {
         m_ShootRange = 6.5f;
         m_ChaseRange = 13f;
+        m_RotateCd = 0f;
+        m_RotateCdMax = 5f;
+    }
+
+    public void SetOwnerCrosshairPos(Vector3 _pos)
+    {
+        if (!m_AI)
+        {
+            tf_Crosshair.position = _pos;
+        }
+    }
+
+    [Task]
+    public bool IsAI()
+    {
+        return m_AI;
     }
 
     #region PLAYER INPUT
@@ -147,20 +172,6 @@ public class Character : MonoBehaviour
     }
 
     #endregion
-
-    public void SetOwnerCrosshairPos(Vector3 _pos)
-    {
-        if (!m_AI)
-        {
-            tf_Crosshair.position = _pos;
-        }
-    }
-
-    [Task]
-    public bool IsAI()
-    {
-        return m_AI;
-    }
 
     #region CHASING
     [Task]
@@ -221,10 +232,59 @@ public class Character : MonoBehaviour
     {
         tf_Crosshair.position = tf_Target.position;
 
-        var lookPos = tf_Target.position - tf_Owner.position;
+        Vector3 lookPos = tf_Target.position - tf_Owner.position;
         lookPos.y = 0;
-        var rotation = Quaternion.LookRotation(lookPos);
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
         tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
+    }
+
+    #endregion
+
+    #region IDLING
+
+    [Task]
+    public void OnIdling()
+    {
+        // if (m_RotateCd >= m_RotateCdMax)
+        // {
+        //     Quaternion rotation = Helper.Random8Direction(tf_Owner.position);
+        //     tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
+        //     m_RotateCd = 0f;
+        // }
+
+        if (m_RotateCd >= m_RotateCdMax)
+        {
+            float angle = 0f;
+            int a = Random.Range(0, 4);
+            switch (a)
+            {
+                case 0:
+                    angle = 90f;
+                    break;
+                case 1:
+                    angle = -90f;
+                    break;
+                case 2:
+                    angle = 135f;
+                    break;
+                case 3:
+                    angle = -135f;
+                    break;
+            }
+
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+
+            float b = 0f;
+
+            while (b < 3)
+            {
+                b += Time.deltaTime;
+                // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 10);
+                tf_Owner.rotation = Quaternion.RotateTowards(tf_Owner.rotation, rotation, b);
+            }
+
+            m_RotateCd = 0f;
+        }
     }
 
     #endregion

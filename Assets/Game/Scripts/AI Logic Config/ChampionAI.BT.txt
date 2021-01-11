@@ -10,6 +10,7 @@ tree("Root")
 						parallel
 							repeat mute tree("Moving")
 							repeat mute tree("Aiming")
+							repeat mute tree("Idling")
 		repeat
 			mute
 				while
@@ -22,8 +23,11 @@ tree("Root")
 
 tree("Idling")
 	repeat
-		sequence
-			Succeed
+		while
+			sequence
+				not CanChase
+			sequence
+				OnIdling
 
 tree("Moving")
 	repeat

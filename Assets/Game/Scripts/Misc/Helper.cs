@@ -65,8 +65,81 @@ public class Helper
         else return angle;
     }
 
+    public static Quaternion Random8Direction(Vector3 _ownerPos)
+    {
+        // Vector3 dir = new Vector3();
+        // int a = Random.Range(0, 8);
+        // switch (a)
+        // {
+        //     case 0:
+        //         dir = new Vector3(1, 0, 0);
+        //         break;
+        //     case 1:
+        //         dir = new Vector3(-1, 0, 0);
+        //         break;
+        //     case 2:
+        //         dir = new Vector3(0, 0, 1);
+        //         break;
+        //     case 3:
+        //         dir = new Vector3(0, 0, -1);
+        //         break;
+        //     case 4:
+        //         dir = new Vector3(1, 0, 1);
+        //         break;
+        //     case 5:
+        //         dir = new Vector3(-1, 0, -1);
+        //         break;
+        //     case 6:
+        //         dir = new Vector3(1, 0, -1);
+        //         break;
+        //     case 7:
+        //         dir = new Vector3(-1, 0, 1);
+        //         break;
+
+        // }
+
+        Vector3 dir = new Vector3();
+        int a = Random.Range(0, 4);
+        switch (a)
+        {
+            case 0:
+                dir = Vector3.left;
+                break;
+            case 1:
+                dir = Vector3.right;
+                break;
+            case 2:
+                dir = Vector3.forward;
+                break;
+            case 3:
+                dir = Vector3.back;
+                break;
+        }
+
+        // dir = tf_Owner.position + new Vector3(5, 0, 0);
+
+        Vector3 dir2 = _ownerPos + dir;
+
+        Vector3 lookPos = dir2 - _ownerPos;
+
+        lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
+
+        return rotation;
+    }
+
     //DEBUG
     public static void DebugLog(string mess)
+    {
+        Debug.Log(mess);
+    }
+
+    public static void DebugLog(float mess)
+    {
+        Debug.Log(mess);
+    }
+
+    public static void DebugLog(int mess)
     {
         Debug.Log(mess);
     }
