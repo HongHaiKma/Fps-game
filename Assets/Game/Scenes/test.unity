@@ -2940,7 +2940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1114096007
 Transform:
   m_ObjectHideFlags: 0
@@ -6893,7 +6893,7 @@ MonoBehaviour:
   m_ShootBullet: 0
   m_MaxBullet: 0
   m_CurrentBullet: 0
-  m_AI: 0
+  m_AI: 1
   tf_FirePoint: {fileID: 3149518928529046053}
   tf_Target: {fileID: 469247431}
   tf_Crosshair: {fileID: 6140066}
@@ -9788,7 +9788,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4841833162225243867}
-  m_LocalRotation: {x: 0.114211164, y: 0.000000016576033, z: -0.0000000019056376, w: 0.99345654}
+  m_LocalRotation: {x: 0.11421117, y: -0.000000018153562, z: 0.000000002086996, w: 0.99345654}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

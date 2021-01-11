@@ -86,8 +86,8 @@ public class Character : MonoBehaviour
 
     void FixedUpdate()
     {
-        float camMain = cam_Main.transform.rotation.eulerAngles.y;
-        tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
+        // float camMain = cam_Main.transform.rotation.eulerAngles.y;
+        // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, Quaternion.Euler(0f, camMain, 0f), m_TurnSpd * Time.fixedDeltaTime);
     }
 
     public void LoadCharacterConfig()
