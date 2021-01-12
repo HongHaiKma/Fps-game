@@ -2325,7 +2325,6 @@ GameObject:
   - component: {fileID: 612141601}
   - component: {fileID: 612141604}
   - component: {fileID: 612141603}
-  - component: {fileID: 612141602}
   m_Layer: 0
   m_Name: SM_Wep_Watergun_02
   m_TagString: Untagged
@@ -2355,20 +2354,6 @@ Transform:
   m_Father: {fileID: 1963672844}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 46.805, y: -83.23, z: 7.333}
---- !u!64 &612141602
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 612141600}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 27d85ed0b41b13e4b931011bd61b932b, type: 3}
 --- !u!23 &612141603
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4961,7 +4946,6 @@ GameObject:
   - component: {fileID: 1057718891}
   - component: {fileID: 1057718894}
   - component: {fileID: 1057718893}
-  - component: {fileID: 1057718892}
   m_Layer: 0
   m_Name: Watergun_02_Refill
   m_TagString: Untagged
@@ -4983,20 +4967,6 @@ Transform:
   m_Father: {fileID: 612141601}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &1057718892
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1057718890}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300006, guid: 27d85ed0b41b13e4b931011bd61b932b, type: 3}
 --- !u!23 &1057718893
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9549,7 +9519,6 @@ GameObject:
   - component: {fileID: 967364642404570487}
   - component: {fileID: 939919069073154669}
   - component: {fileID: 949959659336515719}
-  - component: {fileID: 981524809085254011}
   m_Layer: 0
   m_Name: SM_Wep_Watergun_02
   m_TagString: Untagged
@@ -9586,7 +9555,6 @@ GameObject:
   - component: {fileID: 967676104687522037}
   - component: {fileID: 939556839234178173}
   - component: {fileID: 948428527679209961}
-  - component: {fileID: 979636452338777561}
   m_Layer: 0
   m_Name: Watergun_02_Refill
   m_TagString: Untagged
@@ -9594,34 +9562,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &979636452338777561
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 970871337458821963}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300006, guid: 27d85ed0b41b13e4b931011bd61b932b, type: 3}
---- !u!64 &981524809085254011
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 970744249334545481}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 27d85ed0b41b13e4b931011bd61b932b, type: 3}
 --- !u!4 &1031632034088477696
 Transform:
   m_ObjectHideFlags: 0
