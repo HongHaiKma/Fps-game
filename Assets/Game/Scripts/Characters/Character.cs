@@ -104,7 +104,7 @@ public class Character : MonoBehaviour
         m_ShootRange = 6.5f;
         m_ChaseRange = 13f;
         m_RotateCd = 0f;
-        m_RotateCdMax = 5f;
+        m_RotateCdMax = 2.5f;
     }
 
     public void SetOwnerCrosshairPos(Vector3 _pos)
@@ -242,6 +242,7 @@ public class Character : MonoBehaviour
 
     #region IDLING
 
+    public float bbb = 0f;
     [Task]
     public void OnIdling()
     {
@@ -252,38 +253,60 @@ public class Character : MonoBehaviour
         //     m_RotateCd = 0f;
         // }
 
+        // if (m_RotateCd >= m_RotateCdMax)
+        // {
+        //     float angle = Random.Range(0f, 359f);
+        //     // int a = Random.Range(0, 4);
+        //     // switch (a)
+        //     // {
+        //     //     case 0:
+        //     //         angle = Random.Range(0f, 90f);
+        //     //         break;
+        //     //     case 1:
+        //     //         angle = Random.Range(0f, 90f);
+        //     //         break;
+        //     //     case 2:
+        //     //         angle = Random.Range(0f, 90f);
+        //     //         break;
+        //     //     case 3:
+        //     //         angle = Random.Range(0f, 90f);
+        //     //         break;
+        //     // }
+
+        //     Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+
+
+
+        //     if (bbb < 1)
+        //     {
+        //         bbb += Time.deltaTime;
+        //         // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 10);
+        //         // tf_Owner.rotation = Quaternion.
+        //     }
+        //     else
+        //     {
+        //         bbb = 0f;
+        //         m_RotateCd = 0f;
+        //     }
+        // }
+
         if (m_RotateCd >= m_RotateCdMax)
         {
-            float angle = 0f;
-            int a = Random.Range(0, 4);
-            switch (a)
-            {
-                case 0:
-                    angle = 90f;
-                    break;
-                case 1:
-                    angle = -90f;
-                    break;
-                case 2:
-                    angle = 135f;
-                    break;
-                case 3:
-                    angle = -135f;
-                    break;
-            }
-
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
-
-            float b = 0f;
-
-            while (b < 3)
-            {
-                b += Time.deltaTime;
-                // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 10);
-                tf_Owner.rotation = Quaternion.RotateTowards(tf_Owner.rotation, rotation, b);
-            }
-
+            float angle = Random.Range(0f, 359f);
+            StartCoroutine(RotateMe(angle, 1f));
             m_RotateCd = 0f;
+        }
+    }
+
+    IEnumerator RotateMe(float byAngles, float inTime)
+    {
+        var fromAngle = tf_Owner.rotation;
+        // var toAngle = Quaternion.Euler(transform.eulerAngles + byAngles);
+        Quaternion toAngle = Quaternion.AngleAxis(byAngles, Vector3.up);
+        for (var t = 0f; t < 1; t += Time.deltaTime / inTime)
+        {
+            transform.rotation = Quaternion.Slerp(fromAngle, toAngle, t);
+            yield return null;
         }
     }
 
