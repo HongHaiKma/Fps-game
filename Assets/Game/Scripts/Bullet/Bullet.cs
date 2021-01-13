@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour, ITakenDamage
     public virtual void OnHit(string _targetName)
     {
         Destroy(gameObject);
-        Helper.DebugLog("Hit: " + _targetName);
+        // Helper.DebugLog("Hit: " + _targetName);
     }
 }
 

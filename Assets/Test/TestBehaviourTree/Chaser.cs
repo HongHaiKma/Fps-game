@@ -27,6 +27,6 @@ public class Chaser : MonoBehaviour
     [Task]
     public void OnIdling()
     {
-        Helper.DebugLog("Idle");
+        // Helper.DebugLog("Idle");
     }
 }

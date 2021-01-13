@@ -105,7 +105,7 @@ public class Character : MonoBehaviour, ITakenDamage
     public void LoadCharacterConfig()
     {
         m_ShootRange = 6.5f;
-        m_ChaseRange = 13f;
+        m_ChaseRange = 9f;
         m_RotateCd = 0f;
         m_RotateCdMax = 2.5f;
     }
@@ -139,18 +139,18 @@ public class Character : MonoBehaviour, ITakenDamage
     public void SetAimingInput()
     {
         // #if UNITY_ANDROID
-        // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
+        Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
-        // if (mouseInput.magnitude > 0.015f)
-        // {
-        //     m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
-        //     m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
-        // }
-        // else
-        // {
-        //     m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
-        //     m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
-        // }
+        if (mouseInput.magnitude > 0.015f)
+        {
+            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
+            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
+        }
+        else
+        {
+            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
+            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
+        }
 
         // if (m_ShootCd < m_MaxShootCd)
         // {
@@ -164,8 +164,8 @@ public class Character : MonoBehaviour, ITakenDamage
 
         // #elif UNITY_EDITOR
 
-        m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
-        m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
+        // m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
+        // m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
 
         // if (Input.GetMouseButtonDown(0))
         // {
@@ -218,8 +218,21 @@ public class Character : MonoBehaviour, ITakenDamage
             {
                 Collider col = hit.transform.GetComponent<Collider>();
                 tf_Crosshair.position = hit.point;
-                Debug.Log("CAN SHOOT!!!");
+
+                // if (!m_AI)
+                // {
+                //     Debug.Log("CAN SHOOT!!!");
+                // }
+
                 return true;
+            }
+
+            if (iTaken != null)
+            {
+                if (!m_AI)
+                {
+                    // Debug.Log("CAN SHOOT!!!");
+                }
             }
 
             return false;
@@ -240,6 +253,8 @@ public class Character : MonoBehaviour, ITakenDamage
         lookPos.y = 0;
         Quaternion rotation = Quaternion.LookRotation(lookPos);
         tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
+
+        // tf_Owner.LookAt(tf_Target);
     }
 
     #endregion
@@ -326,7 +341,7 @@ public class Character : MonoBehaviour, ITakenDamage
 
     private void OnTriggerEnter(Collider other)
     {
-        Helper.DebugLog("Enemy hit!!!");
+        // Helper.DebugLog("Enemy hit!!!");
     }
 
     #endregion
