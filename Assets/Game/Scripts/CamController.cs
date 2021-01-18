@@ -9,7 +9,7 @@ public class CamController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
+        // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
         // Debug.DrawLine(tf_Owner.position, tf_Owner.forward * 80f, Color.green);
 
         CheckShoot();
@@ -17,12 +17,30 @@ public class CamController : MonoBehaviour
 
     public bool CheckShoot()
     {
+        // Debug.DrawLine(tf_Owner.position, tf_Owner.forward * 80f, Color.green);
+        // Debug.DrawLine(tf_Owner.position, tf_Owner.forward * 80f, Color.green);
+        // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
+        // Debug.DrawRay(tf_Owner.position, tf_Owner.forward * 80f);
+        // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f); ;
+
+        Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
         RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f); ;
         EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
 
         if (hit.Length <= 0)
         {
+            // Debug.Log("Raycast not hit!!!");
             return false;
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                for (int i = 0; i < hit.Length; i++)
+                {
+                    Debug.Log("Hit name: " + hit[0].transform.name);
+                }
+            }
         }
 
         // Debug.Log("All hits: ");
@@ -33,17 +51,17 @@ public class CamController : MonoBehaviour
 
         // if (Physics.Raycast(tf_Owner.position, tf_Owner.forward * 80f))
         // {
-        Transform tf = hit[hit.Length - 1].transform;
+        // Transform tf = hit[0].transform;
+        Transform tf = hit[0].transform;
+        // Transform tf = hit[hit.Length - 1].transform;
         Collider col = tf.GetComponent<Collider>();
 
         if (col != null)
         {
-            tf_CamCrosshair.position = hit[hit.Length - 1].point;
+            // Debug.Log("Raycast hit name: " + hit[0].transform.name);
+            tf_CamCrosshair.position = hit[0].point;
+            // tf_CamCrosshair.position = hit[hit.Length - 1].point;
             EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
-            // Debug.Log(hit.);
-            // Debug.Log("CAM CAN SHOOT!!!");
-
-            // Debug.Log("Hit name: " + hit.transform.name);
             return true;
         }
 
