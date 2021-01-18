@@ -128,7 +128,7 @@ public class Helper
         return rotation;
     }
 
-    //DEBUG
+    #region DEBUG
     public static void DebugLog(string mess)
     {
         Debug.Log(mess);
@@ -143,4 +143,21 @@ public class Helper
     {
         Debug.Log(mess);
     }
+    #endregion
+
+    #region RANDOM
+    public static bool Random2Probability(float percent)
+    {
+        float pickPercent = Random.Range(1, 101);
+
+        if (pickPercent <= percent)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #endregion
 }

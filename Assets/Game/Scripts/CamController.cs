@@ -25,11 +25,11 @@ public class CamController : MonoBehaviour
             return false;
         }
 
-        Debug.Log("All hits: ");
-        for (int i = 0; i < hit.Length; i++)
-        {
-            Debug.Log("Hit name: " + hit[0].transform.name);
-        }
+        // Debug.Log("All hits: ");
+        // for (int i = 0; i < hit.Length; i++)
+        // {
+        //     Debug.Log("Hit name: " + hit[0].transform.name);
+        // }
 
         // if (Physics.Raycast(tf_Owner.position, tf_Owner.forward * 80f))
         // {

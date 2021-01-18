@@ -23,30 +23,39 @@ public class Character : MonoBehaviour, ITakenDamage
     public CinemachineFreeLook m_CinemachineFreeLook;
     public float m_TurnSpd = 15f;
 
+    [Header("---Hit parts---")]
+    public Transform tf_Head;
+    public Transform tf_Body;
+    public AimBodyPart m_AimBodyPart;
+
     [Header("---Shoot---")]
     public GameObject g_Bullet;
-    public float m_ShootCd;
-    public float m_MaxShootCd;
+    public Transform tf_FirePoint;
+    public Transform tf_Crosshair;
     public int m_ShootBullet;
     public int m_MaxBullet;
     public int m_CurrentBullet;
     public bool m_AI;
-    public Transform tf_FirePoint;
-
-    [Header("---Test---")]
-    public Transform tf_Target;
-    public Transform tf_Crosshair;
 
     [Header("---Range---")]
     public float m_ShootRange;
     public float m_ChaseRange;
 
-    [Header("---Idling rotate---")]
+    [Header("---Cooldown---")]
     public float m_RotateCd;
     public float m_RotateCdMax;
+    public float m_ShootCd;
+    public float m_MaxShootCd;
+    public float m_AimModelCd;
+    public float m_AimModelCdMax;
+
+    [Header("---Test---")]
+    public Transform tf_Target;
+
 
     private void OnEnable()
     {
+        ResetAllCooldown();
         LoadCharacterConfig();
         StartListenToEvent();
     }
@@ -86,6 +95,11 @@ public class Character : MonoBehaviour, ITakenDamage
             m_RotateCd += Time.deltaTime;
         }
 
+        if (m_AimModelCd < m_AimModelCdMax)
+        {
+            m_AimModelCd += Time.deltaTime;
+        }
+
         // if (CanShoot())
         // {
         //     OnShooting();
@@ -106,8 +120,15 @@ public class Character : MonoBehaviour, ITakenDamage
     {
         m_ShootRange = 6.5f;
         m_ChaseRange = 9f;
-        m_RotateCd = 0f;
+
         m_RotateCdMax = 2.5f;
+        m_AimModelCdMax = 4f;
+    }
+
+    public void ResetAllCooldown()
+    {
+        m_RotateCd = 0f;
+        m_AimModelCd = 0f;
     }
 
     public void SetOwnerCrosshairPos(Vector3 _pos)
@@ -181,11 +202,17 @@ public class Character : MonoBehaviour, ITakenDamage
     public void OnChasing()
     {
         nav_Agent.SetDestination(tf_Target.position);
+        Debug.Log("ON CHASING!!!!");
     }
 
     [Task]
     public bool CanChase()
     {
+        if (m_AI)
+        {
+            Debug.Log(gameObject.name);
+            Debug.Log("CAN CHASE!!!!!!!!!");
+        }
         return Helper.InRange(tf_Owner.position, tf_Target.position, m_ChaseRange);
     }
     #endregion
@@ -217,7 +244,21 @@ public class Character : MonoBehaviour, ITakenDamage
             if (iTaken != null && (m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, hit.transform.position, m_ShootRange))
             {
                 Collider col = hit.transform.GetComponent<Collider>();
-                tf_Crosshair.position = hit.point;
+                Character charTarget = hit.transform.GetComponent<Character>();
+                // tf_Crosshair.position = charTarget.tf_Head.position;
+                // Debug.Log("CANSHOOTTTTTTT");
+                // tf_Crosshair.position = charTarget.tf_Body.position;
+                // tf_Crosshair.position = tf_Body.position;
+
+                // if (m_AimModelCd >= m_AimModelCdMax)
+                // {
+                //     if (Helper.Random2Probability(10))
+                //     {
+                //         tf_Crosshair.position = tf_Head.position;
+                //     }
+
+                //     m_AimModelCd = 0f;
+                // }
 
                 // if (!m_AI)
                 // {
@@ -227,13 +268,13 @@ public class Character : MonoBehaviour, ITakenDamage
                 return true;
             }
 
-            if (iTaken != null)
-            {
-                if (!m_AI)
-                {
-                    // Debug.Log("CAN SHOOT!!!");
-                }
-            }
+            // if (iTaken != null)
+            // {
+            //     if (!m_AI)
+            //     {
+            //         Debug.Log("CAN SHOOT!!!");
+            //     }
+            // }
 
             return false;
         }
@@ -247,14 +288,45 @@ public class Character : MonoBehaviour, ITakenDamage
     [Task]
     public void OnAiming()
     {
-        tf_Crosshair.position = tf_Target.position;
+        SetTargetBodyPart();
+        SetCrosshairToBodyPartPos();
 
         Vector3 lookPos = tf_Target.position - tf_Owner.position;
         lookPos.y = 0;
         Quaternion rotation = Quaternion.LookRotation(lookPos);
         tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
+    }
 
-        // tf_Owner.LookAt(tf_Target);
+    public void SetTargetBodyPart()
+    {
+        if (m_AimModelCd >= m_AimModelCdMax)
+        {
+            if (Helper.Random2Probability(20))
+            {
+                m_AimBodyPart = AimBodyPart.HEAD;
+            }
+            else
+            {
+                m_AimBodyPart = AimBodyPart.BODY;
+            }
+
+            m_AimModelCd = 0f;
+        }
+    }
+
+    public void SetCrosshairToBodyPartPos()
+    {
+        Character charTarget = tf_Target.GetComponent<Character>();
+
+        switch (m_AimBodyPart)
+        {
+            case AimBodyPart.BODY:
+                tf_Crosshair.position = charTarget.tf_Body.position;
+                break;
+            case AimBodyPart.HEAD:
+                tf_Crosshair.position = charTarget.tf_Head.position;
+                break;
+        }
     }
 
     #endregion
@@ -315,6 +387,8 @@ public class Character : MonoBehaviour, ITakenDamage
             StartCoroutine(RotateMe(angle, 1f));
             m_RotateCd = 0f;
         }
+
+        Debug.Log("ON IDLING!!!!!!!!!");
     }
 
     IEnumerator RotateMe(float byAngles, float inTime)
@@ -345,4 +419,16 @@ public class Character : MonoBehaviour, ITakenDamage
     }
 
     #endregion
+}
+
+public interface ITakenDamage
+{
+    void OnHit();
+    void OnHit(string _targetName);
+}
+
+public enum AimBodyPart
+{
+    HEAD = 0,
+    BODY = 1
 }

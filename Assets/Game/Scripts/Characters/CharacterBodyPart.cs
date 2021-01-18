@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public class CharacterBodyPart : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,10 +15,4 @@ public class Entity : MonoBehaviour
     {
 
     }
-}
-
-public interface ITakenDamage
-{
-    void OnHit();
-    void OnHit(string _targetName);
 }

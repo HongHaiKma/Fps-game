@@ -10,9 +10,17 @@ public class Bullet_Pistol : Bullet
     [Header("---VFX---")]
     public GameObject m_ImpactEffect;
 
-    public override void Update()
+    // public override void Update()
+    // {
+    //     base.Update();
+
+    //     m_GravityModifier += (Physics.gravity.y * Time.deltaTime);
+    //     tf_Onwer.position += new Vector3(0f, m_GravityModifier * Time.deltaTime, 0f);
+    // }
+
+    public override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
 
         m_GravityModifier += (Physics.gravity.y * Time.deltaTime);
         tf_Onwer.position += new Vector3(0f, m_GravityModifier * Time.deltaTime, 0f);

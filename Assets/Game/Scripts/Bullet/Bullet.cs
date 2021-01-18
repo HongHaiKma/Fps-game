@@ -13,7 +13,20 @@ public class Bullet : MonoBehaviour, ITakenDamage
     public float m_MoveSpd;
     public float m_MaxFlyingTime;
 
-    public virtual void Update()
+    // public virtual void Update()
+    // {
+    //     // rb_Owner.velocity = tf_Onwer.forward * m_MoveSpd;
+    //     tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.deltaTime;
+
+    //     m_MaxFlyingTime -= Time.deltaTime;
+
+    //     if (m_MaxFlyingTime < 0)
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    // }
+
+    public virtual void FixedUpdate()
     {
         // rb_Owner.velocity = tf_Onwer.forward * m_MoveSpd;
         tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.deltaTime;
@@ -45,7 +58,7 @@ public class Bullet : MonoBehaviour, ITakenDamage
     public virtual void OnHit(string _targetName)
     {
         Destroy(gameObject);
-        // Helper.DebugLog("Hit: " + _targetName);
+        Helper.DebugLog("Hit: " + _targetName);
     }
 }
 
