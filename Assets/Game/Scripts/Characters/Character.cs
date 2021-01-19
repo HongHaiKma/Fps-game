@@ -13,6 +13,7 @@ public class Character : MonoBehaviour, ITakenDamage
     public Transform tf_Owner;
     public Animator anim_Onwer;
     public NavMeshAgent nav_Agent;
+    public LayerMask m_LayerMask;
 
     [Header("---Animation Rigging---")]
     public Rig r_AimLayer;
@@ -233,50 +234,75 @@ public class Character : MonoBehaviour, ITakenDamage
     [Task]
     public bool CanShoot()
     {
-        RaycastHit hit;
+        // RaycastHit hit;
+        // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 10f, Color.red);
+        // // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
+
+        // if (Physics.Raycast(tf_FirePoint.position, tf_FirePoint.forward * 10f, out hit))
+        // {
+        //     ITakenDamage iTaken = hit.transform.GetComponent<ITakenDamage>();
+
+        //     if (iTaken != null && (m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, hit.transform.position, m_ShootRange))
+        //     {
+        //         Collider col = hit.transform.GetComponent<Collider>();
+        //         Character charTarget = hit.transform.GetComponent<Character>();
+
+        //         return true;
+        //     }
+
+        //     return false;
+        // }
+
+        // return false;
+
         Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 10f, Color.red);
-        // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
+        RaycastHit[] hit = Physics.RaycastAll(tf_FirePoint.position, tf_FirePoint.forward * 10f);
+        int hitCount = hit.Length;
 
-        if (Physics.Raycast(tf_FirePoint.position, tf_FirePoint.forward, out hit))
+        // if (Input.GetKeyDown(KeyCode.B) && !m_AI)
+        // {
+        //     for (int i = 0; i < hitCount; i++)
+        //     {
+        //         if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
+        //         {
+        //             Debug.Log("Target Champion");
+        //         }
+        //     }
+        // }
+
+        if (hitCount <= 0)
         {
-            ITakenDamage iTaken = hit.transform.GetComponent<ITakenDamage>();
+            return false;
+        }
 
-            if (iTaken != null && (m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, hit.transform.position, m_ShootRange))
+        int index = 0;
+        for (int i = 0; i < hitCount; i++)
+        {
+            if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
             {
-                Collider col = hit.transform.GetComponent<Collider>();
-                Character charTarget = hit.transform.GetComponent<Character>();
-                // tf_Crosshair.position = charTarget.tf_Head.position;
-                // Debug.Log("CANSHOOTTTTTTT");
-                // tf_Crosshair.position = charTarget.tf_Body.position;
-                // tf_Crosshair.position = tf_Body.position;
+                index = i;
+            }
+        }
 
-                // if (m_AimModelCd >= m_AimModelCdMax)
-                // {
-                //     if (Helper.Random2Probability(10))
-                //     {
-                //         tf_Crosshair.position = tf_Head.position;
-                //     }
+        ITakenDamage iTaken = hit[index].transform.GetComponent<ITakenDamage>();
 
-                //     m_AimModelCd = 0f;
-                // }
-
-                // if (!m_AI)
-                // {
-                //     Debug.Log("CAN SHOOT!!!");
-                // }
-
-                return true;
+        if (Input.GetKeyDown(KeyCode.B) && !m_AI)
+        {
+            if (iTaken == null)
+            {
+                Debug.Log("Itaken null!");
+                Debug.Log("Itaken name: " + hit[index].transform.name);
             }
 
-            // if (iTaken != null)
-            // {
-            //     if (!m_AI)
-            //     {
-            //         Debug.Log("CAN SHOOT!!!");
-            //     }
-            // }
+            if (!Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
+            {
+                Debug.Log("Not in range!");
+            }
+        }
 
-            return false;
+        if (iTaken != null && (m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
+        {
+            return true;
         }
 
         return false;

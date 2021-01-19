@@ -44,11 +44,11 @@ public class Bullet : MonoBehaviour, ITakenDamage
 
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        OnHit(other.gameObject.name);
-        VFXEffect();
-    }
+    // public void OnTriggerEnter(Collider other)
+    // {
+    //     OnHit(other.gameObject.name);
+    //     VFXEffect();
+    // }
 
     public virtual void OnHit()
     {
@@ -58,7 +58,8 @@ public class Bullet : MonoBehaviour, ITakenDamage
     public virtual void OnHit(string _targetName)
     {
         Destroy(gameObject);
-        Helper.DebugLog("Hit: " + _targetName);
+        // Helper.DebugLog("Hit: " + _targetName);
+        Debug.Log("Hit: " + _targetName);
     }
 }
 
