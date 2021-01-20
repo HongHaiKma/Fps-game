@@ -5,7 +5,8 @@ using System;
 
 public enum GameEvent
 {
-    SET_CHAR_CROSSHAIR_POS = 0
+    SET_CHAR_CROSSHAIR_POS = 0,
+    Set_CMLOOK_VALUE = 1
 }
 
 public class EventManager

@@ -58,20 +58,20 @@ public class Character : MonoBehaviour, ITakenDamage
     {
         ResetAllCooldown();
         LoadCharacterConfig();
-        StartListenToEvent();
+        StartListenToEvents();
     }
 
     private void OnDisable()
     {
-        StopListenToEvent();
+        StopListenToEvents();
     }
 
-    public void StartListenToEvent()
+    public void StartListenToEvents()
     {
         EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
     }
 
-    public void StopListenToEvent()
+    public void StopListenToEvents()
     {
         EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
     }
@@ -163,16 +163,7 @@ public class Character : MonoBehaviour, ITakenDamage
         // #if UNITY_ANDROID
         Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
-        if (mouseInput.magnitude > 0.015f)
-        {
-            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = mouseInput.x;
-            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = mouseInput.y;
-        }
-        else
-        {
-            m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = 0f;
-            m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = 0f;
-        }
+        EventManagerWithParam<Vector2>.CallEvent(GameEvent.Set_CMLOOK_VALUE, mouseInput);
 
         // if (m_ShootCd < m_MaxShootCd)
         // {

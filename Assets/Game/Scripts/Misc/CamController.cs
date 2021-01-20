@@ -1,12 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CamController : MonoBehaviour
 {
     public Transform tf_Owner;
     public Transform tf_CamCrosshair;
     public LayerMask m_LayerMask;
+
+    public CinemachineFreeLook m_CMFreeLook;
+
+    private void OnEnable()
+    {
+        StartListenToEvents();
+    }
+
+    private void OnDisable()
+    {
+        StopListenToEvents();
+    }
+
+    public void StartListenToEvents()
+    {
+        EventManagerWithParam<Vector2>.AddListener(GameEvent.Set_CMLOOK_VALUE, SetCMLookAxisValue);
+    }
+
+    public void StopListenToEvents()
+    {
+        EventManagerWithParam<Vector2>.RemoveListener(GameEvent.Set_CMLOOK_VALUE, SetCMLookAxisValue);
+    }
 
     void FixedUpdate()
     {
@@ -49,5 +72,19 @@ public class CamController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SetCMLookAxisValue(Vector2 _mouseInput)
+    {
+        if (_mouseInput.magnitude > 0.015f)
+        {
+            m_CMFreeLook.m_XAxis.m_InputAxisValue = _mouseInput.x;
+            m_CMFreeLook.m_YAxis.m_InputAxisValue = _mouseInput.y;
+        }
+        else
+        {
+            m_CMFreeLook.m_XAxis.m_InputAxisValue = 0f;
+            m_CMFreeLook.m_YAxis.m_InputAxisValue = 0f;
+        }
     }
 }
