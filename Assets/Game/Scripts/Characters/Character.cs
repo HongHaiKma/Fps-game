@@ -349,7 +349,6 @@ public class Character : MonoBehaviour, ITakenDamage
 
     #region IDLING
 
-    public float bbb = 0f;
     [Task]
     public void OnIdling()
     {
