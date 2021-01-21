@@ -154,6 +154,23 @@ public class Character : MonoBehaviour, ITakenDamage
 
         anim_Onwer.SetFloat("InputX", moveInput.x);
         anim_Onwer.SetFloat("InputY", moveInput.y);
+
+        if (moveInput.x > 0)
+        {
+            tf_Owner.position += tf_Owner.right * 0.1f;
+        }
+        if (moveInput.x < 0)
+        {
+            tf_Owner.position -= tf_Owner.right * 0.1f;
+        }
+        if (moveInput.y > 0)
+        {
+            tf_Owner.position += tf_Owner.forward * 0.1f;
+        }
+        if (moveInput.y < 0)
+        {
+            tf_Owner.position -= tf_Owner.forward * 0.1f;
+        }
     }
 
     [Task]
