@@ -4189,9 +4189,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1087970203}
-  - component: {fileID: 1087970204}
   - component: {fileID: 1087970206}
   - component: {fileID: 1087970205}
+  - component: {fileID: 1087970207}
+  - component: {fileID: 1087970204}
   m_Layer: 0
   m_Name: Character1
   m_TagString: Untagged
@@ -4229,9 +4230,9 @@ Rigidbody:
   m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1087970205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4294,6 +4295,24 @@ MonoBehaviour:
     breakPointStatuses: 
     collapsedLines: 
     btScript: 
+--- !u!143 &1087970207
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087970202}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1101538406 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11484022, guid: aa9fda728c7bfeb438662815b19b7065, type: 3}
@@ -12275,7 +12294,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4841833162225243867}
-  m_LocalRotation: {x: 0.10059722, y: 0.00035272262, z: -0.000035663827, w: 0.99492717}
+  m_LocalRotation: {x: 0.10059722, y: 0.00035272268, z: -0.000035663837, w: 0.99492717}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12653,7 +12672,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4841833162743056349}
-  m_LocalRotation: {x: 0.13667148, y: 0.00035119595, z: -0.000048453137, w: 0.9906164}
+  m_LocalRotation: {x: 0.13667148, y: 0.00035115783, z: -0.000048447873, w: 0.9906164}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
