@@ -21,7 +21,6 @@ public class Character : MonoBehaviour, ITakenDamage
 
     [Header("---Camera---")]
     Camera cam_Main;
-    public CinemachineFreeLook m_CinemachineFreeLook;
     public float m_TurnSpd = 15f;
 
     [Header("---Hit parts---")]

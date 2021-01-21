@@ -3787,7 +3787,6 @@ MonoBehaviour:
     m_Bits: 128
   r_AimLayer: {fileID: 0}
   m_MultiAimConstraint: {fileID: 0}
-  m_CinemachineFreeLook: {fileID: 4841833163429475270}
   m_TurnSpd: 15
   tf_Head: {fileID: 1373362309}
   tf_Body: {fileID: 1493938064}
@@ -9451,6 +9450,7 @@ GameObject:
   - component: {fileID: 3148534527924422214}
   - component: {fileID: 3148534527924422212}
   - component: {fileID: 3148534527924422211}
+  - component: {fileID: 3148534527924422216}
   m_Layer: 7
   m_Name: Character1
   m_TagString: Untagged
@@ -9500,7 +9500,6 @@ MonoBehaviour:
     m_Bits: 128
   r_AimLayer: {fileID: 0}
   m_MultiAimConstraint: {fileID: 0}
-  m_CinemachineFreeLook: {fileID: 4841833163429475270}
   m_TurnSpd: 15
   tf_Head: {fileID: 1481272053}
   tf_Body: {fileID: 1074861449}
@@ -9529,7 +9528,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3148534527924422210}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -9584,6 +9583,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &3148534527924422216
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3148534527924422210}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &3148546071235311660
 GameObject:
   m_ObjectHideFlags: 0
@@ -12547,7 +12562,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4841833162743056349}
-  m_LocalRotation: {x: 0.15022305, y: 8.364278e-26, z: 1.9412815e-27, w: 0.98865217}
+  m_LocalRotation: {x: 0.15022305, y: -1e-45, z: -0, w: 0.98865217}
   m_LocalPosition: {x: 2.0899658, y: 0, z: 8.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
