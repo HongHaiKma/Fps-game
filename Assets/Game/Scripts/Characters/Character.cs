@@ -45,7 +45,7 @@ public class Character : MonoBehaviour, ITakenDamage
     public float m_RotateCd;
     public float m_RotateCdMax;
     public float m_ShootCd;
-    public float m_MaxShootCd;
+    public float m_ShootCdMax;
     public float m_AimModelCd;
     public float m_AimModelCdMax;
 
@@ -85,7 +85,7 @@ public class Character : MonoBehaviour, ITakenDamage
         // SetMovingInput();
         // SetAimingInput();
 
-        if (m_ShootCd < m_MaxShootCd)
+        if (m_ShootCd < m_ShootCdMax)
         {
             m_ShootCd += Time.deltaTime;
         }
@@ -123,12 +123,15 @@ public class Character : MonoBehaviour, ITakenDamage
 
         m_RotateCdMax = 2.5f;
         m_AimModelCdMax = 4f;
+
+        m_ShootCdMax = 2f;
     }
 
     public void ResetAllCooldown()
     {
         m_RotateCd = 0f;
         m_AimModelCd = 0f;
+        m_ShootCd = 0f;
     }
 
     public void SetOwnerCrosshairPos(Vector3 _pos)
@@ -180,29 +183,18 @@ public class Character : MonoBehaviour, ITakenDamage
     public void SetAimingInput()
     {
         // #if UNITY_ANDROID
-        Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
+        // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
+        Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 0.35f;
 
         EventManagerWithParam<Vector2>.CallEvent(GameEvent.Set_CMLOOK_VALUE, mouseInput);
 
-        // if (m_ShootCd < m_MaxShootCd)
-        // {
-        //     m_ShootCd += Time.deltaTime;
-        // }
-
-        // if (CanShoot())
-        // {
-        //     OnShooting();
-        // }
-
-        // #elif UNITY_EDITOR
-
-        // m_CinemachineFreeLook.m_XAxis.m_InputAxisValue = Input.GetAxis("Mouse X");
-        // m_CinemachineFreeLook.m_YAxis.m_InputAxisValue = Input.GetAxis("Mouse Y");
-
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
-        // }
+        if (Input.GetMouseButtonDown(0))
+        {
+            BulletInfor infor = new BulletInfor("Bullet_Sniper", tf_FirePoint.rotation);
+            GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
+            Bullet bullet = go.GetComponent<Bullet>();
+            bullet.SetupBullet(infor);
+        }
         // #endif
     }
 
@@ -234,7 +226,12 @@ public class Character : MonoBehaviour, ITakenDamage
     {
         for (int i = 0; i < m_ShootBullet; i++)
         {
-            Instantiate(g_Bullet, tf_FirePoint.position, tf_FirePoint.rotation);
+            BulletInfor infor = new BulletInfor("Bullet_Sniper", tf_FirePoint.rotation);
+            GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
+            Bullet bullet = go.GetComponent<Bullet>();
+            bullet.SetupBullet(infor);
+
+            Debug.Log("OnShooting!!!");
         }
 
         m_ShootCd = 0f;
@@ -244,41 +241,9 @@ public class Character : MonoBehaviour, ITakenDamage
     [Task]
     public bool CanShoot()
     {
-        // RaycastHit hit;
-        // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 10f, Color.red);
-        // // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
-
-        // if (Physics.Raycast(tf_FirePoint.position, tf_FirePoint.forward * 10f, out hit))
-        // {
-        //     ITakenDamage iTaken = hit.transform.GetComponent<ITakenDamage>();
-
-        //     if (iTaken != null && (m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, hit.transform.position, m_ShootRange))
-        //     {
-        //         Collider col = hit.transform.GetComponent<Collider>();
-        //         Character charTarget = hit.transform.GetComponent<Character>();
-
-        //         return true;
-        //     }
-
-        //     return false;
-        // }
-
-        // return false;
-
         Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 10f, Color.red);
         RaycastHit[] hit = Physics.RaycastAll(tf_FirePoint.position, tf_FirePoint.forward * 10f);
         int hitCount = hit.Length;
-
-        // if (Input.GetKeyDown(KeyCode.B) && !m_AI)
-        // {
-        //     for (int i = 0; i < hitCount; i++)
-        //     {
-        //         if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
-        //         {
-        //             Debug.Log("Target Champion");
-        //         }
-        //     }
-        // }
 
         if (hitCount <= 0)
         {
@@ -310,7 +275,7 @@ public class Character : MonoBehaviour, ITakenDamage
             }
         }
 
-        if (iTaken != null && (m_ShootCd >= m_MaxShootCd) && Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
+        if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
         {
             return true;
         }

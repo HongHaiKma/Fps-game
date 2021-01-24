@@ -11,31 +11,30 @@ public class Bullet : MonoBehaviour, ITakenDamage
 
     [Header("---Movements---")]
     public float m_MoveSpd;
-    public float m_MaxFlyingTime;
+    public float m_FlyingTime;
+    public float m_FlyingTimeMax;
 
-    // public virtual void Update()
-    // {
-    //     // rb_Owner.velocity = tf_Onwer.forward * m_MoveSpd;
-    //     tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.deltaTime;
+    private void OnEnable()
+    {
+        m_FlyingTime = 0f;
+        m_FlyingTimeMax = 3f;
+    }
 
-    //     m_MaxFlyingTime -= Time.deltaTime;
-
-    //     if (m_MaxFlyingTime < 0)
-    //     {
-    //         Destroy(gameObject);
-    //     }
-    // }
+    public void SetupBullet(BulletInfor _bulletInfor)
+    {
+        tf_Onwer.rotation = _bulletInfor.m_Rotation;
+    }
 
     public virtual void FixedUpdate()
     {
         // rb_Owner.velocity = tf_Onwer.forward * m_MoveSpd;
         tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.deltaTime;
 
-        m_MaxFlyingTime -= Time.deltaTime;
+        m_FlyingTime += Time.deltaTime;
 
-        if (m_MaxFlyingTime < 0)
+        if (m_FlyingTime >= m_FlyingTimeMax)
         {
-            Destroy(gameObject);
+            PrefabManager.Instance.DespawnPool(gameObject);
         }
     }
 
@@ -57,7 +56,7 @@ public class Bullet : MonoBehaviour, ITakenDamage
 
     public virtual void OnHit(string _targetName)
     {
-        Destroy(gameObject);
+        PrefabManager.Instance.DespawnPool(gameObject);
         // Helper.DebugLog("Hit: " + _targetName);
         Debug.Log("Hit: " + _targetName);
     }
@@ -65,5 +64,12 @@ public class Bullet : MonoBehaviour, ITakenDamage
 
 public class BulletInfor
 {
+    public string m_PrefabName;
+    public Quaternion m_Rotation;
 
+    public BulletInfor(string _prefabName, Quaternion _rotation)
+    {
+        m_PrefabName = _prefabName;
+        m_Rotation = _rotation;
+    }
 }
