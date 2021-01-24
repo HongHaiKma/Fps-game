@@ -58,7 +58,6 @@ public class CamController : MonoBehaviour
             {
                 tf_CamCrosshair.position = hit[i].point;
                 EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
-                Debug.Log("Layer mask champion!!!");
                 break;
             }
 

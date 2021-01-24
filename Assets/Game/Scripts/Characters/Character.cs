@@ -99,12 +99,6 @@ public class Character : MonoBehaviour, ITakenDamage
         {
             m_AimModelCd += Time.deltaTime;
         }
-
-        // if (CanShoot())
-        // {
-        //     OnShooting();
-        // }
-
     }
 
     void FixedUpdate()
