@@ -58,7 +58,7 @@ public class Bullet : MonoBehaviour, ITakenDamage
     {
         PrefabManager.Instance.DespawnPool(gameObject);
         // Helper.DebugLog("Hit: " + _targetName);
-        Debug.Log("Hit: " + _targetName);
+        // Debug.Log("Hit: " + _targetName);
     }
 }
 

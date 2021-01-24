@@ -182,7 +182,6 @@ public class Character : MonoBehaviour, ITakenDamage
     [Task]
     public void SetAimingInput()
     {
-        // #if UNITY_ANDROID
         // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
         Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 0.35f;
 
@@ -195,7 +194,6 @@ public class Character : MonoBehaviour, ITakenDamage
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
         }
-        // #endif
     }
 
     #endregion
@@ -231,7 +229,7 @@ public class Character : MonoBehaviour, ITakenDamage
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
 
-            Debug.Log("OnShooting!!!");
+            // Debug.Log("OnShooting!!!");
         }
 
         m_ShootCd = 0f;

@@ -39,7 +39,7 @@ public class CamController : MonoBehaviour
         CheckShoot();
     }
 
-    public bool CheckShoot()
+    public void CheckShoot()
     {
         Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
         RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f);
@@ -49,29 +49,22 @@ public class CamController : MonoBehaviour
 
         if (hitCount <= 0)
         {
-            return false;
+            return;
         }
 
-        int index = 0;
         for (int i = 0; i < hitCount; i++)
         {
             if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
             {
-                index = i;
+                tf_CamCrosshair.position = hit[i].point;
+                EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+                Debug.Log("Layer mask champion!!!");
+                break;
             }
-        }
 
-        Transform tf = hit[index].transform;
-        Collider col = tf.GetComponent<Collider>();
-
-        if (col != null)
-        {
-            tf_CamCrosshair.position = hit[index].point;
+            tf_CamCrosshair.position = hit[0].point;
             EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
-            return true;
         }
-
-        return false;
     }
 
     public void SetCMLookAxisValue(Vector2 _mouseInput)
