@@ -1,49 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1933021457736650075
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1933021457736650074}
-  - component: {fileID: 1933021457736650073}
-  m_Layer: 6
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1933021457736650074
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1933021457736650075}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1933021457815705096}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1933021457736650073
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1933021457736650075}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1933021457815705099
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1933021457815705096}
   - component: {fileID: 825805616432246872}
-  - component: {fileID: 8767054374724082573}
   - component: {fileID: -5810629412748444189}
+  - component: {fileID: 4710477348562157043}
+  - component: {fileID: 8767054374724082573}
   m_Layer: 6
   m_Name: Bullet_Sniper
   m_TagString: Untagged
@@ -75,7 +32,6 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.53}
   m_Children:
   - {fileID: 5659162286004696551}
-  - {fileID: 1933021457736650074}
   - {fileID: 1158583143221671775}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -93,10 +49,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tf_Onwer: {fileID: 1933021457815705096}
-  col_Onwer: {fileID: 1933021457736650073}
+  col_Onwer: {fileID: 0}
   m_MoveSpd: 100
-  m_MaxFlyingTime: 3
+  m_FlyingTime: 0
+  m_FlyingTimeMax: 0
   m_ImpactEffect: {fileID: 3375612330075160670, guid: 6071dbc63131f0242bb71e057b2813be, type: 3}
+--- !u!114 &-5810629412748444189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933021457815705099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6a1cb7a6dc9d847bf2c493f917f11c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendTriggerMessage: 0
+  m_LMChar:
+    serializedVersion: 2
+    m_Bits: 128
+  m_LMMap:
+    serializedVersion: 2
+    m_Bits: 256
+  skinWidth: 0.1
+  myRigidbody: {fileID: 8767054374724082573}
+  myCollider: {fileID: 4710477348562157043}
+  m_Bullet: {fileID: 825805616432246872}
+--- !u!65 &4710477348562157043
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933021457815705099}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8767054374724082573
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -113,26 +106,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-5810629412748444189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1933021457815705099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6a1cb7a6dc9d847bf2c493f917f11c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sendTriggerMessage: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  skinWidth: 0.1
-  myRigidbody: {fileID: 8767054374724082573}
-  myCollider: {fileID: 1933021457736650073}
-  m_Bullet: {fileID: 825805616432246872}
 --- !u!1 &5659162286004696547
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +216,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1933021457815705096}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &7083217742792548493
 TrailRenderer:

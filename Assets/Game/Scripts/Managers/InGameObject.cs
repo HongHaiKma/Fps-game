@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemytest : MonoBehaviour, ITakenDamage
+public class InGameObject : MonoBehaviour, ITakenDamage
 {
     public virtual void OnHit()
     {
@@ -17,10 +17,5 @@ public class Enemytest : MonoBehaviour, ITakenDamage
     public virtual void OnHit(GameObject _go)
     {
 
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // Helper.DebugLog("Enemy hit!!!");
     }
 }

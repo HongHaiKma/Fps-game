@@ -7,7 +7,7 @@ using Cinemachine;
 using UnityEngine.AI;
 using Panda;
 
-public class Character : MonoBehaviour, ITakenDamage
+public class Character : InGameObject
 {
     [Header("---Components---")]
     public Transform tf_Owner;
@@ -176,8 +176,8 @@ public class Character : MonoBehaviour, ITakenDamage
     [Task]
     public void SetAimingInput()
     {
-        // Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
-        Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 0.35f;
+        Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
+        // Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 0.35f;
 
         EventManagerWithParam<Vector2>.CallEvent(GameEvent.Set_CMLOOK_VALUE, mouseInput);
 
@@ -253,19 +253,19 @@ public class Character : MonoBehaviour, ITakenDamage
 
         ITakenDamage iTaken = hit[index].transform.GetComponent<ITakenDamage>();
 
-        if (Input.GetKeyDown(KeyCode.B) && !m_AI)
-        {
-            if (iTaken == null)
-            {
-                Debug.Log("Itaken null!");
-                Debug.Log("Itaken name: " + hit[index].transform.name);
-            }
+        // if (Input.GetKeyDown(KeyCode.B) && !m_AI)
+        // {
+        //     if (iTaken == null)
+        //     {
+        //         Debug.Log("Itaken null!");
+        //         Debug.Log("Itaken name: " + hit[index].transform.name);
+        //     }
 
-            if (!Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
-            {
-                Debug.Log("Not in range!");
-            }
-        }
+        //     if (!Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
+        //     {
+        //         Debug.Log("Not in range!");
+        //     }
+        // }
 
         if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
         {
@@ -329,58 +329,12 @@ public class Character : MonoBehaviour, ITakenDamage
     [Task]
     public void OnIdling()
     {
-        // if (m_RotateCd >= m_RotateCdMax)
-        // {
-        //     Quaternion rotation = Helper.Random8Direction(tf_Owner.position);
-        //     tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
-        //     m_RotateCd = 0f;
-        // }
-
-        // if (m_RotateCd >= m_RotateCdMax)
-        // {
-        //     float angle = Random.Range(0f, 359f);
-        //     // int a = Random.Range(0, 4);
-        //     // switch (a)
-        //     // {
-        //     //     case 0:
-        //     //         angle = Random.Range(0f, 90f);
-        //     //         break;
-        //     //     case 1:
-        //     //         angle = Random.Range(0f, 90f);
-        //     //         break;
-        //     //     case 2:
-        //     //         angle = Random.Range(0f, 90f);
-        //     //         break;
-        //     //     case 3:
-        //     //         angle = Random.Range(0f, 90f);
-        //     //         break;
-        //     // }
-
-        //     Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
-
-
-
-        //     if (bbb < 1)
-        //     {
-        //         bbb += Time.deltaTime;
-        //         // tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 10);
-        //         // tf_Owner.rotation = Quaternion.
-        //     }
-        //     else
-        //     {
-        //         bbb = 0f;
-        //         m_RotateCd = 0f;
-        //     }
-        // }
-
         if (m_RotateCd >= m_RotateCdMax)
         {
             float angle = Random.Range(0f, 359f);
             StartCoroutine(RotateMe(angle, 1f));
             m_RotateCd = 0f;
         }
-
-        // Debug.Log("ON IDLING!!!!!!!!!");
     }
 
     IEnumerator RotateMe(float byAngles, float inTime)
@@ -395,12 +349,12 @@ public class Character : MonoBehaviour, ITakenDamage
         }
     }
 
-    public virtual void OnHit()
+    public override void OnHit()
     {
 
     }
 
-    public virtual void OnHit(string _targetName)
+    public override void OnHit(string _targetName)
     {
 
     }
@@ -417,6 +371,7 @@ public interface ITakenDamage
 {
     void OnHit();
     void OnHit(string _targetName);
+    void OnHit(GameObject _go);
 }
 
 public enum AimBodyPart

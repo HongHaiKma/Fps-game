@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PrefabManager : Singleton<PrefabManager>
 {
-    private Dictionary<string, GameObject> m_IngameObjectPrefabDic = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> m_IngameObjectPrefabDict = new Dictionary<string, GameObject>();
     public GameObject[] m_IngameObjectPrefabs;
-    private Dictionary<string, GameObject> m_BulletPrefabDic = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> m_BulletPrefabDict = new Dictionary<string, GameObject>();
     public GameObject[] m_BulletPrefabs;
 
     private void Awake()
@@ -30,7 +30,7 @@ public class PrefabManager : Singleton<PrefabManager>
             string iName = iPrefab.name;
             try
             {
-                m_IngameObjectPrefabDic.Add(iName, iPrefab);
+                m_IngameObjectPrefabDict.Add(iName, iPrefab);
             }
             catch (System.Exception)
             {
@@ -44,7 +44,7 @@ public class PrefabManager : Singleton<PrefabManager>
             string iName = iPrefab.name;
             try
             {
-                m_BulletPrefabDic.Add(iName, iPrefab);
+                m_BulletPrefabDict.Add(iName, iPrefab);
             }
             catch (System.Exception)
             {
@@ -86,7 +86,7 @@ public class PrefabManager : Singleton<PrefabManager>
     public GameObject GetPrefabByName(string name)
     {
         GameObject rPrefab = null;
-        if (m_IngameObjectPrefabDic.TryGetValue(name, out rPrefab))
+        if (m_IngameObjectPrefabDict.TryGetValue(name, out rPrefab))
         {
             return rPrefab;
         }
@@ -95,9 +95,9 @@ public class PrefabManager : Singleton<PrefabManager>
 
     public GameObject GetBulletPrefabByName(string name)
     {
-        if (m_BulletPrefabDic.ContainsKey(name))
+        if (m_BulletPrefabDict.ContainsKey(name))
         {
-            return m_BulletPrefabDic[name];
+            return m_BulletPrefabDict[name];
         }
         return null;
     }

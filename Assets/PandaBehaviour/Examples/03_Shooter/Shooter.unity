@@ -4208,6 +4208,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11460238, guid: 0a5301a8d0f289a47a007836481c8778, type: 3}
+      propertyPath: sourceInfos.Array.data[0].collapsedLines.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11460238, guid: 0a5301a8d0f289a47a007836481c8778, type: 3}
+      propertyPath: sourceInfos.Array.data[0].collapsedLines.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 11495122, guid: 0a5301a8d0f289a47a007836481c8778, type: 3}
       propertyPath: waypointPath
       value: 

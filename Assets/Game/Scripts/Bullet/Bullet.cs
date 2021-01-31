@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, ITakenDamage
+public class Bullet : InGameObject
 {
     [Header("---Components---")]
     public Transform tf_Onwer;
@@ -49,16 +49,35 @@ public class Bullet : MonoBehaviour, ITakenDamage
     //     VFXEffect();
     // }
 
-    public virtual void OnHit()
-    {
-
-    }
-
-    public virtual void OnHit(string _targetName)
+    public override void OnHit()
     {
         PrefabManager.Instance.DespawnPool(gameObject);
-        // Helper.DebugLog("Hit: " + _targetName);
+        Debug.Log("Bullet just despawn no damage!!!");
+    }
+
+    public override void OnHit(string _targetName)
+    {
+        PrefabManager.Instance.DespawnPool(gameObject);
+        Helper.DebugLog("Hit: " + _targetName);
         // Debug.Log("Hit: " + _targetName);
+    }
+
+    public override void OnHit(GameObject _go)
+    {
+        PrefabManager.Instance.DespawnPool(gameObject);
+        Debug.Log("bullet called!!!");
+
+        ITakenDamage iTaken = _go.GetComponent<ITakenDamage>();
+
+        if (iTaken != null)
+        {
+            iTaken.OnHit();
+            Debug.Log("Target != null");
+        }
+        else
+        {
+            Debug.Log("Target == null");
+        }
     }
 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CamController : MonoBehaviour
+public class CamController : Singleton<CamController>
 {
     public Transform tf_Owner;
     public Transform tf_CamCrosshair;
@@ -13,6 +13,8 @@ public class CamController : MonoBehaviour
 
     private void OnEnable()
     {
+        // m_CMFreeLook.Follow = GameManager.Instance.m_Team1[0].tf_Owner;
+        // m_CMFreeLook.LookAt = GameManager.Instance.m_Team1[0].tf_Head;
         StartListenToEvents();
     }
 
