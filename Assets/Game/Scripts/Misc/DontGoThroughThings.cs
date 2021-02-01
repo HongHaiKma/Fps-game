@@ -20,17 +20,36 @@ public class DontGoThroughThings : MonoBehaviour
     public Collider myCollider;
 
     public Bullet m_Bullet;
+    public bool m_Collided;
+    public Collider col_Onwer;
 
     //initialize values 
-    void Start()
+    // void Start()
+    // {
+    //     previousPosition = myRigidbody.position;
+    //     minimumExtent = Mathf.Min(Mathf.Min(myCollider.bounds.extents.x, myCollider.bounds.extents.y), myCollider.bounds.extents.z);
+    //     partialExtent = minimumExtent * (1.0f - skinWidth);
+    //     sqrMinimumExtent = minimumExtent * minimumExtent;
+    // }
+
+    private void OnEnable()
     {
         previousPosition = myRigidbody.position;
         minimumExtent = Mathf.Min(Mathf.Min(myCollider.bounds.extents.x, myCollider.bounds.extents.y), myCollider.bounds.extents.z);
         partialExtent = minimumExtent * (1.0f - skinWidth);
         sqrMinimumExtent = minimumExtent * minimumExtent;
+
+        m_Collided = false;
+        // col_Onwer.enabled = true;
     }
 
-    void Update()
+    private void OnDisable()
+    {
+        m_Collided = true;
+        // col_Onwer.enabled = false;
+    }
+
+    void FixedUpdate()
     {
         //have we moved more than our minimum extent? 
         Vector3 movementThisStep = myRigidbody.position - previousPosition;
@@ -42,48 +61,61 @@ public class DontGoThroughThings : MonoBehaviour
             RaycastHit hitInfo;
 
             //check for obstructions we might have missed 
-            if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMChar.value))
+            if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMChar.value) && !m_Collided)
             {
+                m_Collided = true;
+                col_Onwer.enabled = false;
+
                 if (!hitInfo.collider)
                 {
                     return;
                 }
 
+                m_Bullet.v3_CollisionPoint = hitInfo.point;
                 m_Bullet.OnHit(hitInfo.collider.gameObject);
-                m_Bullet.VFXEffect();
-
-                // if (hitInfo.collider.isTrigger)
-                // {
-                //     hitInfo.collider.SendMessage("OnTriggerEnter", myCollider);
-                // }
-
-                // if (!hitInfo.collider.isTrigger)
-                // {
-                //     myRigidbody.position = hitInfo.point - (movementThisStep / movementMagnitude) * partialExtent;
-                // }
             }
-            else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMMap.value))
+            else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMMap.value) && !m_Collided)
             {
+                m_Collided = true;
+                col_Onwer.enabled = false;
+
                 if (!hitInfo.collider)
                 {
                     return;
                 }
 
+                m_Bullet.v3_CollisionPoint = hitInfo.point;
                 m_Bullet.OnHit();
-                m_Bullet.VFXEffect();
-
-                // if (hitInfo.collider.isTrigger)
-                // {
-                //     hitInfo.collider.SendMessage("OnTriggerEnter", myCollider);
-                // }
-
-                // if (!hitInfo.collider.isTrigger)
-                // {
-                //     myRigidbody.position = hitInfo.point - (movementThisStep / movementMagnitude) * partialExtent;
-                // }
             }
         }
 
         previousPosition = myRigidbody.position;
     }
+
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     // Debug.Log("Collide with" + other.gameObject.name);
+    //     // PrefabManager.Instance.DespawnPool(gameObject);
+
+    //     if ((m_LMChar.value & (1 << other.transform.gameObject.layer)) > 0)
+    //     {
+    //         m_Collided = true;
+    //         // col_Onwer.enabled = false;
+
+    //         m_Bullet.v3_CollisionPoint = other.transform.position;
+    //         m_Bullet.OnHit(other.transform.gameObject);
+
+    //         Debug.Log("11111111111111");
+    //     }
+    //     else if ((m_LMMap.value & (1 << other.transform.gameObject.layer)) > 0)
+    //     {
+    //         m_Collided = true;
+    //         // col_Onwer.enabled = false;
+
+    //         m_Bullet.v3_CollisionPoint = other.transform.position;
+    //         m_Bullet.OnHit();
+
+    //         Debug.Log("22222222222222");
+    //     }
+    // }
 }

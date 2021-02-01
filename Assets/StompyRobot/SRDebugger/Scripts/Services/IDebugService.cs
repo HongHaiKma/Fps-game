@@ -49,7 +49,7 @@ namespace SRDebugger.Services
         /// If true and entry code is enabled in settings, the user will be prompted for a passcode
         /// before opening the panel.
         /// </param>
-        void ShowDebugPanel(bool requireEntryCode = true);
+        void ShowDebugPanel(bool requireEntryCode = false);
 
         /// <summary>
         /// Show the debug panel and open a certain tab
@@ -78,7 +78,7 @@ namespace SRDebugger.Services
         /// </summary>
         /// <param name="container">The object to add.</param>
         void AddOptionContainer(object container);
-        
+
         /// <summary>
         /// Remove all properties and methods that the <paramref name="container"/> added to the options panel.
         /// </summary>

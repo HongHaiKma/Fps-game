@@ -18,7 +18,7 @@ public class Bullet_Canon : Bullet
         tf_Onwer.position += new Vector3(0f, m_GravityModifier * Time.deltaTime, 0f);
     }
 
-    public override void VFXEffect()
+    public override void SpawnVFX()
     {
         Instantiate(m_ImpactEffect, tf_Onwer.position, tf_Onwer.rotation);
     }

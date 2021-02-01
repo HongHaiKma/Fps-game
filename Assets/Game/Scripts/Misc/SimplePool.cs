@@ -73,10 +73,11 @@ public static class SimplePool
             // strip out for more minimal code.
             inactive = new Stack<GameObject>(initialQty);
         }
-        public int Count {
-            get { return inactive.Count;}
+        public int Count
+        {
+            get { return inactive.Count; }
         }
-        
+
         // Spawn an object from our pool
         public GameObject Spawn(Vector3 pos, Quaternion rot, string name)
         {
@@ -141,14 +142,18 @@ public static class SimplePool
             inactive.Push(obj);
             ////Debug.Log("INACTIVE: " + inactive.Count);
         }
-        public void Clamp(int amount) {
-            while(inactive.Count> amount) {
+        public void Clamp(int amount)
+        {
+            while (inactive.Count > amount)
+            {
                 GameObject go = inactive.Pop();
                 GameObject.Destroy(go);
             }
         }
-        public void Release() {
-            while(inactive.Count>0) {
+        public void Release()
+        {
+            while (inactive.Count > 0)
+            {
                 GameObject go = inactive.Pop();
                 GameObject.Destroy(go);
             }
@@ -163,7 +168,7 @@ public static class SimplePool
     /// </summary>
     class PoolMember : MonoBehaviour
     {
-        public Pool myPool;        
+        public Pool myPool;
     }
 
     // All of our pools
@@ -210,17 +215,21 @@ public static class SimplePool
             Despawn(obs[i]);
         }
     }
-    static public int GetPoolingObjectCount(string name) {
+    static public int GetPoolingObjectCount(string name)
+    {
         Pool _pool = null;
-        if(pools.TryGetValue(name,out _pool)) {
+        if (pools.TryGetValue(name, out _pool))
+        {
             return _pool.Count;
         }
         return 0;
     }
 
-    static public void ClampPools(string name, int amount) {
+    static public void ClampPools(string name, int amount)
+    {
         Pool _pool = null;
-        if(pools.TryGetValue(name,out _pool)) {
+        if (pools.TryGetValue(name, out _pool))
+        {
             _pool.Clamp(amount);
         }
     }
@@ -241,14 +250,18 @@ public static class SimplePool
         //}
         return obj;
     }
-    static public GameObject Spawn(GameObject pb, Vector3 pos, Quaternion rot) {
-        if (!IsHasPool(pb.name)) {
+    static public GameObject Spawn(GameObject pb, Vector3 pos, Quaternion rot)
+    {
+        if (!IsHasPool(pb.name))
+        {
             Preload(pb, 1, pb.name);
         }
         return Spawn(pb.name, pos, rot);
     }
-    static public bool IsHasPool(string name) {
-        if(pools == null) {
+    static public bool IsHasPool(string name)
+    {
+        if (pools == null)
+        {
             pools = new Dictionary<string, Pool>();
         }
         return pools.ContainsKey(name);
@@ -266,7 +279,8 @@ public static class SimplePool
             //Debug.Log("Object '" + obj.name + "' wasn't spawned from a pool. Destroying it instead.");
             GameObject.Destroy(obj);
         }
-        else {
+        else
+        {
             pm.myPool.Despawn(obj);
             obj.transform.SetParent(GetRootGameObject());
         }
@@ -275,26 +289,32 @@ public static class SimplePool
 
     static public void Release()
     {
-        if(pools== null || pools.Count==0)return;
-        foreach (KeyValuePair < string, Pool> kvp in pools)
+        if (pools == null || pools.Count == 0) return;
+        foreach (KeyValuePair<string, Pool> kvp in pools)
         {
             //Do some interesting things;            
             kvp.Value.Release();
         }
         pools.Clear();
     }
-    static public void Release(string name) {
-        if(pools.ContainsKey(name)) {
-            foreach(KeyValuePair<string, Pool> kvp in pools) {
-                if(kvp.Key == name) {
+    static public void Release(string name)
+    {
+        if (pools.ContainsKey(name))
+        {
+            foreach (KeyValuePair<string, Pool> kvp in pools)
+            {
+                if (kvp.Key == name)
+                {
                     kvp.Value.Release();
                 }
             }
-            pools.Remove(name); 
+            pools.Remove(name);
         }
     }
-    static Transform GetRootGameObject() {
-        if (m_sRoot == null) {
+    static Transform GetRootGameObject()
+    {
+        if (m_sRoot == null)
+        {
             GameObject go = new GameObject();
             go.name = "PoolingRoot";
             m_sRoot = go.transform;

@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Bullet_Sniper : Bullet
 {
-    [Header("---VFX---")]
-    public GameObject m_ImpactEffect;
-
-    public override void VFXEffect()
+    public override void SpawnVFX(Vector3 _collisionPoint)
     {
-        Instantiate(m_ImpactEffect, tf_Onwer.position, tf_Onwer.rotation);
+        string vfx = ConfigName.vfx1;
+        PrefabManager.Instance.SpawnVFXPool(vfx, _collisionPoint);
     }
 }

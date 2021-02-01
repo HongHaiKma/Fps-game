@@ -6,8 +6,12 @@ public class PrefabManager : Singleton<PrefabManager>
 {
     private Dictionary<string, GameObject> m_IngameObjectPrefabDict = new Dictionary<string, GameObject>();
     public GameObject[] m_IngameObjectPrefabs;
+
     private Dictionary<string, GameObject> m_BulletPrefabDict = new Dictionary<string, GameObject>();
     public GameObject[] m_BulletPrefabs;
+
+    private Dictionary<string, GameObject> m_VFXPrefabDict = new Dictionary<string, GameObject>();
+    public GameObject[] m_VFXPrefabs;
 
     private void Awake()
     {
@@ -17,8 +21,11 @@ public class PrefabManager : Singleton<PrefabManager>
 
     public void InitIngamePrefab()
     {
-        string Bullet1 = "Bullet_Sniper";
-        CreatePool(Bullet1, GetBulletPrefabByName(Bullet1), 5);
+        string bullet = ConfigName.bullet1;
+        CreatePool(bullet, GetBulletPrefabByName(bullet), 5);
+
+        string vfx1 = ConfigName.vfx1;
+        CreatePool(vfx1, GetVFXPrefabByName(vfx1), 5);
     }
 
     public void InitPrefab()
@@ -45,6 +52,20 @@ public class PrefabManager : Singleton<PrefabManager>
             try
             {
                 m_BulletPrefabDict.Add(iName, iPrefab);
+            }
+            catch (System.Exception)
+            {
+                continue;
+            }
+        }
+        for (int i = 0; i < m_VFXPrefabs.Length; i++)
+        {
+            GameObject iPrefab = m_VFXPrefabs[i];
+            if (iPrefab == null) continue;
+            string iName = iPrefab.name;
+            try
+            {
+                m_VFXPrefabDict.Add(iName, iPrefab);
             }
             catch (System.Exception)
             {
@@ -112,6 +133,35 @@ public class PrefabManager : Singleton<PrefabManager>
         else
         {
             GameObject prefab = GetBulletPrefabByName(name);
+            if (prefab != null)
+            {
+                SimplePool.Preload(prefab, 1, name);
+                GameObject go = SpawnPool(name, pos);
+                return go;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetVFXPrefabByName(string name)
+    {
+        if (m_VFXPrefabDict.ContainsKey(name))
+        {
+            return m_VFXPrefabDict[name];
+        }
+        return null;
+    }
+
+    public GameObject SpawnVFXPool(string name, Vector3 pos)
+    {
+        if (SimplePool.IsHasPool(name))
+        {
+            GameObject go = SimplePool.Spawn(name, pos, Quaternion.identity);
+            return go;
+        }
+        else
+        {
+            GameObject prefab = GetVFXPrefabByName(name);
             if (prefab != null)
             {
                 SimplePool.Preload(prefab, 1, name);

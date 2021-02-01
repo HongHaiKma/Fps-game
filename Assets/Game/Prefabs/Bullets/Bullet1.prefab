@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4710477348562157043}
   - component: {fileID: 8767054374724082573}
   m_Layer: 6
-  m_Name: Bullet_Sniper
+  m_Name: Bullet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,11 +49,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tf_Onwer: {fileID: 1933021457815705096}
-  col_Onwer: {fileID: 0}
+  col_Onwer: {fileID: 4710477348562157043}
+  v3_CollisionPoint: {x: 0, y: 0, z: 0}
   m_MoveSpd: 100
   m_FlyingTime: 0
   m_FlyingTimeMax: 0
-  m_ImpactEffect: {fileID: 3375612330075160670, guid: 6071dbc63131f0242bb71e057b2813be, type: 3}
+  m_Collided: 0
 --- !u!114 &-5810629412748444189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +78,8 @@ MonoBehaviour:
   myRigidbody: {fileID: 8767054374724082573}
   myCollider: {fileID: 4710477348562157043}
   m_Bullet: {fileID: 825805616432246872}
+  m_Collided: 0
+  col_Onwer: {fileID: 4710477348562157043}
 --- !u!65 &4710477348562157043
 BoxCollider:
   m_ObjectHideFlags: 0

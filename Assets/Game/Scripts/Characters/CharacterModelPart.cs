@@ -9,7 +9,8 @@ public class CharacterModelPart : MonoBehaviour, ITakenDamage
 
     public virtual void OnHit()
     {
-        Debug.Log("Char is: " + gameObject.name);
+        Debug.Log("Char is: " + m_OwnerChar.gameObject.name);
+        Debug.Log("Body is: " + gameObject.name);
     }
 
     public virtual void OnHit(string _targetName)

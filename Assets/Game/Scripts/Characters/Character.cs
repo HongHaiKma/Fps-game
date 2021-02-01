@@ -112,13 +112,28 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_ShootRange = 6.5f;
+        if (!m_AI)
+        {
+            m_ShootRange = 20f;
+        }
+        else
+        {
+            m_ShootRange = 6.5f;
+        }
+
         m_ChaseRange = 9f;
 
         m_RotateCdMax = 2.5f;
         m_AimModelCdMax = 4f;
 
-        m_ShootCdMax = 2f;
+        if (!m_AI)
+        {
+            m_ShootCdMax = 0.5f;
+        }
+        else
+        {
+            m_ShootCdMax = 2f;
+        }
     }
 
     public void ResetAllCooldown()
@@ -183,7 +198,8 @@ public class Character : InGameObject
 
         if (Input.GetMouseButtonDown(0))
         {
-            BulletInfor infor = new BulletInfor("Bullet_Sniper", tf_FirePoint.rotation);
+            string bulletS = ConfigName.bullet1;
+            BulletInfor infor = new BulletInfor(bulletS, tf_FirePoint.rotation);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
@@ -218,7 +234,8 @@ public class Character : InGameObject
     {
         for (int i = 0; i < m_ShootBullet; i++)
         {
-            BulletInfor infor = new BulletInfor("Bullet_Sniper", tf_FirePoint.rotation);
+            string bulletS = ConfigName.bullet1;
+            BulletInfor infor = new BulletInfor(bulletS, tf_FirePoint.rotation);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
