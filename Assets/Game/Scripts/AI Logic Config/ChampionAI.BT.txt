@@ -34,8 +34,7 @@ tree("IdlingAttack")
 	repeat
 		while
 			sequence
-				CanChase
-				CanShoot
+				CanStopChasing
 			sequence
 				OnIdlingAttack
 
@@ -44,7 +43,7 @@ tree("Moving")
 		while
 			sequence
 				CanChase
-				not CanShoot
+				not CanStopChasing
 			sequence
 				OnChasing
 
