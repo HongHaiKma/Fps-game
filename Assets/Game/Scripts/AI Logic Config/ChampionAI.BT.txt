@@ -10,7 +10,8 @@ tree("Root")
 						parallel
 							repeat mute tree("Moving")
 							repeat mute tree("Aiming")
-							repeat mute tree("Idling")
+							repeat mute tree("IdlingStand")
+							repeat mute tree("IdlingAttack")
 		repeat
 			mute
 				while
@@ -21,19 +22,29 @@ tree("Root")
 							SetMovingInput
 							SetAimingInput
 
-tree("Idling")
+tree("IdlingStand")
 	repeat
 		while
 			sequence
 				not CanChase
 			sequence
-				OnIdling
+				OnIdlingStand
+
+tree("IdlingAttack")
+	repeat
+		while
+			sequence
+				CanChase
+				CanShoot
+			sequence
+				OnIdlingAttack
 
 tree("Moving")
 	repeat
 		while
 			sequence
 				CanChase
+				not CanShoot
 			sequence
 				OnChasing
 

@@ -52,6 +52,8 @@ public class Character : InGameObject
     [Header("---Test---")]
     public Transform tf_Target;
 
+    // P
+
 
     private void OnEnable()
     {
@@ -212,8 +214,9 @@ public class Character : InGameObject
     [Task]
     public void OnChasing()
     {
+        anim_Onwer.SetFloat("InputY", 1);
         nav_Agent.SetDestination(tf_Target.position);
-        // Debug.Log("ON CHASING!!!!");
+        Debug.Log("ON CHASING!!!!");
     }
 
     [Task]
@@ -224,6 +227,7 @@ public class Character : InGameObject
         //     Debug.Log(gameObject.name);
         //     Debug.Log("CAN CHASE!!!!!!!!!");
         // }
+        // anim_Onwer.SetFloat("InputY", 1);
         return Helper.InRange(tf_Owner.position, tf_Target.position, m_ChaseRange);
     }
     #endregion
@@ -341,11 +345,15 @@ public class Character : InGameObject
 
     #endregion
 
-    #region IDLING
+    #region IDLING STAND
 
     [Task]
-    public void OnIdling()
+    public void OnIdlingStand()
     {
+        // anim_Onwer.SetTrigger("AI_Idle");
+        anim_Onwer.SetFloat("InputY", 0);
+        anim_Onwer.SetFloat("InputX", 0);
+
         if (m_RotateCd >= m_RotateCdMax)
         {
             float angle = Random.Range(0f, 359f);
@@ -366,6 +374,21 @@ public class Character : InGameObject
         }
     }
 
+    #endregion
+
+    #region IDLING ATTACK
+
+    [Task]
+    public void OnIdlingAttack()
+    {
+        anim_Onwer.SetFloat("InputY", 0);
+        anim_Onwer.SetFloat("InputX", 0);
+
+        Debug.Log("IDLING ATTACK!!!");
+    }
+
+    #endregion
+
     public override void OnHit()
     {
 
@@ -380,8 +403,6 @@ public class Character : InGameObject
     {
         // Helper.DebugLog("Enemy hit!!!");
     }
-
-    #endregion
 }
 
 public interface ITakenDamage
