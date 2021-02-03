@@ -9,8 +9,26 @@ public class CharacterModelPart : MonoBehaviour, ITakenDamage
 
     public virtual void OnHit()
     {
-        Debug.Log("Char is: " + m_OwnerChar.gameObject.name);
-        Debug.Log("Body is: " + gameObject.name);
+        // Debug.Log("Char is: " + m_OwnerChar.gameObject.name);
+        // Debug.Log("Body is: " + gameObject.name);
+
+    }
+
+    public void OnHit(BigNumber _dmg)
+    {
+        if (m_BodyPart == BodyPart.HEAD)
+        {
+            m_OwnerChar.OnHit(_dmg, 2f);
+        }
+        else if (m_BodyPart == BodyPart.BODY)
+        {
+            m_OwnerChar.OnHit(_dmg, 1f);
+        }
+    }
+
+    public virtual void OnHit(BigNumber _dmg, float _crit)
+    {
+
     }
 
     public virtual void OnHit(string _targetName)
@@ -19,11 +37,6 @@ public class CharacterModelPart : MonoBehaviour, ITakenDamage
     }
 
     public virtual void OnHit(GameObject _go)
-    {
-
-    }
-
-    private void OnTriggerEnter(Collider other)
     {
 
     }

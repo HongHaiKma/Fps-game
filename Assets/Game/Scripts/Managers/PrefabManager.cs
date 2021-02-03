@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-10)]
 public class PrefabManager : Singleton<PrefabManager>
 {
     private Dictionary<string, GameObject> m_IngameObjectPrefabDict = new Dictionary<string, GameObject>();
@@ -13,6 +14,9 @@ public class PrefabManager : Singleton<PrefabManager>
     private Dictionary<string, GameObject> m_VFXPrefabDict = new Dictionary<string, GameObject>();
     public GameObject[] m_VFXPrefabs;
 
+    private Dictionary<string, GameObject> m_CharPrefabDict = new Dictionary<string, GameObject>();
+    public GameObject[] m_CharPrefabs;
+
     private void Awake()
     {
         InitPrefab();
@@ -21,8 +25,11 @@ public class PrefabManager : Singleton<PrefabManager>
 
     public void InitIngamePrefab()
     {
-        string bullet = ConfigName.bullet1;
-        CreatePool(bullet, GetBulletPrefabByName(bullet), 5);
+        string char1 = ConfigName.char1;
+        CreatePool(char1, GetCharPrefabByName(char1), 2);
+
+        string bullet1 = ConfigName.bullet1;
+        CreatePool(bullet1, GetBulletPrefabByName(bullet1), 5);
 
         string vfx1 = ConfigName.vfx1;
         CreatePool(vfx1, GetVFXPrefabByName(vfx1), 5);
@@ -38,6 +45,20 @@ public class PrefabManager : Singleton<PrefabManager>
             try
             {
                 m_IngameObjectPrefabDict.Add(iName, iPrefab);
+            }
+            catch (System.Exception)
+            {
+                continue;
+            }
+        }
+        for (int i = 0; i < m_CharPrefabs.Length; i++)
+        {
+            GameObject iPrefab = m_CharPrefabs[i];
+            if (iPrefab == null) continue;
+            string iName = iPrefab.name;
+            try
+            {
+                m_CharPrefabDict.Add(iName, iPrefab);
             }
             catch (System.Exception)
             {
@@ -110,6 +131,35 @@ public class PrefabManager : Singleton<PrefabManager>
         if (m_IngameObjectPrefabDict.TryGetValue(name, out rPrefab))
         {
             return rPrefab;
+        }
+        return null;
+    }
+
+    public GameObject GetCharPrefabByName(string name)
+    {
+        if (m_CharPrefabDict.ContainsKey(name))
+        {
+            return m_CharPrefabDict[name];
+        }
+        return null;
+    }
+
+    public GameObject SpawnCharPool(string name, Vector3 pos)
+    {
+        if (SimplePool.IsHasPool(name))
+        {
+            GameObject go = SimplePool.Spawn(name, pos, Quaternion.identity);
+            return go;
+        }
+        else
+        {
+            GameObject prefab = GetCharPrefabByName(name);
+            if (prefab != null)
+            {
+                SimplePool.Preload(prefab, 1, name);
+                GameObject go = SpawnPool(name, pos);
+                return go;
+            }
         }
         return null;
     }

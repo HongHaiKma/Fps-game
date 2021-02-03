@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum GameEvent
-{
-    SET_CHAR_CROSSHAIR_POS = 0,
-    Set_CMLOOK_VALUE = 1
-}
-
+[DefaultExecutionOrder(-11)]
 public class EventManager
 {
     public static Dictionary<GameEvent, List<Action>> EventDictionary = new Dictionary<GameEvent, List<Action>>();
@@ -81,4 +76,11 @@ public class EventManagerWithParam<T>
     {
         EventDictionaryWithParam.Clear();
     }
+}
+
+public enum GameEvent
+{
+    SET_CHAR_CROSSHAIR_POS = 0,
+    SET_CMLOOK_VALUE = 1,
+    SET_CMLOOK_TARGET = 2
 }

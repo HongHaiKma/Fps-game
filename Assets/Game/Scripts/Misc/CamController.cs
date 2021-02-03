@@ -5,6 +5,7 @@ using Cinemachine;
 
 public class CamController : Singleton<CamController>
 {
+    public Character m_Char;
     public Transform tf_Owner;
     public Transform tf_CamCrosshair;
     public LayerMask m_LayerMask;
@@ -25,12 +26,14 @@ public class CamController : Singleton<CamController>
 
     public void StartListenToEvents()
     {
-        EventManagerWithParam<Vector2>.AddListener(GameEvent.Set_CMLOOK_VALUE, SetCMLookAxisValue);
+        EventManagerWithParam<Vector2>.AddListener(GameEvent.SET_CMLOOK_VALUE, SetCMLookAxisValue);
+        EventManagerWithParam<bool>.AddListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
     }
 
     public void StopListenToEvents()
     {
-        EventManagerWithParam<Vector2>.RemoveListener(GameEvent.Set_CMLOOK_VALUE, SetCMLookAxisValue);
+        EventManagerWithParam<Vector2>.RemoveListener(GameEvent.SET_CMLOOK_VALUE, SetCMLookAxisValue);
+        EventManagerWithParam<bool>.RemoveListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
     }
 
     void FixedUpdate()
@@ -80,5 +83,59 @@ public class CamController : Singleton<CamController>
             m_CMFreeLook.m_XAxis.m_InputAxisValue = 0f;
             m_CMFreeLook.m_YAxis.m_InputAxisValue = 0f;
         }
+    }
+
+    public void ChangeCameraToAnotherChar(bool _init)
+    {
+        if (_init)
+        {
+            List<Character> chars = InGameObjectsManager.Instance.m_Team1;
+
+            int a = Random.Range(0, chars.Count - 1);
+            m_CMFreeLook.Follow = chars[a].tf_Owner;
+            m_CMFreeLook.LookAt = chars[a].tf_Head;
+
+            m_Char = null;
+            m_Char = chars[a];
+            m_Char.m_AI = false;
+            m_Char.nav_Agent.enabled = false;
+
+            return;
+        }
+
+        if (m_Char.gameObject.activeInHierarchy)
+        {
+            m_Char.m_AI = true;
+            m_Char.nav_Agent.enabled = true;
+
+            List<Character> chars = InGameObjectsManager.Instance.m_Team1;
+
+            int a = Random.Range(0, chars.Count - 1);
+            m_CMFreeLook.Follow = chars[a].tf_Owner;
+            m_CMFreeLook.LookAt = chars[a].tf_Head;
+
+            m_Char = null;
+            m_Char = chars[a];
+            m_Char.m_AI = false;
+            m_Char.nav_Agent.enabled = false;
+        }
+        else
+        {
+            List<Character> chars = InGameObjectsManager.Instance.m_Team1;
+
+            int a = Random.Range(0, chars.Count - 1);
+            m_CMFreeLook.Follow = chars[a].tf_Owner;
+            m_CMFreeLook.LookAt = chars[a].tf_Head;
+
+            m_Char = null;
+            m_Char = chars[a];
+            m_Char.m_AI = false;
+            m_Char.nav_Agent.enabled = false;
+        }
+    }
+
+    public void Test()
+    {
+        EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
     }
 }

@@ -6,6 +6,7 @@ tree("Root")
 				while
 					sequence
 						IsAI
+						HasTarget
 					sequence
 						parallel
 							repeat mute tree("Moving")

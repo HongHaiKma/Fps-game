@@ -9,6 +9,12 @@ using Panda;
 
 public class Character : InGameObject
 {
+    [Header("---Charcteristics---")]
+    public TEAM m_Team;
+    public bool m_AI;
+    public BigNumber m_Dmg;
+    public BigNumber m_Hp;
+
     [Header("---Components---")]
     public Transform tf_Owner;
     public Animator anim_Onwer;
@@ -35,11 +41,11 @@ public class Character : InGameObject
     public int m_ShootBullet;
     public int m_MaxBullet;
     public int m_CurrentBullet;
-    public bool m_AI;
 
     [Header("---Range---")]
     public float m_ShootRange;
     public float m_ChaseRange;
+    public float m_ChaseStopRange;
 
     [Header("---Cooldown---")]
     public float m_RotateCd;
@@ -59,6 +65,7 @@ public class Character : InGameObject
     {
         ResetAllCooldown();
         LoadCharacterConfig();
+        SetupComponents();
         StartListenToEvents();
     }
 
@@ -114,9 +121,12 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
+        m_Dmg = 10;
+        m_Hp = 20;
+
         if (!m_AI)
         {
-            m_ShootRange = 20f;
+            m_ShootRange = 6.5f;
         }
         else
         {
@@ -124,18 +134,26 @@ public class Character : InGameObject
         }
 
         m_ChaseRange = 9f;
+        m_ChaseStopRange = 6f;
 
         m_RotateCdMax = 2.5f;
         m_AimModelCdMax = 4f;
 
         if (!m_AI)
         {
-            m_ShootCdMax = 0.5f;
+            m_ShootCdMax = 2f;
         }
         else
         {
             m_ShootCdMax = 2f;
         }
+    }
+
+    public void SetupComponents()
+    {
+        m_AI = true;
+        nav_Agent.enabled = true;
+        nav_Agent.stoppingDistance = m_ChaseStopRange;
     }
 
     public void ResetAllCooldown()
@@ -157,6 +175,12 @@ public class Character : InGameObject
     public bool IsAI()
     {
         return m_AI;
+    }
+
+    [Task]
+    public bool HasTarget()
+    {
+        return (tf_Target != null);
     }
 
     #region PLAYER INPUT
@@ -196,12 +220,12 @@ public class Character : InGameObject
         Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
         // Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 0.35f;
 
-        EventManagerWithParam<Vector2>.CallEvent(GameEvent.Set_CMLOOK_VALUE, mouseInput);
+        EventManagerWithParam<Vector2>.CallEvent(GameEvent.SET_CMLOOK_VALUE, mouseInput);
 
         if (Input.GetMouseButtonDown(0))
         {
             string bulletS = ConfigName.bullet1;
-            BulletInfor infor = new BulletInfor(bulletS, tf_FirePoint.rotation);
+            BulletInfor infor = new BulletInfor(m_Dmg, bulletS, tf_FirePoint.rotation);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
@@ -216,7 +240,6 @@ public class Character : InGameObject
     {
         anim_Onwer.SetFloat("InputY", 1);
         nav_Agent.SetDestination(tf_Target.position);
-        Debug.Log("ON CHASING!!!!");
     }
 
     [Task]
@@ -228,6 +251,16 @@ public class Character : InGameObject
         //     Debug.Log("CAN CHASE!!!!!!!!!");
         // }
         // anim_Onwer.SetFloat("InputY", 1);
+        // if (m_Team == TEAM1)
+        // {
+
+        // }
+
+        // if (tf_Target == null)
+        // {
+        //     return false
+        // }
+
         return Helper.InRange(tf_Owner.position, tf_Target.position, m_ChaseRange);
     }
     #endregion
@@ -239,7 +272,7 @@ public class Character : InGameObject
         for (int i = 0; i < m_ShootBullet; i++)
         {
             string bulletS = ConfigName.bullet1;
-            BulletInfor infor = new BulletInfor(bulletS, tf_FirePoint.rotation);
+            BulletInfor infor = new BulletInfor(m_Dmg, bulletS, tf_FirePoint.rotation);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
@@ -379,12 +412,16 @@ public class Character : InGameObject
     #region IDLING ATTACK
 
     [Task]
+    public bool CanStopChasing()
+    {
+        return Helper.InRange(tf_Owner.position, tf_Target.position, m_ChaseStopRange);
+    }
+
+    [Task]
     public void OnIdlingAttack()
     {
         anim_Onwer.SetFloat("InputY", 0);
         anim_Onwer.SetFloat("InputX", 0);
-
-        Debug.Log("IDLING ATTACK!!!");
     }
 
     #endregion
@@ -399,15 +436,51 @@ public class Character : InGameObject
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    public override void OnHit(BigNumber _dmg, float _crit)
     {
-        // Helper.DebugLog("Enemy hit!!!");
+        ApplyDamage(_dmg, _crit);
+    }
+
+    public void ApplyDamage(BigNumber _dmg, float _crit)
+    {
+        m_Hp -= _dmg * _crit;
+
+        if (IsDead())
+        {
+            PrefabManager.Instance.DespawnPool(gameObject);
+
+            if (m_Team == TEAM.Team1)
+            {
+                Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)];
+                Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
+                charrr.m_Team = TEAM.Team1;
+                InGameObjectsManager.Instance.m_Team1.Add(charrr);
+                // charrr.tf_Target = InGameObjectsManager.Instance.m_Team2[Random.Range(0, InGameObjectsManager.Instance.m_Team2.Count - 1)].tf_Owner;
+            }
+            else if (m_Team == TEAM.Team2)
+            {
+                Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)];
+                Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
+                charrr.m_Team = TEAM.Team2;
+                InGameObjectsManager.Instance.m_Team2.Add(charrr);
+                // charrr.tf_Target = InGameObjectsManager.Instance.m_Team1[Random.Range(0, InGameObjectsManager.Instance.m_Team1.Count - 1)].tf_Owner;
+            }
+
+            EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
+        }
+    }
+
+    public bool IsDead()
+    {
+        return (m_Hp <= 0);
     }
 }
 
 public interface ITakenDamage
 {
     void OnHit();
+    void OnHit(BigNumber _dmg);
+    void OnHit(BigNumber _dmg, float _crit);
     void OnHit(string _targetName);
     void OnHit(GameObject _go);
 }
@@ -416,4 +489,10 @@ public enum AimBodyPart
 {
     HEAD = 0,
     BODY = 1
+}
+
+public enum TEAM
+{
+    Team1 = 1,
+    Team2 = 2
 }

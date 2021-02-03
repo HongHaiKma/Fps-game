@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Bullet : InGameObject
 {
+    [Header("---Charcteristics---")]
+    public BigNumber m_Dmg;
+
     [Header("---Components---")]
     public Transform tf_Onwer;
     public Collider col_Onwer;
@@ -33,6 +36,7 @@ public class Bullet : InGameObject
 
     public void SetupBullet(BulletInfor _bulletInfor)
     {
+        m_Dmg = _bulletInfor.m_Dmg;
         tf_Onwer.rotation = _bulletInfor.m_Rotation;
     }
 
@@ -72,11 +76,9 @@ public class Bullet : InGameObject
         if (!m_Collided)
         {
             m_Collided = true;
-            // col_Onwer.enabled = false;
 
             SpawnVFX(v3_CollisionPoint);
             PrefabManager.Instance.DespawnPool(gameObject);
-            Debug.Log("Bullet just despawn no damage!!!");
         }
     }
 
@@ -92,34 +94,26 @@ public class Bullet : InGameObject
         if (!m_Collided)
         {
             m_Collided = true;
-            // col_Onwer.enabled = false;
 
             SpawnVFX(v3_CollisionPoint);
             PrefabManager.Instance.DespawnPool(gameObject);
-            Debug.Log("bullet called!!!");
 
             ITakenDamage iTaken = _go.GetComponent<ITakenDamage>();
 
-            if (iTaken != null)
-            {
-                iTaken.OnHit();
-                Debug.Log("Target != null");
-            }
-            else
-            {
-                Debug.Log("Target == null");
-            }
+            iTaken.OnHit(m_Dmg);
         }
     }
 }
 
 public class BulletInfor
 {
+    public BigNumber m_Dmg;
     public string m_PrefabName;
     public Quaternion m_Rotation;
 
-    public BulletInfor(string _prefabName, Quaternion _rotation)
+    public BulletInfor(BigNumber _dmg, string _prefabName, Quaternion _rotation)
     {
+        m_Dmg = _dmg;
         m_PrefabName = _prefabName;
         m_Rotation = _rotation;
     }

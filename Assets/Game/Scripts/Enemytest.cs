@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemytest : MonoBehaviour, ITakenDamage
+public class Enemytest : MonoBehaviour
 {
     public virtual void OnHit()
+    {
+
+    }
+
+    public virtual void OnHit(BigNumber _dmg, float _crit)
     {
 
     }
