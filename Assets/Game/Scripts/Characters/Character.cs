@@ -56,16 +56,15 @@ public class Character : InGameObject
     public float m_AimModelCdMax;
 
     [Header("---Test---")]
-    public Transform tf_Target;
-
-    // P
+    public Character m_Target;
+    public SkinnedMeshRenderer m_SkinnedMesh;
 
 
     private void OnEnable()
     {
         ResetAllCooldown();
-        LoadCharacterConfig();
-        SetupComponents();
+        // LoadCharacterConfig();
+        // SetupComponents();
         StartListenToEvents();
     }
 
@@ -77,11 +76,13 @@ public class Character : InGameObject
     public void StartListenToEvents()
     {
         EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
+        EventManager.AddListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
     }
 
     public void StopListenToEvents()
     {
         EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
+        EventManager.RemoveListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
     }
 
     void Start()
@@ -133,7 +134,8 @@ public class Character : InGameObject
             m_ShootRange = 6.5f;
         }
 
-        m_ChaseRange = 9f;
+        // m_ChaseRange = 9f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 6f;
 
         m_RotateCdMax = 2.5f;
@@ -154,6 +156,15 @@ public class Character : InGameObject
         m_AI = true;
         nav_Agent.enabled = true;
         nav_Agent.stoppingDistance = m_ChaseStopRange;
+
+        if (m_Team == TEAM.Team1)
+        {
+            m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[0];
+        }
+        else if (m_Team == TEAM.Team2)
+        {
+            m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[1];
+        }
     }
 
     public void ResetAllCooldown()
@@ -180,7 +191,7 @@ public class Character : InGameObject
     [Task]
     public bool HasTarget()
     {
-        return (tf_Target != null);
+        return (m_Target != null);
     }
 
     #region PLAYER INPUT
@@ -222,14 +233,14 @@ public class Character : InGameObject
 
         EventManagerWithParam<Vector2>.CallEvent(GameEvent.SET_CMLOOK_VALUE, mouseInput);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            string bulletS = ConfigName.bullet1;
-            BulletInfor infor = new BulletInfor(m_Dmg, bulletS, tf_FirePoint.rotation);
-            GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
-            Bullet bullet = go.GetComponent<Bullet>();
-            bullet.SetupBullet(infor);
-        }
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     string bulletS = ConfigName.bullet1;
+        //     BulletInfor infor = new BulletInfor(m_Dmg, bulletS, tf_FirePoint.rotation);
+        //     GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
+        //     Bullet bullet = go.GetComponent<Bullet>();
+        //     bullet.SetupBullet(infor);
+        // }
     }
 
     #endregion
@@ -239,7 +250,7 @@ public class Character : InGameObject
     public void OnChasing()
     {
         anim_Onwer.SetFloat("InputY", 1);
-        nav_Agent.SetDestination(tf_Target.position);
+        nav_Agent.SetDestination(m_Target.tf_Owner.position);
     }
 
     [Task]
@@ -261,7 +272,19 @@ public class Character : InGameObject
         //     return false
         // }
 
-        return Helper.InRange(tf_Owner.position, tf_Target.position, m_ChaseRange);
+        return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseRange);
+    }
+
+    public void SetCharTarget()
+    {
+        if (m_Team == TEAM.Team1)
+        {
+            m_Target = InGameObjectsManager.Instance.GetRandomTeam2();
+        }
+        else if (m_Team == TEAM.Team2)
+        {
+            m_Target = InGameObjectsManager.Instance.GetRandomTeam1();
+        }
     }
     #endregion
 
@@ -321,8 +344,24 @@ public class Character : InGameObject
         //     }
         // }
 
+        Character charrr = hit[index].transform.GetComponent<Character>();
+
+
+
         if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
         {
+            if (charrr != null)
+            {
+                if (m_Team != charrr.m_Team)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -338,7 +377,7 @@ public class Character : InGameObject
         SetTargetBodyPart();
         SetCrosshairToBodyPartPos();
 
-        Vector3 lookPos = tf_Target.position - tf_Owner.position;
+        Vector3 lookPos = m_Target.tf_Owner.position - tf_Owner.position;
         lookPos.y = 0;
         Quaternion rotation = Quaternion.LookRotation(lookPos);
         tf_Owner.rotation = Quaternion.Slerp(tf_Owner.rotation, rotation, Time.deltaTime * 5f);
@@ -363,7 +402,7 @@ public class Character : InGameObject
 
     public void SetCrosshairToBodyPartPos()
     {
-        Character charTarget = tf_Target.GetComponent<Character>();
+        Character charTarget = m_Target;
 
         switch (m_AimBodyPart)
         {
@@ -414,7 +453,7 @@ public class Character : InGameObject
     [Task]
     public bool CanStopChasing()
     {
-        return Helper.InRange(tf_Owner.position, tf_Target.position, m_ChaseStopRange);
+        return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange);
     }
 
     [Task]
@@ -443,10 +482,13 @@ public class Character : InGameObject
 
     public void ApplyDamage(BigNumber _dmg, float _crit)
     {
+        EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
+
         m_Hp -= _dmg * _crit;
 
         if (IsDead())
         {
+            InGameObjectsManager.Instance.RemoveDeadChar(m_Team, this);
             PrefabManager.Instance.DespawnPool(gameObject);
 
             if (m_Team == TEAM.Team1)
@@ -454,6 +496,8 @@ public class Character : InGameObject
                 Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)];
                 Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
                 charrr.m_Team = TEAM.Team1;
+                charrr.LoadCharacterConfig();
+                charrr.SetupComponents();
                 InGameObjectsManager.Instance.m_Team1.Add(charrr);
                 // charrr.tf_Target = InGameObjectsManager.Instance.m_Team2[Random.Range(0, InGameObjectsManager.Instance.m_Team2.Count - 1)].tf_Owner;
             }
@@ -462,11 +506,16 @@ public class Character : InGameObject
                 Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)];
                 Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
                 charrr.m_Team = TEAM.Team2;
+                charrr.LoadCharacterConfig();
+                charrr.SetupComponents();
                 InGameObjectsManager.Instance.m_Team2.Add(charrr);
                 // charrr.tf_Target = InGameObjectsManager.Instance.m_Team1[Random.Range(0, InGameObjectsManager.Instance.m_Team1.Count - 1)].tf_Owner;
             }
 
-            EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
+            if (!m_AI)
+            {
+                EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, false);
+            }
         }
     }
 

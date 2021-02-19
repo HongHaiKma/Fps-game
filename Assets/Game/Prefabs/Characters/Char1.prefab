@@ -3510,6 +3510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Team: 0
+  m_AI: 0
   m_Dmg:
     v: 0
     m: 0
@@ -3534,7 +3535,6 @@ MonoBehaviour:
   m_ShootBullet: 0
   m_MaxBullet: 0
   m_CurrentBullet: 0
-  m_AI: 0
   m_ShootRange: 0
   m_ChaseRange: 0
   m_ChaseStopRange: 0
@@ -3544,7 +3544,8 @@ MonoBehaviour:
   m_ShootCdMax: 0
   m_AimModelCd: 0
   m_AimModelCdMax: 0
-  tf_Target: {fileID: 0}
+  m_Target: {fileID: 0}
+  m_SkinnedMesh: {fileID: 6852051144073405218}
 --- !u!195 &8450222287639211846
 NavMeshAgent:
   m_ObjectHideFlags: 0

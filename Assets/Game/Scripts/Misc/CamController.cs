@@ -36,6 +36,18 @@ public class CamController : Singleton<CamController>
         EventManagerWithParam<bool>.RemoveListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
     }
 
+    private void Update()
+    {
+        if (m_Char != null)
+        {
+            if (m_Char.m_AI)
+            {
+                m_Char.m_AI = false;
+                m_Char.nav_Agent.enabled = false;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
@@ -87,50 +99,78 @@ public class CamController : Singleton<CamController>
 
     public void ChangeCameraToAnotherChar(bool _init)
     {
+        // if (m_Char != null)
+        // {
+        //     m_Char.m_AI = true;
+        //     m_Char.nav_Agent.enabled = true;
+        // }
+
         if (_init)
         {
+            if (m_Char != null)
+            {
+                m_Char.m_AI = true;
+                m_Char.nav_Agent.enabled = true;
+            }
+
             List<Character> chars = InGameObjectsManager.Instance.m_Team1;
 
-            int a = Random.Range(0, chars.Count - 1);
+            int a = Random.Range(0, chars.Count);
+            chars[a].m_AI = false;
+            chars[a].nav_Agent.enabled = false;
+
             m_CMFreeLook.Follow = chars[a].tf_Owner;
             m_CMFreeLook.LookAt = chars[a].tf_Head;
 
             m_Char = null;
             m_Char = chars[a];
-            m_Char.m_AI = false;
-            m_Char.nav_Agent.enabled = false;
+            // m_Char.m_AI = false;
+            // m_Char.nav_Agent.enabled = false;
 
             return;
         }
 
         if (m_Char.gameObject.activeInHierarchy)
         {
-            m_Char.m_AI = true;
-            m_Char.nav_Agent.enabled = true;
+            if (m_Char != null)
+            {
+                m_Char.m_AI = true;
+                m_Char.nav_Agent.enabled = true;
+            }
 
             List<Character> chars = InGameObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count - 1);
+            chars[a].m_AI = false;
+            chars[a].nav_Agent.enabled = false;
             m_CMFreeLook.Follow = chars[a].tf_Owner;
             m_CMFreeLook.LookAt = chars[a].tf_Head;
 
             m_Char = null;
             m_Char = chars[a];
-            m_Char.m_AI = false;
-            m_Char.nav_Agent.enabled = false;
+            // m_Char.m_AI = false;
+            // m_Char.nav_Agent.enabled = false;
         }
         else
         {
+            if (m_Char != null)
+            {
+                m_Char.m_AI = true;
+                m_Char.nav_Agent.enabled = true;
+            }
+
             List<Character> chars = InGameObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count - 1);
+            chars[a].m_AI = false;
+            chars[a].nav_Agent.enabled = false;
             m_CMFreeLook.Follow = chars[a].tf_Owner;
             m_CMFreeLook.LookAt = chars[a].tf_Head;
 
             m_Char = null;
             m_Char = chars[a];
-            m_Char.m_AI = false;
-            m_Char.nav_Agent.enabled = false;
+            // m_Char.m_AI = false;
+            // m_Char.nav_Agent.enabled = false;
         }
     }
 

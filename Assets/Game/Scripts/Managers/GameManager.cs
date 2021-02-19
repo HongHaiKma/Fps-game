@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public List<Character> m_Team1;
-    public List<Character> m_Team2;
-
     private void Awake()
     {
         Application.targetFrameRate = 60;
