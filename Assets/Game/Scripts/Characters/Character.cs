@@ -134,8 +134,8 @@ public class Character : InGameObject
             m_ShootRange = 6.5f;
         }
 
-        // m_ChaseRange = 9f;
-        m_ChaseRange = Mathf.Infinity;
+        m_ChaseRange = 9f;
+        // m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 6f;
 
         m_RotateCdMax = 2.5f;
@@ -233,14 +233,14 @@ public class Character : InGameObject
 
         EventManagerWithParam<Vector2>.CallEvent(GameEvent.SET_CMLOOK_VALUE, mouseInput);
 
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     string bulletS = ConfigName.bullet1;
-        //     BulletInfor infor = new BulletInfor(m_Dmg, bulletS, tf_FirePoint.rotation);
-        //     GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
-        //     Bullet bullet = go.GetComponent<Bullet>();
-        //     bullet.SetupBullet(infor);
-        // }
+        if (Input.GetMouseButtonDown(0))
+        {
+            string bulletS = ConfigName.bullet1;
+            BulletConfigData infor = new BulletConfigData(m_Dmg, bulletS, tf_FirePoint.rotation);
+            GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
+            Bullet bullet = go.GetComponent<Bullet>();
+            bullet.SetupBullet(infor);
+        }
     }
 
     #endregion
@@ -295,12 +295,15 @@ public class Character : InGameObject
         for (int i = 0; i < m_ShootBullet; i++)
         {
             string bulletS = ConfigName.bullet1;
-            BulletInfor infor = new BulletInfor(m_Dmg, bulletS, tf_FirePoint.rotation);
+            BulletConfigData infor = new BulletConfigData(m_Dmg, bulletS, tf_FirePoint.rotation);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
 
-            // Debug.Log("OnShooting!!!");
+            if (!m_AI)
+            {
+                Debug.Log("OnShooting!!!");
+            }
         }
 
         m_ShootCd = 0f;

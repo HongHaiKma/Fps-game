@@ -48,10 +48,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30094c691b8f034fa382d3137b83846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Dmg:
+    v: 0
+    m: 0
   tf_Onwer: {fileID: 1933021457815705096}
   col_Onwer: {fileID: 4710477348562157043}
   v3_CollisionPoint: {x: 0, y: 0, z: 0}
-  m_MoveSpd: 100
+  m_MoveSpd: 50
   m_FlyingTime: 0
   m_FlyingTimeMax: 0
   m_Collided: 0

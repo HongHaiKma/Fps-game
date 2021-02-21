@@ -34,7 +34,7 @@ public class Bullet : InGameObject
         // col_Onwer.enabled = false;
     }
 
-    public void SetupBullet(BulletInfor _bulletInfor)
+    public void SetupBullet(BulletConfigData _bulletInfor)
     {
         m_Dmg = _bulletInfor.m_Dmg;
         tf_Onwer.rotation = _bulletInfor.m_Rotation;
@@ -102,19 +102,5 @@ public class Bullet : InGameObject
 
             iTaken.OnHit(m_Dmg);
         }
-    }
-}
-
-public class BulletInfor
-{
-    public BigNumber m_Dmg;
-    public string m_PrefabName;
-    public Quaternion m_Rotation;
-
-    public BulletInfor(BigNumber _dmg, string _prefabName, Quaternion _rotation)
-    {
-        m_Dmg = _dmg;
-        m_PrefabName = _prefabName;
-        m_Rotation = _rotation;
     }
 }
