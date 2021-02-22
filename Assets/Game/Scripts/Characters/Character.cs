@@ -109,6 +109,30 @@ public class Character : InGameObject
         {
             m_AimModelCd += Time.deltaTime;
         }
+
+        // if (m_AI)
+        // {
+        //     if (nav_Agent.pathStatus == NavMeshPathStatus.PathComplete)
+        //     {
+        //         Debug.Log("Path complete!!!");
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Notttttttttttttt");
+        //     }
+        // }
+
+        if (m_AI)
+        {
+            if (tf_Owner.position == nav_Agent.destination)
+            {
+                Debug.Log("Path complete!!!");
+            }
+            else
+            {
+                Debug.Log("Notttttttttttttt");
+            }
+        }
     }
 
     void FixedUpdate()
@@ -134,8 +158,8 @@ public class Character : InGameObject
             m_ShootRange = 6.5f;
         }
 
-        m_ChaseRange = 9f;
-        // m_ChaseRange = Mathf.Infinity;
+        // m_ChaseRange = 9f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 6f;
 
         m_RotateCdMax = 2.5f;
@@ -251,6 +275,11 @@ public class Character : InGameObject
     {
         anim_Onwer.SetFloat("InputY", 1);
         nav_Agent.SetDestination(m_Target.tf_Owner.position);
+
+        // NavMeshPath path;
+        // nav_Agent.CalculatePath(m_Target.tf_Owner.position, nav_Agent.path); //Saves the path in the path variable.
+        // Vector3[] corners = path.corners;
+        // lineRenderer.SetPositions(corners);
     }
 
     [Task]
@@ -456,7 +485,9 @@ public class Character : InGameObject
     [Task]
     public bool CanStopChasing()
     {
-        return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange);
+        // return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange) && (tf_Owner.position == nav_Agent.pathEndPosition);
+        return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange) && Helper.InRange(tf_Owner.position, nav_Agent.pathEndPosition, 0f);
+        // return (nav_Agent.pathStatus == NavMeshPathStatus.PathComplete);
     }
 
     [Task]
