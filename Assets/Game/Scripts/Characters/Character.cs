@@ -50,18 +50,27 @@ public class Character : InGameObject
     [Header("---Cooldown---")]
     public float m_RotateCd;
     public float m_RotateCdMax;
+
     public float m_ShootCd;
     public float m_ShootCdMax;
+
     public float m_AimModelCd;
     public float m_AimModelCdMax;
+
+    public float m_StopChaseCd;
+    public float m_StopChaseCdMax;
 
     [Header("---Test---")]
     public Character m_Target;
     public SkinnedMeshRenderer m_SkinnedMesh;
+    private Vector3 oldPos;
+    private Vector3 newPos;
 
 
     private void OnEnable()
     {
+        oldPos = tf_Owner.position;
+        newPos = tf_Owner.position;
         ResetAllCooldown();
         // LoadCharacterConfig();
         // SetupComponents();
@@ -110,6 +119,16 @@ public class Character : InGameObject
             m_AimModelCd += Time.deltaTime;
         }
 
+        if (m_StopChaseCd < m_StopChaseCdMax)
+        {
+            m_StopChaseCd += Time.deltaTime;
+        }
+        else
+        {
+            SetDestination(m_Target.tf_Owner.position);
+            m_StopChaseCd = 0f;
+        }
+
         // if (m_AI)
         // {
         //     if (nav_Agent.pathStatus == NavMeshPathStatus.PathComplete)
@@ -122,17 +141,37 @@ public class Character : InGameObject
         //     }
         // }
 
-        if (m_AI)
+        // if (m_AI)
+        // {
+        //     if (tf_Owner.position == nav_Agent.destination)
+        //     {
+        //         Debug.Log("Path complete!!!");
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Notttttttttttttt");
+        //     }
+        // }
+
+        // if (!m_AI)
+        // {
+        //     IsMoving();
+        // }
+    }
+
+
+    public bool IsMoving()
+    {
+        oldPos = tf_Owner.position;
+
+        if ((oldPos - newPos).magnitude > 0.5f)
         {
-            if (tf_Owner.position == nav_Agent.destination)
-            {
-                Debug.Log("Path complete!!!");
-            }
-            else
-            {
-                Debug.Log("Notttttttttttttt");
-            }
+            newPos = oldPos;
+            return true;
         }
+
+        return false;
+        // newPos = oldPos;
     }
 
     void FixedUpdate()
@@ -173,6 +212,8 @@ public class Character : InGameObject
         {
             m_ShootCdMax = 2f;
         }
+
+        m_StopChaseCdMax = 3f;
     }
 
     public void SetupComponents()
@@ -196,6 +237,7 @@ public class Character : InGameObject
         m_RotateCd = 0f;
         m_AimModelCd = 0f;
         m_ShootCd = 0f;
+        m_StopChaseCd = 0f;
     }
 
     public void SetOwnerCrosshairPos(Vector3 _pos)
@@ -274,8 +316,8 @@ public class Character : InGameObject
     public void OnChasing()
     {
         anim_Onwer.SetFloat("InputY", 1);
-        nav_Agent.SetDestination(m_Target.tf_Owner.position);
-
+        // nav_Agent.SetDestination(m_Target.tf_Owner.position);
+        SetDestination(m_Target.tf_Owner.position);
         // NavMeshPath path;
         // nav_Agent.CalculatePath(m_Target.tf_Owner.position, nav_Agent.path); //Saves the path in the path variable.
         // Vector3[] corners = path.corners;
@@ -485,9 +527,14 @@ public class Character : InGameObject
     [Task]
     public bool CanStopChasing()
     {
-        // return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange) && (tf_Owner.position == nav_Agent.pathEndPosition);
-        return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange) && Helper.InRange(tf_Owner.position, nav_Agent.pathEndPosition, 0f);
-        // return (nav_Agent.pathStatus == NavMeshPathStatus.PathComplete);
+        if (m_Target.IsMoving())
+        {
+            SetDestination(m_Target.tf_Owner.position);
+            anim_Onwer.SetFloat("InputY", 1);
+            return false;
+        }
+        SetDestination(m_Target.tf_Owner.position);
+        return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange);
     }
 
     [Task]
@@ -557,6 +604,15 @@ public class Character : InGameObject
     {
         return (m_Hp <= 0);
     }
+
+    #region NavMesh
+
+    public void SetDestination(Vector3 _des)
+    {
+        nav_Agent.SetDestination(_des);
+    }
+
+    #endregion
 }
 
 public interface ITakenDamage
