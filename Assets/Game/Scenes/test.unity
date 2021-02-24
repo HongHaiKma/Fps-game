@@ -5679,7 +5679,10 @@ MonoBehaviour:
   m_Char: {fileID: 0}
   tf_Owner: {fileID: 1413269312}
   tf_CamCrosshair: {fileID: 0}
-  m_LayerMask:
+  lm_Char:
+    serializedVersion: 2
+    m_Bits: 0
+  lm_Ignore:
     serializedVersion: 2
     m_Bits: 0
   m_CMFreeLook: {fileID: 0}
@@ -6263,6 +6266,8 @@ MonoBehaviour:
   m_ShootCdMax: 0
   m_AimModelCd: 0
   m_AimModelCdMax: 0
+  m_StopChaseCd: 0
+  m_StopChaseCdMax: 0
   m_Target: {fileID: 0}
   m_SkinnedMesh: {fileID: 0}
 --- !u!114 &1672988980
@@ -8426,9 +8431,12 @@ MonoBehaviour:
   m_Char: {fileID: 0}
   tf_Owner: {fileID: 2102282405918452168}
   tf_CamCrosshair: {fileID: 2102282405382403271}
-  m_LayerMask:
+  lm_Char:
     serializedVersion: 2
     m_Bits: 128
+  lm_Ignore:
+    serializedVersion: 2
+    m_Bits: 1
   m_CMFreeLook: {fileID: 4841833163429475270}
 --- !u!65 &2102282405918452174
 BoxCollider:

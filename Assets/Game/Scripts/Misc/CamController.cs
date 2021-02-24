@@ -8,7 +8,8 @@ public class CamController : Singleton<CamController>
     public Character m_Char;
     public Transform tf_Owner;
     public Transform tf_CamCrosshair;
-    public LayerMask m_LayerMask;
+    public LayerMask lm_Char;
+    public LayerMask lm_Ignore;
 
     public CinemachineFreeLook m_CMFreeLook;
 
@@ -59,7 +60,7 @@ public class CamController : Singleton<CamController>
     public void CheckShoot()
     {
         Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
-        RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f);
+        RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 10f, Mathf.Infinity);
         EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
 
         int hitCount = hit.Length;
@@ -71,7 +72,7 @@ public class CamController : Singleton<CamController>
 
         for (int i = 0; i < hitCount; i++)
         {
-            if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
+            if ((lm_Char.value & (1 << hit[i].transform.gameObject.layer)) > 0)
             {
                 tf_CamCrosshair.position = hit[i].point;
                 EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
