@@ -81,12 +81,12 @@ public class CamController : Singleton<CamController>
                 break;
             }
 
-            if ((lm_Ignore.value & (1 << hit[i].transform.gameObject.layer)) > 0)
-            {
-                tf_CamCrosshair.position = hit[0].point;
-                EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
-                continue;
-            }
+            // if ((lm_Ignore.value & (1 << hit[i].transform.gameObject.layer)) > 0)
+            // {
+            //     // tf_CamCrosshair.position = hit[0].point;
+            //     // EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+            //     continue;
+            // }
 
             tf_CamCrosshair.position = hit[0].point;
             EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
