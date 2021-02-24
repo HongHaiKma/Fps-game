@@ -60,7 +60,9 @@ public class CamController : Singleton<CamController>
     public void CheckShoot()
     {
         Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
-        RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 10f, Mathf.Infinity);
+        RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward);
+        // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity);
+        // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity, lm_Ignore);
         EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
 
         int hitCount = hit.Length;
@@ -77,6 +79,13 @@ public class CamController : Singleton<CamController>
                 tf_CamCrosshair.position = hit[i].point;
                 EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
                 break;
+            }
+
+            if ((lm_Ignore.value & (1 << hit[i].transform.gameObject.layer)) > 0)
+            {
+                tf_CamCrosshair.position = hit[0].point;
+                EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+                continue;
             }
 
             tf_CamCrosshair.position = hit[0].point;
