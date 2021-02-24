@@ -9,17 +9,18 @@ using Panda;
 
 public class Character : InGameObject
 {
+    [Header("---Components---")]
+    public Rigidbody rb_Owner;
+    public Transform tf_Owner;
+    public Animator anim_Onwer;
+    public NavMeshAgent nav_Agent;
+    public LayerMask m_LayerMask;
+
     [Header("---Charcteristics---")]
     public TEAM m_Team;
     public bool m_AI;
     public BigNumber m_Dmg;
     public BigNumber m_Hp;
-
-    [Header("---Components---")]
-    public Transform tf_Owner;
-    public Animator anim_Onwer;
-    public NavMeshAgent nav_Agent;
-    public LayerMask m_LayerMask;
 
     [Header("---Animation Rigging---")]
     public Rig r_AimLayer;
@@ -65,6 +66,7 @@ public class Character : InGameObject
     public SkinnedMeshRenderer m_SkinnedMesh;
     private Vector3 oldPos;
     private Vector3 newPos;
+    private float m_MoveSpd;
 
 
     private void OnEnable()
@@ -118,45 +120,6 @@ public class Character : InGameObject
         {
             m_AimModelCd += Time.deltaTime;
         }
-
-        // if (m_StopChaseCd < m_StopChaseCdMax)
-        // {
-        //     m_StopChaseCd += Time.deltaTime;
-        // }
-        // else
-        // {
-        //     SetDestination(m_Target.tf_Owner.position);
-        //     m_StopChaseCd = 0f;
-        // }
-
-        // if (m_AI)
-        // {
-        //     if (nav_Agent.pathStatus == NavMeshPathStatus.PathComplete)
-        //     {
-        //         Debug.Log("Path complete!!!");
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("Notttttttttttttt");
-        //     }
-        // }
-
-        // if (m_AI)
-        // {
-        //     if (tf_Owner.position == nav_Agent.destination)
-        //     {
-        //         Debug.Log("Path complete!!!");
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("Notttttttttttttt");
-        //     }
-        // }
-
-        // if (!m_AI)
-        // {
-        //     IsMoving();
-        // }
     }
 
 
@@ -214,6 +177,8 @@ public class Character : InGameObject
         }
 
         m_StopChaseCdMax = 3f;
+
+        m_MoveSpd = 5f;
     }
 
     public void SetupComponents()
@@ -270,25 +235,8 @@ public class Character : InGameObject
         anim_Onwer.SetFloat("InputX", moveInput.x);
         anim_Onwer.SetFloat("InputY", moveInput.y);
 
-        tf_Owner.position += (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.deltaTime * 5f;
-        // tf_Owner.position += tf_Owner.forward * Time.deltaTime * moveInput.y * 5f;
-
-        // if (moveInput.x > 0)
-        // {
-        //     tf_Owner.position += tf_Owner.right * Time.deltaTime * 5f;
-        // }
-        // if (moveInput.x < 0)
-        // {
-        //     tf_Owner.position -= tf_Owner.right * Time.deltaTime * 5f;
-        // }
-        // if (moveInput.y > 0)
-        // {
-        //     tf_Owner.position += tf_Owner.forward * Time.deltaTime * 5f;
-        // }
-        // if (moveInput.y < 0)
-        // {
-        //     tf_Owner.position -= tf_Owner.forward * Time.deltaTime * 5f;
-        // }
+        // tf_Owner.position += (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.deltaTime * 5f;
+        rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 50f * m_MoveSpd;
     }
 
     [Task]
