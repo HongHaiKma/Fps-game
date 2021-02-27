@@ -230,13 +230,15 @@ public class Character : InGameObject
     [Task]
     public void SetMovingInput()
     {
-        Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
+        // Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
+        Vector3 moveInput = new Vector3(CF2Input.GetAxis("Joystick Move X"), tf_Owner.position.y, CF2Input.GetAxis("Joystick Move Y")).normalized;
 
         anim_Onwer.SetFloat("InputX", moveInput.x);
-        anim_Onwer.SetFloat("InputY", moveInput.y);
+        anim_Onwer.SetFloat("InputY", moveInput.z);
 
         // tf_Owner.position += (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.deltaTime * 5f;
-        rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 50f * m_MoveSpd;
+        // rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 50f * m_MoveSpd;
+        rb_Owner.velocity = moveInput * Time.fixedDeltaTime * 50f * m_MoveSpd;
     }
 
     [Task]
