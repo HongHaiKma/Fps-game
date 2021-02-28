@@ -230,15 +230,19 @@ public class Character : InGameObject
     [Task]
     public void SetMovingInput()
     {
-        // Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
-        Vector3 moveInput = new Vector3(CF2Input.GetAxis("Joystick Move X"), tf_Owner.position.y, CF2Input.GetAxis("Joystick Move Y")).normalized;
+        Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
+        // Vector3 moveInput = new Vector3(CF2Input.GetAxis("Joystick Move X"), tf_Owner.position.y, CF2Input.GetAxis("Joystick Move Y")).normalized;
 
         anim_Onwer.SetFloat("InputX", moveInput.x);
-        anim_Onwer.SetFloat("InputY", moveInput.z);
+        anim_Onwer.SetFloat("InputY", moveInput.y);
+
+        moveInput = moveInput.normalized;
 
         // tf_Owner.position += (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.deltaTime * 5f;
-        // rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 50f * m_MoveSpd;
-        rb_Owner.velocity = moveInput * Time.fixedDeltaTime * 50f * m_MoveSpd;
+        rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 70 * m_MoveSpd;
+        rb_Owner.velocity += Physics.gravity.normalized * 4f;
+
+        Debug.Log("Rigibody magnitude: " + rb_Owner.velocity.magnitude);
     }
 
     [Task]

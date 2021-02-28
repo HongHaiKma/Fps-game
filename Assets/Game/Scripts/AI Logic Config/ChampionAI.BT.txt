@@ -9,7 +9,7 @@ tree("Root")
 						HasTarget
 					sequence
 						parallel
-							repeat mute tree("Moving")
+							repeat mute tree("Chasing")
 							repeat mute tree("Aiming")
 							repeat mute tree("IdlingStand")
 							repeat mute tree("IdlingAttack")
@@ -39,7 +39,7 @@ tree("IdlingAttack")
 			sequence
 				OnIdlingAttack
 
-tree("Moving")
+tree("Chasing")
 	repeat
 		while
 			sequence

@@ -12,6 +12,7 @@ public class CamController : Singleton<CamController>
     public LayerMask lm_Ignore;
 
     public CinemachineFreeLook m_CMFreeLook;
+    public CinemachineVirtualCamera m_CmVCam;
 
     private void OnEnable()
     {
