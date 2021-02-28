@@ -110,12 +110,6 @@ public class CamController : Singleton<CamController>
 
     public void ChangeCameraToAnotherChar(bool _init)
     {
-        // if (m_Char != null)
-        // {
-        //     m_Char.m_AI = true;
-        //     m_Char.nav_Agent.enabled = true;
-        // }
-
         if (_init)
         {
             if (m_Char != null)
@@ -135,8 +129,8 @@ public class CamController : Singleton<CamController>
 
             m_Char = null;
             m_Char = chars[a];
-            // m_Char.m_AI = false;
-            // m_Char.nav_Agent.enabled = false;
+
+            EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
 
             return;
         }
@@ -159,8 +153,6 @@ public class CamController : Singleton<CamController>
 
             m_Char = null;
             m_Char = chars[a];
-            // m_Char.m_AI = false;
-            // m_Char.nav_Agent.enabled = false;
         }
         else
         {
@@ -180,9 +172,9 @@ public class CamController : Singleton<CamController>
 
             m_Char = null;
             m_Char = chars[a];
-            // m_Char.m_AI = false;
-            // m_Char.nav_Agent.enabled = false;
         }
+
+        EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
     }
 
     public void Test()

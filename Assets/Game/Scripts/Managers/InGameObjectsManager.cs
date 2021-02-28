@@ -9,28 +9,41 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
 
     private void OnEnable()
     {
-        for (int i = 0; i < 1; i++)
+        SpawnTeam1(5);
+        SpawnTeam2(5);
+
+        EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
+        EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
+        EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
+        // Debug.Log("InGameObjectsManager awake!!!");
+    }
+
+    public void SpawnTeam1(int _number)
+    {
+        for (int i = 0; i < _number; i++)
         {
             Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)];
             Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
             charrr.m_Team = TEAM.Team1;
             charrr.LoadCharacterConfig();
             charrr.SetupComponents();
+            charrr.m_HealthBar.SetHpBar();
             m_Team1.Add(charrr);
         }
-        for (int i = 0; i < 1; i++)
+    }
+
+    public void SpawnTeam2(int _number)
+    {
+        for (int i = 0; i < _number; i++)
         {
             Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)];
             Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
             charrr.m_Team = TEAM.Team2;
             charrr.LoadCharacterConfig();
             charrr.SetupComponents();
+            charrr.m_HealthBar.SetHpBar();
             m_Team2.Add(charrr);
         }
-
-        EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
-        EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
-        // Debug.Log("InGameObjectsManager awake!!!");
     }
 
     public Character GetRandomTeam1()

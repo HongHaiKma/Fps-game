@@ -15,12 +15,14 @@ public class Character : InGameObject
     public Animator anim_Onwer;
     public NavMeshAgent nav_Agent;
     public LayerMask m_LayerMask;
+    public HealthBar m_HealthBar;
 
     [Header("---Charcteristics---")]
     public TEAM m_Team;
     public bool m_AI;
     public BigNumber m_Dmg;
     public BigNumber m_Hp;
+    public BigNumber m_HpMax;
 
     [Header("---Animation Rigging---")]
     public Rig r_AimLayer;
@@ -149,7 +151,8 @@ public class Character : InGameObject
     public void LoadCharacterConfig()
     {
         m_Dmg = 10;
-        m_Hp = 20;
+        m_HpMax = GetMaxHP();
+        m_Hp = m_HpMax;
 
         if (!m_AI)
         {
@@ -242,7 +245,6 @@ public class Character : InGameObject
         rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 70 * m_MoveSpd;
         rb_Owner.velocity += Physics.gravity.normalized * 4f;
 
-        Debug.Log("Rigibody magnitude: " + rb_Owner.velocity.magnitude);
     }
 
     [Task]
@@ -524,6 +526,8 @@ public class Character : InGameObject
 
         m_Hp -= _dmg * _crit;
 
+        m_HealthBar.SetHpBar();
+
         if (IsDead())
         {
             InGameObjectsManager.Instance.RemoveDeadChar(m_Team, this);
@@ -531,30 +535,30 @@ public class Character : InGameObject
 
             if (m_Team == TEAM.Team1)
             {
-                Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)];
-                Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
-                charrr.m_Team = TEAM.Team1;
-                charrr.LoadCharacterConfig();
-                charrr.SetupComponents();
-                InGameObjectsManager.Instance.m_Team1.Add(charrr);
-                // charrr.tf_Target = InGameObjectsManager.Instance.m_Team2[Random.Range(0, InGameObjectsManager.Instance.m_Team2.Count - 1)].tf_Owner;
+                InGameObjectsManager.Instance.SpawnTeam1(1);
             }
             else if (m_Team == TEAM.Team2)
             {
-                Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)];
-                Character charrr = PrefabManager.Instance.SpawnCharPool(ConfigName.char1, pos).GetComponent<Character>();
-                charrr.m_Team = TEAM.Team2;
-                charrr.LoadCharacterConfig();
-                charrr.SetupComponents();
-                InGameObjectsManager.Instance.m_Team2.Add(charrr);
-                // charrr.tf_Target = InGameObjectsManager.Instance.m_Team1[Random.Range(0, InGameObjectsManager.Instance.m_Team1.Count - 1)].tf_Owner;
+                InGameObjectsManager.Instance.SpawnTeam2(1);
             }
 
             if (!m_AI)
             {
                 EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, false);
             }
+
+            EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
         }
+    }
+
+    public BigNumber GetMaxHP()
+    {
+        return 20f;
+    }
+
+    public BigNumber GetHpPercentage()
+    {
+        return (m_Hp / m_HpMax);
     }
 
     public bool IsDead()

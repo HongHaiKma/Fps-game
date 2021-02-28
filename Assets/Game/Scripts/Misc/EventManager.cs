@@ -83,5 +83,6 @@ public enum GameEvent
     SET_CHAR_CROSSHAIR_POS = 0,
     SET_CMLOOK_VALUE = 1,
     SET_CMLOOK_TARGET = 2,
-    SET_CHAR_TARGET = 3
+    SET_CHAR_TARGET = 3,
+    SET_HEALTH_BAR = 4,
 }
