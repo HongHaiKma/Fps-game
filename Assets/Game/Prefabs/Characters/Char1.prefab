@@ -3880,7 +3880,7 @@ MonoBehaviour:
   autoReset: 1
   tickOn: 2
   sourceInfos:
-  - isFoldout: 1
+  - isFoldout: 0
     breakPoints: 
     breakPointStatuses: 
     collapsedLines: 

@@ -42,11 +42,8 @@ public class Bullet : InGameObject
 
     public virtual void FixedUpdate()
     {
-        // rb_Owner.velocity = tf_Onwer.forward * m_MoveSpd;
-        // tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.deltaTime;
         tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.fixedDeltaTime;
 
-        // m_FlyingTime += Time.deltaTime;
         m_FlyingTime += Time.fixedDeltaTime;
 
         if (m_FlyingTime >= m_FlyingTimeMax)
@@ -85,8 +82,6 @@ public class Bullet : InGameObject
     public override void OnHit(string _targetName)
     {
         PrefabManager.Instance.DespawnPool(gameObject);
-        Helper.DebugLog("Hit: " + _targetName);
-        // Debug.Log("Hit: " + _targetName);
     }
 
     public override void OnHit(GameObject _go)

@@ -190,14 +190,14 @@ public class Character : InGameObject
         nav_Agent.enabled = true;
         nav_Agent.stoppingDistance = m_ChaseStopRange;
 
-        if (m_Team == TEAM.Team1)
-        {
-            m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[0];
-        }
-        else if (m_Team == TEAM.Team2)
-        {
-            m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[1];
-        }
+        // if (m_Team == TEAM.Team1)
+        // {
+        //     m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[0];
+        // }
+        // else if (m_Team == TEAM.Team2)
+        // {
+        //     m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[1];
+        // }
     }
 
     public void ResetAllCooldown()

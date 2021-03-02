@@ -60,8 +60,10 @@ public class DontGoThroughThings : MonoBehaviour
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitInfo;
 
-            //check for obstructions we might have missed 
-            if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMChar.value) && !m_Collided)
+            bool collideChar = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMChar.value);
+            bool collideMap = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMChar.value);
+
+            if (collideChar && !m_Collided)
             {
                 m_Collided = true;
                 col_Onwer.enabled = false;
@@ -74,7 +76,7 @@ public class DontGoThroughThings : MonoBehaviour
                 m_Bullet.v3_CollisionPoint = hitInfo.point;
                 m_Bullet.OnHit(hitInfo.collider.gameObject);
             }
-            else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMMap.value) && !m_Collided)
+            else if (collideMap && !m_Collided)
             {
                 m_Collided = true;
                 col_Onwer.enabled = false;
@@ -91,31 +93,4 @@ public class DontGoThroughThings : MonoBehaviour
 
         previousPosition = myRigidbody.position;
     }
-
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     // Debug.Log("Collide with" + other.gameObject.name);
-    //     // PrefabManager.Instance.DespawnPool(gameObject);
-
-    //     if ((m_LMChar.value & (1 << other.transform.gameObject.layer)) > 0)
-    //     {
-    //         m_Collided = true;
-    //         // col_Onwer.enabled = false;
-
-    //         m_Bullet.v3_CollisionPoint = other.transform.position;
-    //         m_Bullet.OnHit(other.transform.gameObject);
-
-    //         Debug.Log("11111111111111");
-    //     }
-    //     else if ((m_LMMap.value & (1 << other.transform.gameObject.layer)) > 0)
-    //     {
-    //         m_Collided = true;
-    //         // col_Onwer.enabled = false;
-
-    //         m_Bullet.v3_CollisionPoint = other.transform.position;
-    //         m_Bullet.OnHit();
-
-    //         Debug.Log("22222222222222");
-    //     }
-    // }
 }
