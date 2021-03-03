@@ -9,10 +9,7 @@ tree("Root")
 						HasTarget
 					sequence
 						parallel
-							repeat mute tree("Chasing")
 							repeat mute tree("Aiming")
-							repeat mute tree("IdlingStand")
-							repeat mute tree("IdlingAttack")
 		repeat
 			mute
 				while
@@ -22,32 +19,6 @@ tree("Root")
 						parallel
 							SetMovingInput
 							SetAimingInput
-
-tree("IdlingStand")
-	repeat
-		while
-			sequence
-				not CanChase
-			sequence
-				OnIdlingStand
-
-tree("IdlingAttack")
-	repeat
-		while
-			sequence
-				CanStopChasing
-			sequence
-				OnIdlingAttack
-
-tree("Chasing")
-	repeat
-		while
-			sequence
-				CanChase
-				not CanStopChasing
-			sequence
-				OnChasing
-
 tree("Shooting")
 	repeat
 		while

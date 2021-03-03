@@ -20,9 +20,11 @@ public class Character : InGameObject
     [Header("---Charcteristics---")]
     public TEAM m_Team;
     public bool m_AI;
+    public CharState m_CharState;
     public BigNumber m_Dmg;
     public BigNumber m_Hp;
     public BigNumber m_HpMax;
+    public StateMachine<Character> m_StateMachine;
 
     [Header("---Animation Rigging---")]
     public Rig r_AimLayer;
@@ -73,6 +75,9 @@ public class Character : InGameObject
 
     private void OnEnable()
     {
+        m_StateMachine = new StateMachine<Character>(this);
+        m_StateMachine.Init(IdleState.Instance);
+
         oldPos = tf_Owner.position;
         newPos = tf_Owner.position;
         ResetAllCooldown();
@@ -105,9 +110,6 @@ public class Character : InGameObject
 
     private void Update()
     {
-        // SetMovingInput();
-        // SetAimingInput();
-
         if (m_ShootCd < m_ShootCdMax)
         {
             m_ShootCd += Time.deltaTime;
@@ -122,6 +124,13 @@ public class Character : InGameObject
         {
             m_AimModelCd += Time.deltaTime;
         }
+
+        if (m_AI && m_Target.IsMoving())
+        {
+            Debug.Log("Movinggggggggggggggggggg");
+        }
+
+        m_StateMachine.ExecuteStateUpdate();
     }
 
 
@@ -267,39 +276,81 @@ public class Character : InGameObject
 
     #endregion
 
-    #region CHASING
-    [Task]
-    public void OnChasing()
+    public void ChangeState(IState<Character> _state)
     {
-        anim_Onwer.SetFloat("InputY", 1);
-        // nav_Agent.SetDestination(m_Target.tf_Owner.position);
-        SetDestination(m_Target.tf_Owner.position);
-        // NavMeshPath path;
-        // nav_Agent.CalculatePath(m_Target.tf_Owner.position, nav_Agent.path); //Saves the path in the path variable.
-        // Vector3[] corners = path.corners;
-        // lineRenderer.SetPositions(corners);
+        m_StateMachine.ChangeState(_state);
     }
+
+    #region CHASING
 
     [Task]
     public bool CanChase()
     {
-        // if (m_AI)
-        // {
-        //     Debug.Log(gameObject.name);
-        //     Debug.Log("CAN CHASE!!!!!!!!!");
-        // }
-        // anim_Onwer.SetFloat("InputY", 1);
-        // if (m_Team == TEAM1)
-        // {
-
-        // }
-
-        // if (tf_Target == null)
-        // {
-        //     return false
-        // }
-
         return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseRange);
+    }
+
+    public virtual void OnChaseEnter()
+    {
+        if (!m_AI)
+        {
+            nav_Agent.enabled = true;
+            nav_Agent.updatePosition = false;
+            nav_Agent.updateRotation = false;
+            ChangeState(NothingState.Instance);
+            return;
+        }
+
+        nav_Agent.enabled = true;
+        nav_Agent.updatePosition = false;
+        nav_Agent.updateRotation = false;
+
+        m_CharState = CharState.CHASE;
+        anim_Onwer.SetFloat("InputY", 1);
+        SetDestination(m_Target.tf_Owner.position);
+    }
+
+    public virtual void OnChaseExecute()
+    {
+        if (!m_AI)
+        {
+            nav_Agent.enabled = true;
+            nav_Agent.updatePosition = false;
+            nav_Agent.updateRotation = false;
+            ChangeState(NothingState.Instance);
+            return;
+        }
+
+        nav_Agent.enabled = true;
+        nav_Agent.updatePosition = true;
+        nav_Agent.updateRotation = true;
+
+        // if (!CanChase())
+        // {
+        //     ChangeState(IdleState.Instance);
+        // }
+
+        if (CanStopChasing() && !m_Target.IsMoving())
+        {
+            ChangeState(IdleState.Instance);
+            return;
+        }
+
+        if (CanChase() || m_Target.IsMoving())
+        {
+            // ChangeState(IdleState.Instance);
+            SetDestination(m_Target.tf_Owner.position);
+            return;
+        }
+
+        else
+        {
+            ChangeState(IdleState.Instance);
+        }
+    }
+
+    public virtual void OnChaseExit()
+    {
+
     }
 
     public void SetCharTarget()
@@ -449,7 +500,6 @@ public class Character : InGameObject
 
     #region IDLING STAND
 
-    [Task]
     public void OnIdlingStand()
     {
         // anim_Onwer.SetTrigger("AI_Idle");
@@ -478,9 +528,41 @@ public class Character : InGameObject
 
     #endregion
 
-    #region IDLING ATTACK
+    #region NOTHING
 
-    [Task]
+    public virtual void OnNothingEnter()
+    {
+        nav_Agent.enabled = true;
+        if (m_AI)
+        {
+            nav_Agent.enabled = true;
+            nav_Agent.nextPosition = tf_Owner.position;
+            ChangeState(IdleState.Instance);
+        }
+    }
+
+    public virtual void OnNothingExecute()
+    {
+        nav_Agent.enabled = true;
+        nav_Agent.nextPosition = tf_Owner.position;
+
+        if (m_AI)
+        {
+            nav_Agent.enabled = true;
+            ChangeState(IdleState.Instance);
+        }
+    }
+
+    public virtual void OnNothingExit()
+    {
+
+    }
+
+    #endregion
+
+    #region IDLE
+
+    // [Task]
     public bool CanStopChasing()
     {
         // if (!CanChase())
@@ -496,11 +578,50 @@ public class Character : InGameObject
         return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange);
     }
 
-    [Task]
-    public void OnIdlingAttack()
+    public virtual void OnIdleEnter()
     {
+        if (!m_AI)
+        {
+            nav_Agent.enabled = true;
+            nav_Agent.updatePosition = false;
+            nav_Agent.updateRotation = false;
+            ChangeState(NothingState.Instance);
+            return;
+        }
+
+        nav_Agent.enabled = true;
+        nav_Agent.updatePosition = true;
+        nav_Agent.updateRotation = true;
+
+        m_CharState = CharState.IDLE;
         anim_Onwer.SetFloat("InputY", 0);
         anim_Onwer.SetFloat("InputX", 0);
+    }
+
+    public virtual void OnIdleExecute()
+    {
+        if (!m_AI)
+        {
+            nav_Agent.enabled = true;
+            nav_Agent.updatePosition = false;
+            nav_Agent.updateRotation = false;
+            ChangeState(NothingState.Instance);
+            return;
+        }
+
+        nav_Agent.enabled = true;
+        nav_Agent.updatePosition = true;
+        nav_Agent.updateRotation = true;
+
+        if (CanChase() && !CanStopChasing())
+        {
+            ChangeState(ChaseState.Instance);
+        }
+    }
+
+    public virtual void OnIdleExit()
+    {
+
     }
 
     #endregion
@@ -553,7 +674,7 @@ public class Character : InGameObject
 
     public BigNumber GetMaxHP()
     {
-        return 20f;
+        return 200f;
     }
 
     public BigNumber GetHpPercentage()
@@ -595,4 +716,10 @@ public enum TEAM
 {
     Team1 = 1,
     Team2 = 2
+}
+
+public enum CharState
+{
+    IDLE = 0,
+    CHASE = 1
 }

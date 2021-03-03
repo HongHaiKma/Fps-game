@@ -3907,6 +3907,7 @@ MonoBehaviour:
   m_HealthBar: {fileID: 7678118237473184033}
   m_Team: 0
   m_AI: 0
+  m_CharState: 0
   m_Dmg:
     v: 0
     m: 0

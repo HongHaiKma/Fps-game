@@ -9,8 +9,8 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
 
     private void OnEnable()
     {
-        SpawnTeam1(5);
-        SpawnTeam2(5);
+        SpawnTeam1(1);
+        SpawnTeam2(1);
 
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
         EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
