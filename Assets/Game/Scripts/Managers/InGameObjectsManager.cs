@@ -9,7 +9,7 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
 
     private void OnEnable()
     {
-        SpawnTeam1(1);
+        SpawnTeam1(2);
         SpawnTeam2(1);
 
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);

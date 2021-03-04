@@ -20,6 +20,7 @@ public class Character : InGameObject
     [Header("---Charcteristics---")]
     public TEAM m_Team;
     public bool m_AI;
+    private float m_MoveSpd;
     public CharState m_CharState;
     public BigNumber m_Dmg;
     public BigNumber m_Hp;
@@ -68,18 +69,17 @@ public class Character : InGameObject
     [Header("---Test---")]
     public Character m_Target;
     public SkinnedMeshRenderer m_SkinnedMesh;
-    private Vector3 oldPos;
-    private Vector3 newPos;
-    private float m_MoveSpd;
+    private Vector3 m_OldPos;
+    private Vector3 m_NewPos;
 
 
     private void OnEnable()
     {
         m_StateMachine = new StateMachine<Character>(this);
-        m_StateMachine.Init(IdleState.Instance);
+        m_StateMachine.Init(StandState.Instance);
 
-        oldPos = tf_Owner.position;
-        newPos = tf_Owner.position;
+        m_OldPos = tf_Owner.position;
+        m_NewPos = tf_Owner.position;
         ResetAllCooldown();
         // LoadCharacterConfig();
         // SetupComponents();
@@ -125,27 +125,20 @@ public class Character : InGameObject
             m_AimModelCd += Time.deltaTime;
         }
 
-        if (m_AI && m_Target.IsMoving())
-        {
-            Debug.Log("Movinggggggggggggggggggg");
-        }
-
         m_StateMachine.ExecuteStateUpdate();
     }
 
-
     public bool IsMoving()
     {
-        oldPos = tf_Owner.position;
+        m_OldPos = tf_Owner.position;
 
-        if ((oldPos - newPos).magnitude > 0.5f)
+        if ((m_OldPos - m_NewPos).magnitude > 0.2f)
         {
-            newPos = oldPos;
+            m_NewPos = m_OldPos;
             return true;
         }
 
         return false;
-        // newPos = oldPos;
     }
 
     void FixedUpdate()
@@ -163,14 +156,7 @@ public class Character : InGameObject
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
-        if (!m_AI)
-        {
-            m_ShootRange = 6.5f;
-        }
-        else
-        {
-            m_ShootRange = 6.5f;
-        }
+        m_ShootRange = 6.5f;
 
         m_ChaseRange = 9f;
         // m_ChaseRange = Mathf.Infinity;
@@ -179,14 +165,7 @@ public class Character : InGameObject
         m_RotateCdMax = 2.5f;
         m_AimModelCdMax = 4f;
 
-        if (!m_AI)
-        {
-            m_ShootCdMax = 2f;
-        }
-        else
-        {
-            m_ShootCdMax = 2f;
-        }
+        m_ShootCdMax = 2f;
 
         m_StopChaseCdMax = 3f;
 
@@ -196,17 +175,8 @@ public class Character : InGameObject
     public void SetupComponents()
     {
         m_AI = true;
-        nav_Agent.enabled = true;
-        nav_Agent.stoppingDistance = m_ChaseStopRange;
-
-        // if (m_Team == TEAM.Team1)
-        // {
-        //     m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[0];
-        // }
-        // else if (m_Team == TEAM.Team2)
-        // {
-        //     m_SkinnedMesh.material = SpriteManager.Instance.m_MatsTest[1];
-        // }
+        SetNavMeshStopRange(m_ChaseStopRange);
+        SetNavMeshSpeed(m_MoveSpd);
     }
 
     public void ResetAllCooldown()
@@ -293,36 +263,26 @@ public class Character : InGameObject
     {
         if (!m_AI)
         {
-            nav_Agent.enabled = true;
-            nav_Agent.updatePosition = false;
-            nav_Agent.updateRotation = false;
             ChangeState(NothingState.Instance);
             return;
         }
 
-        nav_Agent.enabled = true;
-        nav_Agent.updatePosition = false;
-        nav_Agent.updateRotation = false;
+        SetNavMeshUpdatePosition(true);
 
         m_CharState = CharState.CHASE;
         anim_Onwer.SetFloat("InputY", 1);
-        SetDestination(m_Target.tf_Owner.position);
+        SetNavMeshDestination(m_Target.tf_Owner.position);
     }
 
     public virtual void OnChaseExecute()
     {
         if (!m_AI)
         {
-            nav_Agent.enabled = true;
-            nav_Agent.updatePosition = false;
-            nav_Agent.updateRotation = false;
             ChangeState(NothingState.Instance);
             return;
         }
 
-        nav_Agent.enabled = true;
-        nav_Agent.updatePosition = true;
-        nav_Agent.updateRotation = true;
+        SetNavMeshUpdatePosition(true);
 
         // if (!CanChase())
         // {
@@ -331,20 +291,20 @@ public class Character : InGameObject
 
         if (CanStopChasing() && !m_Target.IsMoving())
         {
-            ChangeState(IdleState.Instance);
+            ChangeState(StandState.Instance);
             return;
         }
 
         if (CanChase() || m_Target.IsMoving())
         {
             // ChangeState(IdleState.Instance);
-            SetDestination(m_Target.tf_Owner.position);
+            SetNavMeshDestination(m_Target.tf_Owner.position);
             return;
         }
-
         else
         {
-            ChangeState(IdleState.Instance);
+            SetNavMeshDestination(tf_Owner.position);
+            ChangeState(StandState.Instance);
         }
     }
 
@@ -532,25 +492,26 @@ public class Character : InGameObject
 
     public virtual void OnNothingEnter()
     {
-        nav_Agent.enabled = true;
         if (m_AI)
         {
-            nav_Agent.enabled = true;
-            nav_Agent.nextPosition = tf_Owner.position;
-            ChangeState(IdleState.Instance);
+            SetNavMeshNextPosition(tf_Owner.position);
+            ChangeState(StandState.Instance);
+            return;
         }
+
+        SetNavMeshUpdatePosition(false);
     }
 
     public virtual void OnNothingExecute()
     {
-        nav_Agent.enabled = true;
-        nav_Agent.nextPosition = tf_Owner.position;
-
         if (m_AI)
         {
-            nav_Agent.enabled = true;
-            ChangeState(IdleState.Instance);
+            ChangeState(StandState.Instance);
+            return;
         }
+
+        SetNavMeshNextPosition(tf_Owner.position);
+        m_CharState = CharState.NOTHING;
     }
 
     public virtual void OnNothingExit()
@@ -578,40 +539,30 @@ public class Character : InGameObject
         return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange);
     }
 
-    public virtual void OnIdleEnter()
+    public virtual void OnStandEnter()
     {
         if (!m_AI)
         {
-            nav_Agent.enabled = true;
-            nav_Agent.updatePosition = false;
-            nav_Agent.updateRotation = false;
             ChangeState(NothingState.Instance);
             return;
         }
 
-        nav_Agent.enabled = true;
-        nav_Agent.updatePosition = true;
-        nav_Agent.updateRotation = true;
+        SetNavMeshUpdatePosition(true);
 
         m_CharState = CharState.IDLE;
         anim_Onwer.SetFloat("InputY", 0);
         anim_Onwer.SetFloat("InputX", 0);
     }
 
-    public virtual void OnIdleExecute()
+    public virtual void OnStandExecute()
     {
         if (!m_AI)
         {
-            nav_Agent.enabled = true;
-            nav_Agent.updatePosition = false;
-            nav_Agent.updateRotation = false;
             ChangeState(NothingState.Instance);
             return;
         }
 
-        nav_Agent.enabled = true;
-        nav_Agent.updatePosition = true;
-        nav_Agent.updateRotation = true;
+        SetNavMeshUpdatePosition(true);
 
         if (CanChase() && !CanStopChasing())
         {
@@ -619,7 +570,7 @@ public class Character : InGameObject
         }
     }
 
-    public virtual void OnIdleExit()
+    public virtual void OnStandExit()
     {
 
     }
@@ -689,9 +640,30 @@ public class Character : InGameObject
 
     #region NavMesh
 
-    public void SetDestination(Vector3 _des)
+    public void SetNavMeshDestination(Vector3 _des)
     {
         nav_Agent.SetDestination(_des);
+    }
+
+    public void SetNavMeshUpdatePosition(bool _value)
+    {
+        nav_Agent.updatePosition = _value;
+        nav_Agent.updateRotation = _value;
+    }
+
+    public void SetNavMeshNextPosition(Vector3 _value)
+    {
+        nav_Agent.nextPosition = _value;
+    }
+
+    public void SetNavMeshStopRange(float _value)
+    {
+        nav_Agent.stoppingDistance = _value;
+    }
+
+    public void SetNavMeshSpeed(float _value)
+    {
+        nav_Agent.speed = _value;
     }
 
     #endregion
@@ -720,6 +692,7 @@ public enum TEAM
 
 public enum CharState
 {
-    IDLE = 0,
-    CHASE = 1
+    NOTHING = 0,
+    IDLE = 1,
+    CHASE = 2,
 }

@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class IdleState : IState<Character>
+public class StandState : IState<Character>
 {
-    private static IdleState m_Instance;
-    private IdleState()
+    private static StandState m_Instance;
+    private StandState()
     {
         if (m_Instance != null)
         {
@@ -12,13 +12,13 @@ public class IdleState : IState<Character>
 
         m_Instance = this;
     }
-    public static IdleState Instance
+    public static StandState Instance
     {
         get
         {
             if (m_Instance == null)
             {
-                new IdleState();
+                new StandState();
             }
 
             return m_Instance;
@@ -27,16 +27,16 @@ public class IdleState : IState<Character>
 
     public void Enter(Character _charState)
     {
-        _charState.OnIdleEnter();
+        _charState.OnStandEnter();
     }
 
     public void Execute(Character _charState)
     {
-        _charState.OnIdleExecute();
+        _charState.OnStandExecute();
     }
 
     public void Exit(Character _charState)
     {
-        _charState.OnIdleExit();
+        _charState.OnStandExit();
     }
 }

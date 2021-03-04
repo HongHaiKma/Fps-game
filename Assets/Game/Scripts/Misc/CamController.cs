@@ -45,7 +45,6 @@ public class CamController : Singleton<CamController>
             if (m_Char.m_AI)
             {
                 m_Char.m_AI = false;
-                m_Char.nav_Agent.enabled = false;
             }
         }
     }
@@ -115,14 +114,12 @@ public class CamController : Singleton<CamController>
             if (m_Char != null)
             {
                 m_Char.m_AI = true;
-                m_Char.nav_Agent.enabled = true;
             }
 
             List<Character> chars = InGameObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count);
             chars[a].m_AI = false;
-            chars[a].nav_Agent.enabled = false;
 
             m_CMFreeLook.Follow = chars[a].tf_Owner;
             m_CMFreeLook.LookAt = chars[a].tf_Head;
@@ -140,14 +137,12 @@ public class CamController : Singleton<CamController>
             if (m_Char != null)
             {
                 m_Char.m_AI = true;
-                m_Char.nav_Agent.enabled = true;
             }
 
             List<Character> chars = InGameObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count - 1);
             chars[a].m_AI = false;
-            chars[a].nav_Agent.enabled = false;
             m_CMFreeLook.Follow = chars[a].tf_Owner;
             m_CMFreeLook.LookAt = chars[a].tf_Head;
 
@@ -159,14 +154,12 @@ public class CamController : Singleton<CamController>
             if (m_Char != null)
             {
                 m_Char.m_AI = true;
-                m_Char.nav_Agent.enabled = true;
             }
 
             List<Character> chars = InGameObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count - 1);
             chars[a].m_AI = false;
-            chars[a].nav_Agent.enabled = false;
             m_CMFreeLook.Follow = chars[a].tf_Owner;
             m_CMFreeLook.LookAt = chars[a].tf_Head;
 
