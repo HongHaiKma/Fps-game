@@ -68,7 +68,6 @@ public class Character : InGameObject
 
     [Header("---Test---")]
     public Character m_Target;
-    public SkinnedMeshRenderer m_SkinnedMesh;
     private Vector3 m_OldPos;
     private Vector3 m_NewPos;
 
