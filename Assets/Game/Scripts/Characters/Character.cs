@@ -95,12 +95,19 @@ public class Character : InGameObject
     {
         EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.AddListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
+        EventManager.AddListener(GameEvent.DESPAWN, Despawn);
     }
 
     public void StopListenToEvents()
     {
         EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.RemoveListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
+        EventManager.RemoveListener(GameEvent.DESPAWN, Despawn);
+    }
+
+    public void Despawn()
+    {
+        PrefabManager.Instance.DespawnPool(gameObject);
     }
 
     void Start()

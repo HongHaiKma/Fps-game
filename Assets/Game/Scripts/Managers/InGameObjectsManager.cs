@@ -9,13 +9,18 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
 
     private void OnEnable()
     {
-        SpawnTeam1(2);
-        SpawnTeam2(1);
+        SpawnTeam1(5);
+        SpawnTeam2(5);
 
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
         EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
         EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
         // Debug.Log("InGameObjectsManager awake!!!");
+    }
+
+    public void Test()
+    {
+        EventManager.CallEvent(GameEvent.DESPAWN);
     }
 
     public void SpawnTeam1(int _number)
