@@ -16,6 +16,7 @@ public class Character : InGameObject
     public NavMeshAgent nav_Agent;
     public LayerMask m_LayerMask;
     public HealthBar m_HealthBar;
+    public CharacterController cc_Owner;
 
     [Header("---Charcteristics---")]
     public TEAM m_Team;
@@ -211,18 +212,22 @@ public class Character : InGameObject
     [Task]
     public void SetMovingInput()
     {
-        Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
-        // Vector3 moveInput = new Vector3(CF2Input.GetAxis("Joystick Move X"), tf_Owner.position.y, CF2Input.GetAxis("Joystick Move Y")).normalized;
+        // Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
+        Vector3 moveInput = new Vector3(CF2Input.GetAxis("Joystick Move X"), Physics.gravity.y, CF2Input.GetAxis("Joystick Move Y"));
 
         anim_Onwer.SetFloat("InputX", moveInput.x);
-        anim_Onwer.SetFloat("InputY", moveInput.y);
+        anim_Onwer.SetFloat("InputY", moveInput.z);
 
         moveInput = moveInput.normalized;
+        moveInput = tf_Owner.TransformDirection(moveInput);
 
         // tf_Owner.position += (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.deltaTime * 5f;
-        rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 70 * m_MoveSpd;
-        rb_Owner.velocity += Physics.gravity.normalized * 4f;
+        // rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 70f * m_MoveSpd;
+        // rb_Owner.velocity += Physics.gravity.normalized * 4f;
 
+        cc_Owner.Move(moveInput * Time.deltaTime * 20f * m_MoveSpd);
+        // cc_Owner.SimpleMove(moveInput * Time.deltaTime * 50f * m_MoveSpd);
+        // tf_Owner.TransformDirection(Vector3.forward);
     }
 
     [Task]

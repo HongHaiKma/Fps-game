@@ -2948,7 +2948,6 @@ MonoBehaviour:
   m_VFXPrefabs:
   - {fileID: 3375612330075160670, guid: 6071dbc63131f0242bb71e057b2813be, type: 3}
   m_CharPrefabs:
-  - {fileID: 3148534527598287245, guid: 2a3994e8452e2064b9112c2ecc0d7e8b, type: 3}
   - {fileID: 8450222287639211900, guid: 81efbc8c5d8db7549b000beba37bc6da, type: 3}
 --- !u!1 &1413269309
 GameObject:
@@ -9567,6 +9566,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   m_HealthBar: {fileID: 3927342691665786208}
+  cc_Owner: {fileID: 0}
   m_Team: 0
   m_AI: 0
   m_CharState: 0
