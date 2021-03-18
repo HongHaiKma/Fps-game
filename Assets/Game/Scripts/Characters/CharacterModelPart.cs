@@ -19,10 +19,12 @@ public class CharacterModelPart : MonoBehaviour, ITakenDamage
         if (m_BodyPart == BodyPart.HEAD)
         {
             m_OwnerChar.OnHit(_dmg, 2f);
+            Debug.Log("1111111111111111111111");
         }
         else if (m_BodyPart == BodyPart.BODY)
         {
             m_OwnerChar.OnHit(_dmg, 1f);
+            Debug.Log("2222222222222222222222");
         }
     }
 

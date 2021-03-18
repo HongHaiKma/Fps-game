@@ -159,7 +159,7 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 10;
+        m_Dmg = 50;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
@@ -349,10 +349,10 @@ public class Character : InGameObject
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
 
-            if (!m_AI)
-            {
-                Debug.Log("OnShooting!!!");
-            }
+            // if (!m_AI)
+            // {
+            //     Debug.Log("OnShooting!!!");
+            // }
         }
 
         m_ShootCd = 0f;
@@ -608,6 +608,9 @@ public class Character : InGameObject
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
 
         m_Hp -= _dmg * _crit;
+
+        Debug.Log("hp = " + m_Hp);
+        Debug.Log("dmg = " + _dmg);
 
         m_HealthBar.SetHpBar();
 

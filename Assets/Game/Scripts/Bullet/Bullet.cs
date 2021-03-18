@@ -96,6 +96,8 @@ public class Bullet : InGameObject
             ITakenDamage iTaken = _go.GetComponent<ITakenDamage>();
 
             iTaken.OnHit(m_Dmg);
+
+            Debug.Log("Bullet on hit");
         }
     }
 }
