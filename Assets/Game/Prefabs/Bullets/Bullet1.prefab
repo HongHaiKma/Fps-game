@@ -71,10 +71,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendTriggerMessage: 0
-  m_LMChar:
+  lm_BodyPart:
     serializedVersion: 2
-    m_Bits: 128
-  m_LMMap:
+    m_Bits: 512
+  lm_Map:
     serializedVersion: 2
     m_Bits: 256
   skinWidth: 0.1

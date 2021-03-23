@@ -8,8 +8,8 @@ public class DontGoThroughThings : MonoBehaviour
     // events to be fired - but it won't pass through the trigger
     public bool sendTriggerMessage = false;
 
-    public LayerMask m_LMChar; //make sure we aren't in this layer 
-    public LayerMask m_LMMap; //make sure we aren't in this layer 
+    public LayerMask lm_BodyPart; //make sure we aren't in this layer 
+    public LayerMask lm_Map; //make sure we aren't in this layer 
     public float skinWidth = 0.1f; //probably doesn't need to be changed 
 
     private float minimumExtent;
@@ -60,11 +60,11 @@ public class DontGoThroughThings : MonoBehaviour
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitInfo;
 
-            bool collideChar = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMChar.value);
-            bool collideMap = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMMap.value);
+            // bool collideChar = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_Mask.value);
+            // bool collideMap = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMMap.value);
 
             // if (collideChar && !m_Collided)
-            if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMChar.value) && !m_Collided)
+            if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_BodyPart.value) && !m_Collided)
             {
                 m_Collided = true;
                 col_Onwer.enabled = false;
@@ -78,7 +78,7 @@ public class DontGoThroughThings : MonoBehaviour
                 m_Bullet.OnHit(hitInfo.collider.gameObject);
             }
             // else if (collideMap && !m_Collided)
-            else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMMap.value) && !m_Collided)
+            else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_Map.value) && !m_Collided)
             {
                 m_Collided = true;
                 col_Onwer.enabled = false;
