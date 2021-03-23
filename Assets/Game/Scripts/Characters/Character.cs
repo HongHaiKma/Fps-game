@@ -681,6 +681,11 @@ public class Character : InGameObject
     }
 
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Helper.DebugLog("Characterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+    }
 }
 
 public interface ITakenDamage

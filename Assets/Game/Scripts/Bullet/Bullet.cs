@@ -97,7 +97,7 @@ public class Bullet : InGameObject
 
             iTaken.OnHit(m_Dmg);
 
-            Debug.Log("Bullet on hit");
+            Helper.DebugLog("Bullet on hit: ");
         }
     }
 }
