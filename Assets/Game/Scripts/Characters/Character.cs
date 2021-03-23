@@ -609,9 +609,6 @@ public class Character : InGameObject
 
         m_Hp -= _dmg * _crit;
 
-        Debug.Log("hp = " + m_Hp);
-        Debug.Log("dmg = " + _dmg);
-
         m_HealthBar.SetHpBar();
 
         if (IsDead())
@@ -681,11 +678,6 @@ public class Character : InGameObject
     }
 
     #endregion
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Helper.DebugLog("Characterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-    }
 }
 
 public interface ITakenDamage
