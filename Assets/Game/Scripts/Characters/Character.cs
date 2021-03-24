@@ -42,7 +42,6 @@ public class Character : InGameObject
     public AimBodyPart m_AimBodyPart;
 
     [Header("---Shoot---")]
-    public GameObject g_Bullet;
     public Transform tf_FirePoint;
     public Transform tf_Crosshair;
     public int m_ShootBullet;

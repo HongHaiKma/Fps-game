@@ -146,22 +146,24 @@ public class PrefabManager : Singleton<PrefabManager>
 
     public GameObject SpawnCharPool(string name, Vector3 pos)
     {
-        if (SimplePool.IsHasPool(name))
-        {
-            GameObject go = SimplePool.Spawn(name, pos, Quaternion.identity);
-            return go;
-        }
-        else
-        {
-            GameObject prefab = GetCharPrefabByName(name);
-            if (prefab != null)
-            {
-                SimplePool.Preload(prefab, 1, name);
-                GameObject go = SpawnPool(name, pos);
-                return go;
-            }
-        }
-        return null;
+        // if (SimplePool.IsHasPool(name))
+        // {
+        //     GameObject go = SimplePool.Spawn(name, pos, Quaternion.identity);
+        //     return go;
+        // }
+        // else
+        // {
+        //     GameObject prefab = GetCharPrefabByName(name);
+        //     if (prefab != null)
+        //     {
+        //         SimplePool.Preload(prefab, 1, name);
+        //         GameObject go = SpawnPool(name, pos);
+        //         return go;
+        //     }
+        // }
+        GameObject go = Instantiate(m_CharPrefabs[0], pos, Quaternion.identity);
+
+        return go;
     }
 
     public GameObject GetBulletPrefabByName(string name)
