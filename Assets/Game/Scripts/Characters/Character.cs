@@ -164,8 +164,8 @@ public class Character : InGameObject
 
         m_ShootRange = 6.5f;
 
-        m_ChaseRange = 9f;
-        // m_ChaseRange = Mathf.Infinity;
+        // m_ChaseRange = 9f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 6f;
 
         m_RotateCdMax = 2.5f;
@@ -266,6 +266,10 @@ public class Character : InGameObject
     [Task]
     public bool CanChase()
     {
+        if (m_Target == null)
+        {
+            SetCharTarget();
+        }
         return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseRange);
     }
 
@@ -536,16 +540,10 @@ public class Character : InGameObject
     // [Task]
     public bool CanStopChasing()
     {
-        // if (!CanChase())
-        // {
-        //     if (m_Target.IsMoving())
-        //     {
-        //         SetDestination(m_Target.tf_Owner.position);
-        //         anim_Onwer.SetFloat("InputY", 1);
-        //         return false;
-        //     } 
-        //     SetDestination(m_Target.tf_Owner.position);
-        // }
+        if (m_Target == null)
+        {
+            SetCharTarget();
+        }
         return Helper.InRange(tf_Owner.position, m_Target.tf_Owner.position, m_ChaseStopRange);
     }
 
