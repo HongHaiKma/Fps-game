@@ -25,9 +25,6 @@ public class PrefabManager : Singleton<PrefabManager>
 
     public void InitIngamePrefab()
     {
-        string char1 = ConfigName.char1;
-        CreatePool(char1, GetCharPrefabByName(char1), 2);
-
         string bullet1 = ConfigName.bullet1;
         CreatePool(bullet1, GetBulletPrefabByName(bullet1), 5);
 
@@ -45,20 +42,6 @@ public class PrefabManager : Singleton<PrefabManager>
             try
             {
                 m_IngameObjectPrefabDict.Add(iName, iPrefab);
-            }
-            catch (System.Exception)
-            {
-                continue;
-            }
-        }
-        for (int i = 0; i < m_CharPrefabs.Length; i++)
-        {
-            GameObject iPrefab = m_CharPrefabs[i];
-            if (iPrefab == null) continue;
-            string iName = iPrefab.name;
-            try
-            {
-                m_CharPrefabDict.Add(iName, iPrefab);
             }
             catch (System.Exception)
             {
@@ -135,33 +118,9 @@ public class PrefabManager : Singleton<PrefabManager>
         return null;
     }
 
-    public GameObject GetCharPrefabByName(string name)
+    public GameObject SpawnCharPool(int _id, Vector3 pos)
     {
-        if (m_CharPrefabDict.ContainsKey(name))
-        {
-            return m_CharPrefabDict[name];
-        }
-        return null;
-    }
-
-    public GameObject SpawnCharPool(string name, Vector3 pos)
-    {
-        // if (SimplePool.IsHasPool(name))
-        // {
-        //     GameObject go = SimplePool.Spawn(name, pos, Quaternion.identity);
-        //     return go;
-        // }
-        // else
-        // {
-        //     GameObject prefab = GetCharPrefabByName(name);
-        //     if (prefab != null)
-        //     {
-        //         SimplePool.Preload(prefab, 1, name);
-        //         GameObject go = SpawnPool(name, pos);
-        //         return go;
-        //     }
-        // }
-        GameObject go = Instantiate(m_CharPrefabs[0], pos, Quaternion.identity);
+        GameObject go = Instantiate(m_CharPrefabs[_id], pos, Quaternion.identity);
 
         return go;
     }

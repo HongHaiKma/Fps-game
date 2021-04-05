@@ -3538,7 +3538,7 @@ GameObject:
   - component: {fileID: 8450222287227035155}
   - component: {fileID: 8450222287227035153}
   - component: {fileID: 8450222287227035152}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Head Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3599,7 +3599,7 @@ GameObject:
   - component: {fileID: 8450222287451559644}
   - component: {fileID: 8450222287451559647}
   - component: {fileID: 8450222287451559646}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3774,7 +3774,7 @@ GameObject:
   - component: {fileID: 8450222287627149679}
   - component: {fileID: 8450222287627149676}
   - component: {fileID: 4508652780992202146}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Body Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3918,13 +3918,13 @@ MonoBehaviour:
   m_HpMax:
     v: 0
     m: 0
+  m_Flag: {fileID: 0}
   r_AimLayer: {fileID: 0}
   m_MultiAimConstraint: {fileID: 0}
   m_TurnSpd: 15
   tf_Head: {fileID: 8450222287227035155}
   tf_Body: {fileID: 8450222287627149679}
   m_AimBodyPart: 1
-  g_Bullet: {fileID: 1933021457815705099, guid: 74bd3de3a3f522e49ad810feac6b1b45, type: 3}
   tf_FirePoint: {fileID: 6841089472472043203}
   tf_Crosshair: {fileID: 8450222288704783428}
   m_ShootBullet: 0
@@ -3941,6 +3941,8 @@ MonoBehaviour:
   m_AimModelCdMax: 0
   m_StopChaseCd: 0
   m_StopChaseCdMax: 0
+  m_ShootFlagCd: 0
+  m_ShootFlagCdMax: 0
   m_Target: {fileID: 0}
 --- !u!195 &8450222287639211846
 NavMeshAgent:
@@ -3994,7 +3996,7 @@ GameObject:
   - component: {fileID: 8450222288212329945}
   - component: {fileID: 8450222288212329944}
   - component: {fileID: 8450222288212329947}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

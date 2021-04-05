@@ -1512,7 +1512,7 @@ MonoBehaviour:
   autoReset: 1
   tickOn: 2
   sourceInfos:
-  - isFoldout: 0
+  - isFoldout: 1
     breakPoints: 
     breakPointStatuses: 
     collapsedLines: 

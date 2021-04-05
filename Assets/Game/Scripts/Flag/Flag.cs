@@ -13,15 +13,40 @@ public class Flag : InGameObject
 
     private void OnEnable()
     {
-        m_HpMax = 200f;
+        m_HpMax = 500f;
         m_Hp = m_HpMax;
         SetBarColor();
+
+        StartListenToEvents();
     }
+
+    private void OnDisable()
+    {
+        StopListenToEvents();
+    }
+
+    public void StartListenToEvents()
+    {
+        EventManager.AddListener(GameEvent.RESET_FLAG_HEALTH_BAR, ResetBar);
+    }
+
+    public void StopListenToEvents()
+    {
+        EventManager.RemoveListener(GameEvent.RESET_FLAG_HEALTH_BAR, ResetBar);
+    }
+
 
     private void LateUpdate()
     {
         transform.LookAt(Camera.main.transform);
         transform.Rotate(0f, 90f, 0f);
+    }
+
+    public void ResetBar()
+    {
+        m_HpMax = 500f;
+        m_Hp = m_HpMax;
+        SetBarColor();
     }
 
     public void SetHpBar()
@@ -39,6 +64,8 @@ public class Flag : InGameObject
         {
             img_Health.color = Color.red;
         }
+
+        img_Health.fillAmount = 1f;
     }
 
     public override void OnHit(BigNumber _dmg)
@@ -47,7 +74,35 @@ public class Flag : InGameObject
         Debug.Log("m_Hp = " + m_Hp);
         Debug.Log("m_HpMax = " + m_HpMax);
         SetHpBar();
-    }
 
-    // On
+        if (m_Hp <= 0f)
+        {
+            EventManager.CallEvent(GameEvent.RESET_FLAG_HEALTH_BAR);
+
+            // int team1Count = InGameObjectsManager.Instance.m_Team1.Count;
+            // int team2Count = InGameObjectsManager.Instance.m_Team2.Count;
+
+            List<Character> list1 = InGameObjectsManager.Instance.m_Team1;
+            List<Character> list2 = InGameObjectsManager.Instance.m_Team2;
+
+            for (int i = 0; i < list1.Count; i++)
+            {
+                Destroy(list1[i].gameObject);
+            }
+            list1.Clear();
+
+            for (int i = 0; i < list2.Count; i++)
+            {
+                Destroy(list2[i].gameObject);
+            }
+            list2.Clear();
+
+            InGameObjectsManager.Instance.SpawnTeam1(5);
+            InGameObjectsManager.Instance.SpawnTeam2(5);
+
+            EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
+            EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
+            EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
+        }
+    }
 }

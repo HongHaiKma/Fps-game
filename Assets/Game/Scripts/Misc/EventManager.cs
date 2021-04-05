@@ -85,5 +85,6 @@ public enum GameEvent
     SET_CMLOOK_TARGET = 2,
     SET_CHAR_TARGET = 3,
     SET_HEALTH_BAR = 4,
-    DESPAWN = 5
+    DESPAWN = 5,
+    RESET_FLAG_HEALTH_BAR = 6,
 }
