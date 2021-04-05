@@ -162,11 +162,11 @@ public class Character : InGameObject
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
-        m_ShootRange = 6.5f;
+        m_ShootRange = 10.5f;
 
-        // m_ChaseRange = 9f;
+        // m_ChaseRange = 14f;
         m_ChaseRange = Mathf.Infinity;
-        m_ChaseStopRange = 6f;
+        m_ChaseStopRange = 10f;
 
         m_RotateCdMax = 2.5f;
         m_AimModelCdMax = 4f;
