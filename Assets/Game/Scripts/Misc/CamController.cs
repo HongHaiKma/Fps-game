@@ -5,19 +5,34 @@ using Cinemachine;
 
 public class CamController : Singleton<CamController>
 {
+    public CameraShaker m_CamShaker;
+
     public Character m_Char;
     public Transform tf_Owner;
     public Transform tf_CamCrosshair;
     public LayerMask lm_Char;
     public LayerMask lm_Ignore;
 
+    [Header("Camera Free Look")]
     public CinemachineFreeLook m_CMFreeLook;
-    public CinemachineVirtualCamera m_CmVCam;
+    // public CinemachineVirtualCamera m_CMFreeLook2;
+    // public CinemachineBasicMultiChannelPerlin m_CMChanelPerlin;
+    public float m_ShakeTime;
+
+    private void Awake()
+    {
+        Helper.DebugLog("CamControler Awake Calledddd");
+        // m_CMChanelPerlin = m_CMFreeLook.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        // m_CMChanelPerlin = m_CMFreeLook.Add<CinemachineBasicMultiChannelPerlin>();
+    }
 
     private void OnEnable()
     {
         // m_CMFreeLook.Follow = GameManager.Instance.m_Team1[0].tf_Owner;
         // m_CMFreeLook.LookAt = GameManager.Instance.m_Team1[0].tf_Head;
+        // m_CMChanelPerlin = m_CMFreeLook.GetCinema<CinemachineBasicMultiChannelPerlin>();
+        // m_CMFreeLook.m_ExcludedPropertiesInInspector
+        // m_CMChanelPerlin = m_CMFreeLook2.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         StartListenToEvents();
     }
 
@@ -47,6 +62,16 @@ public class CamController : Singleton<CamController>
                 m_Char.m_AI = false;
             }
         }
+
+        // if (m_ShakeTime > 0f)
+        // {
+        //     Helper.DebugLog("m_ShakeTime > 0f");
+        //     m_ShakeTime -= Time.deltaTime;
+        //     if (m_ShakeTime <= 0f)
+        //     {
+        //         m_CMChanelPerlin.m_AmplitudeGain = 0f;
+        //     }
+        // }
     }
 
     void FixedUpdate()
@@ -56,6 +81,19 @@ public class CamController : Singleton<CamController>
 
         CheckShoot();
     }
+
+    public void Shake()
+    {
+        Helper.DebugLog("CamController shakeeeeeeee!!!!!!!!!!!!");
+        m_CamShaker.Shake();
+    }
+
+    // public void Shake(float _amplitude, float _duration)
+    // {
+    //     m_CMChanelPerlin.m_AmplitudeGain = _amplitude;
+    //     m_ShakeTime = _duration;
+    //     Helper.DebugLog("Camera shake called!!!!!");
+    // }
 
     public void CheckShoot()
     {

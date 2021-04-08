@@ -167,16 +167,17 @@ public class Character : InGameObject
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
-        m_ShootRange = 10.5f;
+        m_ShootRange = 20.5f;
 
         // m_ChaseRange = 14f;
         m_ChaseRange = Mathf.Infinity;
-        m_ChaseStopRange = 10f;
+        m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
         m_AimModelCdMax = 4f;
 
-        m_ShootCdMax = 2f;
+        m_ShootCd = 0.29f;
+        m_ShootCdMax = 0.3f;
 
         m_StopChaseCdMax = 3f;
 
@@ -318,7 +319,15 @@ public class Character : InGameObject
 
         m_CharState = CharState.CHASE;
         anim_Onwer.SetFloat("InputY", 1);
+
+        // if (m_Target.IsDead())
+        // {
         SetNavMeshDestination(m_Target.tf_Owner.position);
+        // }
+        // else
+        // {
+        //     ChangeState(StandState.Instance);
+        // }
     }
 
     public virtual void OnChaseExecute()
@@ -387,10 +396,14 @@ public class Character : InGameObject
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
 
-            // if (!m_AI)
-            // {
-            //     Debug.Log("OnShooting!!!");
-            // }
+
+        }
+
+        if (!m_AI)
+        {
+            CamController.Instance.Shake();
+            Helper.DebugLog("1111111111111111111111111111111111");
+            // CamController.Instance.Shake(1f, 0.5f);
         }
 
         m_ShootCd = 0f;
@@ -777,7 +790,7 @@ public class Character : InGameObject
 
     public BigNumber GetMaxHP()
     {
-        return 200f;
+        return 1600f;
     }
 
     public BigNumber GetHpPercentage()

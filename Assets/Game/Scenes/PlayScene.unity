@@ -3287,6 +3287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3801c07f562d9914a859d5662cffcf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CamShaker: {fileID: 0}
   m_Char: {fileID: 0}
   tf_Owner: {fileID: 1413269312}
   tf_CamCrosshair: {fileID: 0}
@@ -3297,7 +3298,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   m_CMFreeLook: {fileID: 0}
-  m_CmVCam: {fileID: 0}
+  m_ShakeTime: 0
 --- !u!114 &1413269314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4912,6 +4913,7 @@ GameObject:
   - component: {fileID: 2102282405918452169}
   - component: {fileID: 2102282405918452170}
   - component: {fileID: 2102282405918452175}
+  - component: {fileID: 2102282405918452174}
   - component: {fileID: 2102282405918452173}
   - component: {fileID: 2102282405918452172}
   m_Layer: 0
@@ -4965,6 +4967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3801c07f562d9914a859d5662cffcf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CamShaker: {fileID: 2102282405918452174}
   m_Char: {fileID: 0}
   tf_Owner: {fileID: 2102282405918452168}
   tf_CamCrosshair: {fileID: 2102282405382403271}
@@ -4975,7 +4978,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   m_CMFreeLook: {fileID: 4841833163429475270}
-  m_CmVCam: {fileID: 590642169}
+  m_ShakeTime: 0
+--- !u!114 &2102282405918452174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102282405918452171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e972e2358bb06744c8abaa74638d6462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CineCamOffSet: {fileID: 4841833163429475264}
+  camTransform: {fileID: 4841833163429475265}
+  shakeDuration: 0
+  shakeAmount: 0.15
+  decreaseFactor: 1.5
 --- !u!114 &2102282405918452175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6373,6 +6393,7 @@ GameObject:
   - component: {fileID: 4841833162184548055}
   - component: {fileID: 4841833162184548052}
   - component: {fileID: 4841833162184548053}
+  - component: {fileID: 4841833162184548044}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -6380,6 +6401,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4841833162184548044
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841833162184548043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: -502.30334, y: 496.16025, z: 180.57214}
 --- !u!114 &4841833162184548052
 MonoBehaviour:
   m_ObjectHideFlags: 3

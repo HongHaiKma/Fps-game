@@ -13,7 +13,7 @@ public class Flag : InGameObject
 
     private void OnEnable()
     {
-        m_HpMax = 500f;
+        m_HpMax = 1500f;
         m_Hp = m_HpMax;
         SetBarColor();
 
@@ -44,7 +44,7 @@ public class Flag : InGameObject
 
     public void ResetBar()
     {
-        m_HpMax = 500f;
+        m_HpMax = 1500f;
         m_Hp = m_HpMax;
         SetBarColor();
     }
