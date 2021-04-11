@@ -70,12 +70,13 @@ public class Character : InGameObject
     public float m_ShootFlagCd;
     public float m_ShootFlagCdMax;
 
-
-
     [Header("---Test---")]
     public Character m_Target;
     private Vector3 m_OldPos;
     private Vector3 m_NewPos;
+
+
+    public float m_DistanceToTarget;
 
 
     private void OnEnable()
@@ -137,6 +138,11 @@ public class Character : InGameObject
         }
 
         m_StateMachine.ExecuteStateUpdate();
+
+        if (m_Target != null)
+        {
+            m_DistanceToTarget = Helper.CalDistance(tf_Owner.position, m_Target.tf_Owner.position);
+        }
     }
 
     public bool IsMoving()
@@ -177,7 +183,7 @@ public class Character : InGameObject
         m_AimModelCdMax = 4f;
 
         m_ShootCd = 0.29f;
-        m_ShootCdMax = 0.3f;
+        m_ShootCdMax = 2f;
 
         m_StopChaseCdMax = 3f;
 
@@ -315,6 +321,8 @@ public class Character : InGameObject
             return;
         }
 
+        nav_Agent.isStopped = false;
+        nav_Agent.Warp(tf_Owner.position);
         SetNavMeshUpdatePosition(true);
 
         m_CharState = CharState.CHASE;
@@ -338,7 +346,7 @@ public class Character : InGameObject
             return;
         }
 
-        SetNavMeshUpdatePosition(true);
+        // SetNavMeshUpdatePosition(true);
 
         if (CanStopChasing() && !m_Target.IsMoving())
         {
@@ -653,9 +661,11 @@ public class Character : InGameObject
             return;
         }
 
-        SetNavMeshUpdatePosition(true);
+        nav_Agent.isStopped = true;
+        nav_Agent.Warp(tf_Owner.position);
+        SetNavMeshUpdatePosition(false);
 
-        m_CharState = CharState.IDLE;
+        m_CharState = CharState.STAND;
         anim_Onwer.SetFloat("InputY", 0);
         anim_Onwer.SetFloat("InputX", 0);
     }
@@ -668,7 +678,7 @@ public class Character : InGameObject
             return;
         }
 
-        SetNavMeshUpdatePosition(true);
+        // SetNavMeshUpdatePosition(false);
 
         m_ShootFlagCd += Time.deltaTime;
 
@@ -727,10 +737,12 @@ public class Character : InGameObject
 
         if (Helper.InRange(tf_Owner.position, m_Flag.transform.position, 7f))
         {
+            anim_Onwer.SetFloat("InputY", 0);
             SetNavMeshDestination(tf_Owner.position);
         }
         else
         {
+            anim_Onwer.SetFloat("InputY", 1);
             SetNavMeshDestination(m_Flag.transform.position);
         }
     }
@@ -858,7 +870,7 @@ public enum TEAM
 public enum CharState
 {
     NOTHING = 0,
-    IDLE = 1,
+    STAND = 1,
     CHASE = 2,
     SHOOT_FLAG = 3,
 }
