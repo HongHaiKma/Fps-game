@@ -29,10 +29,6 @@ public class Character : InGameObject
     public StateMachine<Character> m_StateMachine;
     public Flag m_Flag;
 
-    [Header("---Animation Rigging---")]
-    public Rig r_AimLayer;
-    public MultiAimConstraint m_MultiAimConstraint;
-
     [Header("---Camera---")]
     Camera cam_Main;
     public float m_TurnSpd = 15f;
@@ -122,6 +118,11 @@ public class Character : InGameObject
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ChangeState(DeathState.Instance);
+        }
+
         if (m_ShootCd < m_ShootCdMax)
         {
             m_ShootCd += Time.deltaTime;
@@ -197,23 +198,11 @@ public class Character : InGameObject
     {
         if (m_Team == TEAM.Team1)
         {
-            Helper.DebugLog("Set FLAGGGGGGGGGGGGGGGGGGG");
-
             m_Flag = InGameObjectsManager.Instance.m_Map.m_Flag2;
-            if (m_Flag == null)
-            {
-                Helper.DebugLog("m_Flag = nulllllllllllllllllllllllllllllll");
-            }
         }
         else if (m_Team == TEAM.Team2)
         {
-            Helper.DebugLog("Set FLAGGGGGGGGGGGGGGGGGGG");
-
             m_Flag = InGameObjectsManager.Instance.m_Map.m_Flag1;
-            if (m_Flag == null)
-            {
-                Helper.DebugLog("m_Flag = nulllllllllllllllllllllllllllllll");
-            }
         }
 
         m_AI = true;
@@ -254,7 +243,6 @@ public class Character : InGameObject
     [Task]
     public void SetMovingInput()
     {
-        // Vector2 moveInput = new Vector2(CF2Input.GetAxis("Joystick Move X"), CF2Input.GetAxis("Joystick Move Y"));
         Vector3 moveInput = new Vector3(CF2Input.GetAxis("Joystick Move X"), Physics.gravity.y, CF2Input.GetAxis("Joystick Move Y"));
 
         anim_Onwer.SetFloat("InputX", moveInput.x);
@@ -263,13 +251,7 @@ public class Character : InGameObject
         moveInput = moveInput.normalized;
         moveInput = tf_Owner.TransformDirection(moveInput);
 
-        // tf_Owner.position += (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.deltaTime * 5f;
-        // rb_Owner.velocity = (tf_Owner.right * moveInput.x + tf_Owner.forward * moveInput.y) * Time.fixedDeltaTime * 70f * m_MoveSpd;
-        // rb_Owner.velocity += Physics.gravity.normalized * 4f;
-
         cc_Owner.Move(moveInput * Time.deltaTime * 20f * m_MoveSpd);
-        // cc_Owner.SimpleMove(moveInput * Time.deltaTime * 50f * m_MoveSpd);
-        // tf_Owner.TransformDirection(Vector3.forward);
     }
 
     [Task]
@@ -403,15 +385,11 @@ public class Character : InGameObject
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
-
-
         }
 
         if (!m_AI)
         {
             CamController.Instance.Shake();
-            Helper.DebugLog("1111111111111111111111111111111111");
-            // CamController.Instance.Shake(1f, 0.5f);
         }
 
         m_ShootCd = 0f;
@@ -440,20 +418,6 @@ public class Character : InGameObject
         }
 
         ITakenDamage iTaken = hit[index].transform.GetComponent<ITakenDamage>();
-
-        // if (Input.GetKeyDown(KeyCode.B) && !m_AI)
-        // {
-        //     if (iTaken == null)
-        //     {
-        //         Debug.Log("Itaken null!");
-        //         Debug.Log("Itaken name: " + hit[index].transform.name);
-        //     }
-
-        //     if (!Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
-        //     {
-        //         Debug.Log("Not in range!");
-        //     }
-        // }
 
         Character charrr = hit[index].transform.GetComponent<Character>();
         Flag flag = hit[index].transform.GetComponent<Flag>();
@@ -485,26 +449,9 @@ public class Character : InGameObject
                     }
                     else
                     {
-                        Helper.DebugLog("m_Team = flag.m_Team");
                         return false;
                     }
                 }
-                else
-                {
-                    Helper.DebugLog("flag == null");
-                }
-            }
-            if (iTaken == null)
-            {
-                Helper.DebugLog("iTaken == null");
-            }
-            if (m_ShootCd < m_ShootCdMax)
-            {
-
-            }
-            if (!Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
-            {
-                Helper.DebugLog("Not in Range!!!!");
             }
 
             return true;
@@ -748,6 +695,25 @@ public class Character : InGameObject
     }
 
     public virtual void OnShootFlagExit()
+    {
+
+    }
+
+    #endregion
+
+    #region  DEATH
+
+    public virtual void OnDeathStateEnter()
+    {
+        anim_Onwer.SetTrigger("Death");
+    }
+
+    public virtual void OnDeathStateExecute()
+    {
+
+    }
+
+    public virtual void OnDeathStateExit()
     {
 
     }

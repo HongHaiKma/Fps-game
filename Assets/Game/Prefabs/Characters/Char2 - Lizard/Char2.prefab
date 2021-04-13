@@ -1406,7 +1406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607248241497878094}
   - component: {fileID: 4607248241497878095}
-  - component: {fileID: 4607248241497878092}
+  - component: {fileID: 3605011441811813351}
   - component: {fileID: 4607248241497878093}
   - component: {fileID: 4607248241497878082}
   m_Layer: 7
@@ -1456,7 +1456,7 @@ MonoBehaviour:
     breakPointStatuses: 
     collapsedLines: 
     btScript: 
---- !u!114 &4607248241497878092
+--- !u!114 &3605011441811813351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1465,7 +1465,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4607248241497878083}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8543739d2c278154a869c58a148909f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 07803d18b9541cf4495c8e14b6c13d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb_Owner: {fileID: 0}
@@ -1490,8 +1490,6 @@ MonoBehaviour:
     v: 0
     m: 0
   m_Flag: {fileID: 0}
-  r_AimLayer: {fileID: 0}
-  m_MultiAimConstraint: {fileID: 0}
   m_TurnSpd: 15
   tf_Head: {fileID: 4607248243249090711}
   tf_Body: {fileID: 4607248241737342433}
@@ -2009,7 +2007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 4607248241497878092}
+  m_OwnerChar: {fileID: 0}
   m_BodyPart: 1
 --- !u!136 &4607248241737342432
 CapsuleCollider:
@@ -2315,7 +2313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9879696fad0981e41921bcbfd9e4dfe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Char: {fileID: 4607248241497878092}
+  m_Char: {fileID: 0}
   img_Health: {fileID: 4607248242337123345}
   g_Bar: {fileID: 4607248242923011506}
 --- !u!1 &4607248241985950697
@@ -2422,11 +2420,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Data:
-    m_Root: {fileID: 0}
-    m_Mid: {fileID: 0}
-    m_Tip: {fileID: 0}
+    m_Root: {fileID: 6286618151755370711}
+    m_Mid: {fileID: 7040363674286013718}
+    m_Tip: {fileID: 6728168699106235948}
     m_Target: {fileID: 4607248243154733742}
     m_Hint: {fileID: 4589168293385484483}
     m_TargetPositionWeight: 1
@@ -3129,7 +3127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 4607248241497878092}
+  m_OwnerChar: {fileID: 0}
   m_BodyPart: 0
 --- !u!65 &4607248243249090710
 BoxCollider:

@@ -1099,7 +1099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9879696fad0981e41921bcbfd9e4dfe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Char: {fileID: 7299469002279949754}
+  m_Char: {fileID: 0}
   img_Health: {fileID: 7299469002111530983}
   g_Bar: {fileID: 7299469003660904004}
 --- !u!1 &7299469001925896223
@@ -1467,7 +1467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7299469002279949752}
   - component: {fileID: 7299469002279949753}
-  - component: {fileID: 7299469002279949754}
+  - component: {fileID: 2915335161946969352}
   - component: {fileID: 7299469002279949755}
   - component: {fileID: 7299469002279949748}
   m_Layer: 7
@@ -1517,7 +1517,7 @@ MonoBehaviour:
     breakPointStatuses: 
     collapsedLines: 
     btScript: 
---- !u!114 &7299469002279949754
+--- !u!114 &2915335161946969352
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1526,7 +1526,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7299469002279949749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8543739d2c278154a869c58a148909f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d35a1dae55d3b54e987e42e3b62a40e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb_Owner: {fileID: 0}
@@ -1551,8 +1551,6 @@ MonoBehaviour:
     v: 0
     m: 0
   m_Flag: {fileID: 0}
-  r_AimLayer: {fileID: 0}
-  m_MultiAimConstraint: {fileID: 0}
   m_TurnSpd: 15
   tf_Head: {fileID: 7299469003217349473}
   tf_Body: {fileID: 7299469002577094167}
@@ -2382,7 +2380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 7299469002279949754}
+  m_OwnerChar: {fileID: 0}
   m_BodyPart: 1
 --- !u!136 &7299469002577094166
 CapsuleCollider:
@@ -3149,7 +3147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 7299469002279949754}
+  m_OwnerChar: {fileID: 0}
   m_BodyPart: 0
 --- !u!65 &7299469003217349472
 BoxCollider:

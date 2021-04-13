@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9879696fad0981e41921bcbfd9e4dfe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Char: {fileID: 1290557749831587797}
+  m_Char: {fileID: 0}
   img_Health: {fileID: 765147188341064774}
   g_Bar: {fileID: 410172331346254131}
 --- !u!1 &1290557749687854780
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 1290557749831587797}
+  m_OwnerChar: {fileID: 0}
   m_BodyPart: 0
 --- !u!65 &1290557749687854782
 BoxCollider:
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 1290557749831587797}
+  m_OwnerChar: {fileID: 0}
   m_BodyPart: 1
 --- !u!136 &6502125669199789324
 CapsuleCollider:
@@ -315,7 +315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1290557749831587795}
   - component: {fileID: 1290557749831587798}
-  - component: {fileID: 1290557749831587797}
+  - component: {fileID: 5691349331555052926}
   - component: {fileID: 1290557749831587816}
   - component: {fileID: 6462296648582901866}
   m_Layer: 7
@@ -365,7 +365,7 @@ MonoBehaviour:
     breakPointStatuses: 
     collapsedLines: 
     btScript: 
---- !u!114 &1290557749831587797
+--- !u!114 &5691349331555052926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290557749831587794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8543739d2c278154a869c58a148909f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b0623296ade66e46b5e16970d92458e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb_Owner: {fileID: 0}
@@ -399,8 +399,6 @@ MonoBehaviour:
     v: 0
     m: 0
   m_Flag: {fileID: 0}
-  r_AimLayer: {fileID: 0}
-  m_MultiAimConstraint: {fileID: 0}
   m_TurnSpd: 15
   tf_Head: {fileID: 1290557749687854781}
   tf_Body: {fileID: 1290557749819529665}
