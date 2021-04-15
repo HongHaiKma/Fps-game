@@ -7,7 +7,7 @@ public class Flag : InGameObject
 {
     public BigNumber m_Hp;
     public BigNumber m_HpMax;
-    public TEAM m_Team;
+    // public TEAM m_Team;
     public Image img_Health;
     public Transform tf_ShootPoint;
 

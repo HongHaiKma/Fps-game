@@ -569,6 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a062b7b40146c3c489da71a5f1c34fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InGameObjectType: 2
   m_Team: 2
   m_Flag: {fileID: 3407460350573870175}
 --- !u!65 &168197663
@@ -2583,6 +2584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a062b7b40146c3c489da71a5f1c34fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InGameObjectType: 2
   m_Team: 1
   m_Flag: {fileID: 3407460351629594042}
 --- !u!65 &907208029
@@ -5789,6 +5791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d373729585be32498bd5c3bc9eb9621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InGameObjectType: 2
   m_Hp:
     v: 0
     m: 0
@@ -5843,6 +5846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d373729585be32498bd5c3bc9eb9621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InGameObjectType: 2
   m_Hp:
     v: 0
     m: 0

@@ -60,10 +60,6 @@ public class DontGoThroughThings : MonoBehaviour
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitInfo;
 
-            // bool collideChar = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_Mask.value);
-            // bool collideMap = Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, m_LMMap.value);
-
-            // if (collideChar && !m_Collided)
             if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_BodyPart.value) && !m_Collided)
             {
                 m_Collided = true;
@@ -77,7 +73,6 @@ public class DontGoThroughThings : MonoBehaviour
                 m_Bullet.v3_CollisionPoint = hitInfo.point;
                 m_Bullet.OnHit(hitInfo.collider.gameObject);
             }
-            // else if (collideMap && !m_Collided)
             else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_Map.value) && !m_Collided)
             {
                 m_Collided = true;
@@ -89,7 +84,7 @@ public class DontGoThroughThings : MonoBehaviour
                 }
 
                 m_Bullet.v3_CollisionPoint = hitInfo.point;
-                m_Bullet.OnHit();
+                m_Bullet.OnHit(hitInfo.collider.gameObject);
             }
         }
 

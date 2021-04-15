@@ -1468,6 +1468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07803d18b9541cf4495c8e14b6c13d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InGameObjectType: 0
+  m_Team: 0
   rb_Owner: {fileID: 0}
   tf_Owner: {fileID: 4607248241497878094}
   anim_Onwer: {fileID: 4607248241502061130}
@@ -1477,7 +1479,6 @@ MonoBehaviour:
     m_Bits: 128
   m_HealthBar: {fileID: 4607248241915851159}
   cc_Owner: {fileID: 4607248241497878082}
-  m_Team: 0
   m_AI: 0
   m_CharState: 0
   m_Dmg:
@@ -1490,6 +1491,8 @@ MonoBehaviour:
     v: 0
     m: 0
   m_Flag: {fileID: 0}
+  m_HeadPart: {fileID: 4607248243249090705}
+  m_BodyPart: {fileID: 4607248241737342435}
   m_TurnSpd: 15
   tf_Head: {fileID: 4607248243249090711}
   tf_Body: {fileID: 4607248241737342433}
@@ -2007,7 +2010,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 0}
+  m_Team: 0
+  m_InGameObjectType: 0
+  m_OwnerChar: {fileID: 3605011441811813351}
   m_BodyPart: 1
 --- !u!136 &4607248241737342432
 CapsuleCollider:
@@ -2313,7 +2318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9879696fad0981e41921bcbfd9e4dfe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Char: {fileID: 0}
+  m_Char: {fileID: 3605011441811813351}
   img_Health: {fileID: 4607248242337123345}
   g_Bar: {fileID: 4607248242923011506}
 --- !u!1 &4607248241985950697
@@ -3127,7 +3132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OwnerChar: {fileID: 0}
+  m_Team: 0
+  m_InGameObjectType: 0
+  m_OwnerChar: {fileID: 3605011441811813351}
   m_BodyPart: 0
 --- !u!65 &4607248243249090710
 BoxCollider:

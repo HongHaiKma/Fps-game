@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class CharacterModelPart : MonoBehaviour, ITakenDamage
 {
+    public TEAM m_Team;
+    public InGameObjectType m_InGameObjectType;
     public Character m_OwnerChar;
     public BodyPart m_BodyPart;
+
+    private void OnEnable()
+    {
+        m_Team = m_OwnerChar.m_Team;
+    }
 
     public virtual void OnHit()
     {
@@ -26,19 +33,20 @@ public class CharacterModelPart : MonoBehaviour, ITakenDamage
         }
     }
 
-    public virtual void OnHit(BigNumber _dmg, float _crit)
-    {
+    public virtual void OnHit(BigNumber _dmg, float _crit) { }
 
+    public virtual void OnHit(string _targetName) { }
+
+    public virtual void OnHit(GameObject _go) { }
+
+    public virtual InGameObjectType GetInGameObjectType()
+    {
+        return m_InGameObjectType;
     }
 
-    public virtual void OnHit(string _targetName)
+    public virtual TEAM GetTeam()
     {
-
-    }
-
-    public virtual void OnHit(GameObject _go)
-    {
-
+        return m_Team;
     }
 }
 

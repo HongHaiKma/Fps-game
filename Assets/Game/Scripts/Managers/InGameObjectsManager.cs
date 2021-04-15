@@ -33,6 +33,8 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
             int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
             Character charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
             charrr.m_Team = TEAM.Team1;
+            charrr.m_HeadPart.m_Team = TEAM.Team1;
+            charrr.m_BodyPart.m_Team = TEAM.Team1;
             charrr.LoadCharacterConfig();
             charrr.SetupComponents();
             charrr.m_HealthBar.SetHpBar();
@@ -48,6 +50,8 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
             int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
             Character charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
             charrr.m_Team = TEAM.Team2;
+            charrr.m_HeadPart.m_Team = TEAM.Team2;
+            charrr.m_BodyPart.m_Team = TEAM.Team2;
             charrr.LoadCharacterConfig();
             charrr.SetupComponents();
             charrr.m_HealthBar.SetHpBar();
@@ -78,4 +82,4 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
     }
 }
 
-public class EntityMap : Dictionary<double, InGameObject> { }
+// public class EntityMap : Dictionary<double, InGameObject> { }

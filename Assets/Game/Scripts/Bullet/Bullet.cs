@@ -6,6 +6,7 @@ public class Bullet : InGameObject
 {
     [Header("---Charcteristics---")]
     public BigNumber m_Dmg;
+    // public TEAM m_Team;
 
     [Header("---Components---")]
     public Transform tf_Onwer;
@@ -36,6 +37,7 @@ public class Bullet : InGameObject
 
     public void SetupBullet(BulletConfigData _bulletInfor)
     {
+        m_Team = _bulletInfor.m_Team;
         m_Dmg = _bulletInfor.m_Dmg;
         tf_Onwer.rotation = _bulletInfor.m_Rotation;
     }
@@ -95,7 +97,10 @@ public class Bullet : InGameObject
 
             ITakenDamage iTaken = _go.GetComponent<ITakenDamage>();
 
-            iTaken.OnHit(m_Dmg);
+            if (iTaken != null && m_Team != iTaken.GetTeam())
+            {
+                iTaken.OnHit(m_Dmg);
+            }
         }
     }
 }

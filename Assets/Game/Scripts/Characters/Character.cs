@@ -19,7 +19,7 @@ public class Character : InGameObject
     public CharacterController cc_Owner;
 
     [Header("---Charcteristics---")]
-    public TEAM m_Team;
+    // public TEAM m_Team;
     public bool m_AI;
     private float m_MoveSpd;
     public CharState m_CharState;
@@ -28,6 +28,8 @@ public class Character : InGameObject
     public BigNumber m_HpMax;
     public StateMachine<Character> m_StateMachine;
     public Flag m_Flag;
+    public CharacterModelPart m_HeadPart;
+    public CharacterModelPart m_BodyPart;
 
     [Header("---Camera---")]
     Camera cam_Main;
@@ -265,7 +267,7 @@ public class Character : InGameObject
         if (Input.GetMouseButtonDown(0))
         {
             string bulletS = ConfigName.bullet1;
-            BulletConfigData infor = new BulletConfigData(m_Dmg, bulletS, tf_FirePoint.rotation);
+            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_FirePoint.rotation);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
@@ -381,7 +383,7 @@ public class Character : InGameObject
         for (int i = 0; i < m_ShootBullet; i++)
         {
             string bulletS = ConfigName.bullet1;
-            BulletConfigData infor = new BulletConfigData(m_Dmg, bulletS, tf_FirePoint.rotation);
+            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_FirePoint.rotation);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
@@ -427,9 +429,9 @@ public class Character : InGameObject
         {
             if (m_CharState != CharState.SHOOT_FLAG)
             {
-                if (charrr != null)
+                if (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER)
                 {
-                    if (m_Team != charrr.m_Team)
+                    if (m_Team != iTaken.GetTeam())
                     {
                         return true;
                     }
@@ -441,9 +443,9 @@ public class Character : InGameObject
             }
             else
             {
-                if (flag != null)
+                if (iTaken.GetInGameObjectType() == InGameObjectType.FLAG)
                 {
-                    if (m_Team != flag.m_Team)
+                    if (m_Team != iTaken.GetTeam())
                     {
                         return true;
                     }
@@ -768,7 +770,7 @@ public class Character : InGameObject
 
     public BigNumber GetMaxHP()
     {
-        return 1600f;
+        return 100;
     }
 
     public BigNumber GetHpPercentage()
@@ -819,6 +821,8 @@ public interface ITakenDamage
     void OnHit(BigNumber _dmg, float _crit);
     void OnHit(string _targetName);
     void OnHit(GameObject _go);
+    InGameObjectType GetInGameObjectType();
+    TEAM GetTeam();
 }
 
 public enum AimBodyPart

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FlagShootPoint : MonoBehaviour, ITakenDamage
 {
+    public InGameObjectType m_InGameObjectType;
+
     public TEAM m_Team;
     public Flag m_Flag;
 
@@ -18,8 +20,15 @@ public class FlagShootPoint : MonoBehaviour, ITakenDamage
 
     public void OnHit(string _targetName) { }
 
-    public void OnHit(GameObject _go)
-    {
+    public void OnHit(GameObject _go) { }
 
+    public virtual InGameObjectType GetInGameObjectType()
+    {
+        return m_InGameObjectType;
+    }
+
+    public virtual TEAM GetTeam()
+    {
+        return m_Team;
     }
 }
