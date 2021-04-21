@@ -178,8 +178,8 @@ public class Character : InGameObject
 
         m_ShootRange = 20.5f;
 
-        // m_ChaseRange = 14f;
-        m_ChaseRange = Mathf.Infinity;
+        m_ChaseRange = 14f;
+        // m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -340,11 +340,11 @@ public class Character : InGameObject
 
         m_ShootFlagCd += Time.deltaTime;
 
-        if (m_ShootFlagCd >= m_ShootFlagCdMax)
-        {
-            ChangeState(ShootFlagState.Instance);
-            return;
-        }
+        // if (m_ShootFlagCd >= m_ShootFlagCdMax)
+        // {
+        //     ChangeState(ShootFlagState.Instance);
+        //     return;
+        // }
 
         if (CanChase() || m_Target.IsMoving())
         {
@@ -420,10 +420,6 @@ public class Character : InGameObject
         }
 
         ITakenDamage iTaken = hit[index].transform.GetComponent<ITakenDamage>();
-
-        Character charrr = hit[index].transform.GetComponent<Character>();
-        Flag flag = hit[index].transform.GetComponent<Flag>();
-
 
         if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
         {
@@ -631,11 +627,11 @@ public class Character : InGameObject
 
         m_ShootFlagCd += Time.deltaTime;
 
-        if (m_ShootFlagCd >= m_ShootFlagCdMax)
-        {
-            ChangeState(ShootFlagState.Instance);
-            return;
-        }
+        // if (m_ShootFlagCd >= m_ShootFlagCdMax)
+        // {
+        //     ChangeState(ShootFlagState.Instance);
+        //     return;
+        // }
 
         if (CanChase() && !CanStopChasing())
         {
