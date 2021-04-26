@@ -29,7 +29,7 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
     {
         for (int i = 0; i < _number; i++)
         {
-            Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)];
+            Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)].position;
             int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
             Character charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
             charrr.m_Team = TEAM.Team1;
@@ -46,7 +46,7 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
     {
         for (int i = 0; i < _number; i++)
         {
-            Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)];
+            Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)].position;
             int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
             Character charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
             charrr.m_Team = TEAM.Team2;

@@ -39,7 +39,7 @@ public class Bullet : InGameObject
     {
         m_Team = _bulletInfor.m_Team;
         m_Dmg = _bulletInfor.m_Dmg;
-        tf_Onwer.rotation = _bulletInfor.m_Rotation;
+        tf_Onwer.LookAt(_bulletInfor.m_Rotation);
     }
 
     public virtual void FixedUpdate()
@@ -110,13 +110,13 @@ public class BulletConfigData
     public TEAM m_Team;
     public BigNumber m_Dmg;
     public string m_PrefabName;
-    public Quaternion m_Rotation;
+    public Transform m_Rotation;
 
-    public BulletConfigData(TEAM _team, BigNumber _dmg, string _prefabName, Quaternion _rotation)
+    public BulletConfigData(TEAM _team, BigNumber _dmg, string _prefabName, Transform _lookAt)
     {
         m_Team = _team;
         m_Dmg = _dmg;
         m_PrefabName = _prefabName;
-        m_Rotation = _rotation;
+        m_Rotation = _lookAt;
     }
 }

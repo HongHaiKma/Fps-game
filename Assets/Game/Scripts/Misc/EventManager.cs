@@ -80,11 +80,12 @@ public class EventManagerWithParam<T>
 
 public enum GameEvent
 {
+    SET_CHAR_CROSSHAIR_AIM_POS = 0,
     SET_CHAR_CROSSHAIR_POS = 0,
-    SET_CMLOOK_VALUE = 1,
-    SET_CMLOOK_TARGET = 2,
-    SET_CHAR_TARGET = 3,
-    SET_HEALTH_BAR = 4,
-    DESPAWN = 5,
-    RESET_FLAG_HEALTH_BAR = 6,
+    SET_CMLOOK_VALUE,
+    SET_CMLOOK_TARGET,
+    SET_CHAR_TARGET,
+    SET_HEALTH_BAR,
+    DESPAWN,
+    RESET_FLAG_HEALTH_BAR,
 }

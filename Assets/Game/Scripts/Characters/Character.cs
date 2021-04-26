@@ -43,6 +43,7 @@ public class Character : InGameObject
     [Header("---Shoot---")]
     public Transform tf_FirePoint;
     public Transform tf_Crosshair;
+    public Transform tf_CrosshairAim;
     public int m_ShootBullet;
     public int m_MaxBullet;
     public int m_CurrentBullet;
@@ -96,6 +97,7 @@ public class Character : InGameObject
 
     public void StartListenToEvents()
     {
+        EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
         EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.AddListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
         EventManager.AddListener(GameEvent.DESPAWN, Despawn);
@@ -103,6 +105,7 @@ public class Character : InGameObject
 
     public void StopListenToEvents()
     {
+        EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
         EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.RemoveListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
         EventManager.RemoveListener(GameEvent.DESPAWN, Despawn);
@@ -220,6 +223,14 @@ public class Character : InGameObject
         m_StopChaseCd = 0f;
     }
 
+    public void SetOwnerCrosshairAimPos(Vector3 _pos)
+    {
+        if (!m_AI)
+        {
+            tf_CrosshairAim.position = _pos;
+        }
+    }
+
     public void SetOwnerCrosshairPos(Vector3 _pos)
     {
         if (!m_AI)
@@ -267,7 +278,7 @@ public class Character : InGameObject
         if (Input.GetMouseButtonDown(0))
         {
             string bulletS = ConfigName.bullet1;
-            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_FirePoint.rotation);
+            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
@@ -383,7 +394,7 @@ public class Character : InGameObject
         for (int i = 0; i < m_ShootBullet; i++)
         {
             string bulletS = ConfigName.bullet1;
-            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_FirePoint.rotation);
+            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);

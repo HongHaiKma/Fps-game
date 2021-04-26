@@ -9,6 +9,7 @@ public class CamController : Singleton<CamController>
 
     public Character m_Char;
     public Transform tf_Owner;
+    public Transform tf_CamCrosshairAim;
     public Transform tf_CamCrosshair;
     public LayerMask lm_Char;
     public LayerMask lm_Ignore;
@@ -79,6 +80,8 @@ public class CamController : Singleton<CamController>
         // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
         // Debug.DrawLine(tf_Owner.position, tf_Owner.forward * 80f, Color.green);
 
+        EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+
         CheckShoot();
     }
 
@@ -97,11 +100,11 @@ public class CamController : Singleton<CamController>
 
     public void CheckShoot()
     {
-        Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
+        Debug.DrawLine(tf_Owner.position, tf_CamCrosshairAim.position, Color.green);
         RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f);
         // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity);
         // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity, lm_Ignore);
-        EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+        EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
 
         int hitCount = hit.Length;
 
@@ -114,8 +117,8 @@ public class CamController : Singleton<CamController>
         {
             if ((lm_Char.value & (1 << hit[i].transform.gameObject.layer)) > 0)
             {
-                tf_CamCrosshair.position = hit[i].point;
-                EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+                tf_CamCrosshairAim.position = hit[i].point;
+                EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
                 break;
             }
 
@@ -126,8 +129,8 @@ public class CamController : Singleton<CamController>
             //     continue;
             // }
 
-            tf_CamCrosshair.position = hit[0].point;
-            EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+            tf_CamCrosshairAim.position = hit[0].point;
+            EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
         }
     }
 

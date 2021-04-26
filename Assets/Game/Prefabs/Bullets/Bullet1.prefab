@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InGameObjectType: 1
+  m_Team: 0
   m_Dmg:
     v: 0
     m: 0
-  m_Team: 0
   tf_Onwer: {fileID: 1933021457815705096}
   col_Onwer: {fileID: 4710477348562157043}
   v3_CollisionPoint: {x: 0, y: 0, z: 0}
@@ -96,7 +96,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.2, y: 0.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8767054374724082573
 Rigidbody:

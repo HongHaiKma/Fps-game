@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class ConfigManager : Singleton<ConfigManager>
 {
-    public List<Vector3> m_Team1StartPos;
-    public List<Vector3> m_Team2StartPos;
+    public List<Transform> m_Team1StartPos;
+    public List<Transform> m_Team2StartPos;
 }
