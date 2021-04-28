@@ -181,8 +181,8 @@ public class Character : InGameObject
 
         m_ShootRange = 20.5f;
 
-        m_ChaseRange = 14f;
-        // m_ChaseRange = Mathf.Infinity;
+        // m_ChaseRange = 14f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -228,6 +228,7 @@ public class Character : InGameObject
         if (!m_AI)
         {
             tf_CrosshairAim.position = _pos;
+            // tf_Crosshair.position = _pos;
         }
     }
 
@@ -278,7 +279,15 @@ public class Character : InGameObject
         if (Input.GetMouseButtonDown(0))
         {
             string bulletS = ConfigName.bullet1;
-            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
+            BulletConfigData infor;
+            if (!m_AI)
+            {
+                infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
+            }
+            else
+            {
+                infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_Crosshair);
+            }
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
@@ -394,7 +403,8 @@ public class Character : InGameObject
         for (int i = 0; i < m_ShootBullet; i++)
         {
             string bulletS = ConfigName.bullet1;
-            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
+            // BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
+            BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_Crosshair);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
