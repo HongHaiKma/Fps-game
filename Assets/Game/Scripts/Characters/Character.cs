@@ -782,6 +782,7 @@ public class Character : InGameObject
 
     public override void OnHit(BigNumber _dmg, float _crit)
     {
+        CamController.Instance.m_CMFreeLook.m_Follow = null;
         ApplyDamage(_dmg, _crit);
     }
 
