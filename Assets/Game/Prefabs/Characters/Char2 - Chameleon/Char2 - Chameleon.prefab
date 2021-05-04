@@ -815,6 +815,7 @@ MonoBehaviour:
   m_InGameObjectType: 0
   m_OwnerChar: {fileID: 4597773316488854035}
   m_BodyPart: 1
+  col_Owner: {fileID: 7860120391062226466}
 --- !u!136 &7860120391062226466
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1568,6 +1569,8 @@ MonoBehaviour:
   m_StopChaseCdMax: 3
   m_ShootFlagCd: 168.1896
   m_ShootFlagCdMax: 12
+  m_DeathCd: 0
+  m_DeathCdMax: 0
   m_Target: {fileID: 0}
   m_DistanceToTarget: 47.673584
 --- !u!195 &5364040027293362535
@@ -2743,6 +2746,7 @@ MonoBehaviour:
   m_InGameObjectType: 0
   m_OwnerChar: {fileID: 4597773316488854035}
   m_BodyPart: 0
+  col_Owner: {fileID: 5409430150717039598}
 --- !u!65 &5409430150717039598
 BoxCollider:
   m_ObjectHideFlags: 0

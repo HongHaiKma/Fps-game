@@ -8,6 +8,7 @@ public class CharacterModelPart : MonoBehaviour, ITakenDamage
     public InGameObjectType m_InGameObjectType;
     public Character m_OwnerChar;
     public BodyPart m_BodyPart;
+    public Collider col_Owner;
 
     private void OnEnable()
     {

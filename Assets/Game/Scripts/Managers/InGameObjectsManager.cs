@@ -27,36 +27,56 @@ public class InGameObjectsManager : Singleton<InGameObjectsManager>
 
     public void SpawnTeam1(int _number)
     {
-        for (int i = 0; i < _number; i++)
-        {
-            Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)].position;
-            int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
-            Character charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
-            charrr.m_Team = TEAM.Team1;
-            charrr.m_HeadPart.m_Team = TEAM.Team1;
-            charrr.m_BodyPart.m_Team = TEAM.Team1;
-            charrr.LoadCharacterConfig();
-            charrr.SetupComponents();
-            charrr.m_HealthBar.SetHpBar();
-            m_Team1.Add(charrr);
-        }
+        // for (int i = 0; i < _number; i++)
+        // {
+        Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)].position;
+        int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
+        Character charrr;
+        // if (m_Team1.Count < 5)
+        // {
+        charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
+        // }
+        // else
+        // {
+        //     return;
+        // }
+        charrr.m_Team = TEAM.Team1;
+        charrr.m_HeadPart.m_Team = TEAM.Team1;
+        charrr.m_BodyPart.m_Team = TEAM.Team1;
+        charrr.m_HeadPart.gameObject.SetActive(true);
+        charrr.m_BodyPart.gameObject.SetActive(true);
+        charrr.LoadCharacterConfig();
+        charrr.SetupComponents();
+        charrr.m_HealthBar.SetHpBar();
+        m_Team1.Add(charrr);
+        // }
     }
 
     public void SpawnTeam2(int _number)
     {
-        for (int i = 0; i < _number; i++)
-        {
-            Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)].position;
-            int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
-            Character charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
-            charrr.m_Team = TEAM.Team2;
-            charrr.m_HeadPart.m_Team = TEAM.Team2;
-            charrr.m_BodyPart.m_Team = TEAM.Team2;
-            charrr.LoadCharacterConfig();
-            charrr.SetupComponents();
-            charrr.m_HealthBar.SetHpBar();
-            m_Team2.Add(charrr);
-        }
+        // for (int i = 0; i < _number; i++)
+        // {
+        Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)].position;
+        int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
+        Character charrr;
+        // if (m_Team2.Count < 5)
+        // {
+        charrr = PrefabManager.Instance.SpawnCharPool(charRandom, pos).GetComponent<Character>();
+        // }
+        // else
+        // {
+        //     return;
+        // }
+        charrr.m_Team = TEAM.Team2;
+        charrr.m_HeadPart.m_Team = TEAM.Team2;
+        charrr.m_BodyPart.m_Team = TEAM.Team2;
+        charrr.m_HeadPart.gameObject.SetActive(true);
+        charrr.m_BodyPart.gameObject.SetActive(true);
+        charrr.LoadCharacterConfig();
+        charrr.SetupComponents();
+        charrr.m_HealthBar.SetHpBar();
+        m_Team2.Add(charrr);
+        // }
     }
 
     public Character GetRandomTeam1()

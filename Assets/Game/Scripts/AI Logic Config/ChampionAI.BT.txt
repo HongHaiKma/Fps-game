@@ -15,6 +15,7 @@ tree("Root")
 				while
 					sequence
 						not IsAI
+						not IsDead
 					sequence
 						parallel
 							SetMovingInput

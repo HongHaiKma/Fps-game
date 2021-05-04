@@ -69,6 +69,9 @@ public class Character : InGameObject
     public float m_ShootFlagCd;
     public float m_ShootFlagCdMax;
 
+    public float m_DeathCd;
+    public float m_DeathCdMax;
+
     [Header("---Test---")]
     public Character m_Target;
     private Vector3 m_OldPos;
@@ -123,11 +126,6 @@ public class Character : InGameObject
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            ChangeState(DeathState.Instance);
-        }
-
         if (m_ShootCd < m_ShootCdMax)
         {
             m_ShootCd += Time.deltaTime;
@@ -175,7 +173,7 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 50;
+        m_Dmg = 200;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
@@ -189,12 +187,14 @@ public class Character : InGameObject
         m_AimModelCdMax = 4f;
 
         m_ShootCd = 0.29f;
-        m_ShootCdMax = 2f;
+        m_ShootCdMax = 0.5f;
 
         m_StopChaseCdMax = 3f;
 
         m_ShootFlagCd = 0f;
         m_ShootFlagCdMax = 12f;
+
+        m_DeathCdMax = 2f;
 
         m_MoveSpd = 5f;
     }
@@ -423,6 +423,12 @@ public class Character : InGameObject
     public bool CanShoot()
     {
         Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 10f, Color.red);
+
+        if (m_CharState == CharState.DEATH || m_CharState == CharState.EMPTY)
+        {
+            return false;
+        }
+
         RaycastHit[] hit = Physics.RaycastAll(tf_FirePoint.position, tf_FirePoint.forward * 10f);
         int hitCount = hit.Length;
 
@@ -720,21 +726,46 @@ public class Character : InGameObject
 
     #endregion
 
+    #region EMPTY_STATE
+
+    public virtual void OnEmptyStateEnter()
+    {
+        m_CharState = CharState.EMPTY;
+    }
+
+    public virtual void OnEmptyStateExecute()
+    {
+
+    }
+
+    public virtual void OnEmptyStateExit()
+    {
+
+    }
+
+    #endregion
+
     #region  DEATH
 
     public virtual void OnDeathStateEnter()
     {
+        m_CharState = CharState.DEATH;
         anim_Onwer.SetTrigger("Death");
+        m_DeathCd = 0f;
     }
 
     public virtual void OnDeathStateExecute()
     {
-
+        m_DeathCd += Time.deltaTime;
+        if (m_DeathCd > m_DeathCdMax)
+        {
+            ChangeState(EmptyState.Instance);
+        }
     }
 
     public virtual void OnDeathStateExit()
     {
-
+        HandleDeath();
     }
 
     #endregion
@@ -758,31 +789,36 @@ public class Character : InGameObject
     {
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
 
-        m_Hp -= _dmg * _crit;
-
-        m_HealthBar.SetHpBar();
-
-        if (IsDead())
+        if (!IsDead())
         {
-            InGameObjectsManager.Instance.RemoveDeadChar(m_Team, this);
-            PrefabManager.Instance.DespawnPool(gameObject);
-
-            if (m_Team == TEAM.Team1)
-            {
-                InGameObjectsManager.Instance.SpawnTeam1(1);
-            }
-            else if (m_Team == TEAM.Team2)
-            {
-                InGameObjectsManager.Instance.SpawnTeam2(1);
-            }
-
-            if (!m_AI)
-            {
-                EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, false);
-            }
-
-            EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
+            m_Hp -= _dmg * _crit;
+            m_HealthBar.SetHpBar();
+            m_HeadPart.gameObject.SetActive(false);
+            m_BodyPart.gameObject.SetActive(false);
+            ChangeState(DeathState.Instance);
         }
+    }
+
+    public void HandleDeath()
+    {
+        InGameObjectsManager.Instance.RemoveDeadChar(m_Team, this);
+        PrefabManager.Instance.DespawnPool(gameObject);
+
+        if (m_Team == TEAM.Team1)
+        {
+            InGameObjectsManager.Instance.SpawnTeam1(1);
+        }
+        else if (m_Team == TEAM.Team2)
+        {
+            InGameObjectsManager.Instance.SpawnTeam2(1);
+        }
+
+        if (!m_AI)
+        {
+            EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, false);
+        }
+
+        EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
     }
 
     public BigNumber GetMaxHP()
@@ -795,6 +831,7 @@ public class Character : InGameObject
         return (m_Hp / m_HpMax);
     }
 
+    [Task]
     public bool IsDead()
     {
         return (m_Hp <= 0);
@@ -857,7 +894,9 @@ public enum TEAM
 public enum CharState
 {
     NOTHING = 0,
-    STAND = 1,
-    CHASE = 2,
-    SHOOT_FLAG = 3,
+    STAND,
+    CHASE,
+    SHOOT_FLAG,
+    DEATH,
+    EMPTY,
 }
