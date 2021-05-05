@@ -54,26 +54,26 @@ public class CamController : Singleton<CamController>
         EventManagerWithParam<bool>.RemoveListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
     }
 
-    private void Update()
-    {
-        if (m_Char != null)
-        {
-            if (m_Char.m_AI)
-            {
-                m_Char.m_AI = false;
-            }
-        }
+    // private void Update()
+    // {
+    //     // if (m_Char != null)
+    //     // {
+    //     //     if (m_Char.m_AI)
+    //     //     {
+    //     //         m_Char.m_AI = false;
+    //     //     }
+    //     // }
 
-        // if (m_ShakeTime > 0f)
-        // {
-        //     Helper.DebugLog("m_ShakeTime > 0f");
-        //     m_ShakeTime -= Time.deltaTime;
-        //     if (m_ShakeTime <= 0f)
-        //     {
-        //         m_CMChanelPerlin.m_AmplitudeGain = 0f;
-        //     }
-        // }
-    }
+    //     // if (m_ShakeTime > 0f)
+    //     // {
+    //     //     Helper.DebugLog("m_ShakeTime > 0f");
+    //     //     m_ShakeTime -= Time.deltaTime;
+    //     //     if (m_ShakeTime <= 0f)
+    //     //     {
+    //     //         m_CMChanelPerlin.m_AmplitudeGain = 0f;
+    //     //     }
+    //     // }
+    // }
 
     void FixedUpdate()
     {
@@ -167,6 +167,7 @@ public class CamController : Singleton<CamController>
 
             m_Char = null;
             m_Char = chars[a];
+            m_Char.m_AI = false;
 
             EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
 
@@ -189,6 +190,7 @@ public class CamController : Singleton<CamController>
 
             m_Char = null;
             m_Char = chars[a];
+            m_Char.m_AI = false;
         }
         else
         {
@@ -206,6 +208,7 @@ public class CamController : Singleton<CamController>
 
             m_Char = null;
             m_Char = chars[a];
+            m_Char.m_AI = false;
         }
 
         EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);

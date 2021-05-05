@@ -179,8 +179,8 @@ public class Character : InGameObject
 
         m_ShootRange = 20.5f;
 
-        // m_ChaseRange = 14f;
-        m_ChaseRange = Mathf.Infinity;
+        m_ChaseRange = 14f;
+        // m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -782,7 +782,6 @@ public class Character : InGameObject
 
     public override void OnHit(BigNumber _dmg, float _crit)
     {
-        CamController.Instance.m_CMFreeLook.m_Follow = null;
         ApplyDamage(_dmg, _crit);
     }
 
@@ -794,6 +793,15 @@ public class Character : InGameObject
         {
             m_Hp -= _dmg * _crit;
             m_HealthBar.SetHpBar();
+
+        }
+
+        if (IsDead())
+        {
+            if (!m_AI)
+            {
+                CamController.Instance.m_CMFreeLook.m_Follow = null;
+            }
             m_HeadPart.gameObject.SetActive(false);
             m_BodyPart.gameObject.SetActive(false);
             ChangeState(DeathState.Instance);
@@ -824,7 +832,7 @@ public class Character : InGameObject
 
     public BigNumber GetMaxHP()
     {
-        return 100;
+        return 1000;
     }
 
     public BigNumber GetHpPercentage()
