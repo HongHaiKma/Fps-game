@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Scenes/PlayScene.unity
     guid: 6777af3f75f9bdb4ba987bc1934af68c
+  - enabled: 1
+    path: Assets/Battle Arena - Cartoon Assets/Scenes/scene1.unity
+    guid: 1ed3dd3e025f3ad42989056c52f085c0
   m_configObjects: {}
