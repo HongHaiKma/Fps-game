@@ -40,6 +40,10 @@ public class HealthBar : MonoBehaviour
     public void SetHpBar()
     {
         img_Health.fillAmount = m_Char.GetHpPercentage().ToFloat();
+        if (!m_Char.IsAI())
+        {
+            InGameManager.Instance.m_HealthBarUI.SetHealthBar(m_Char.GetHpPercentage());
+        }
     }
 
     public void SetEnableOrDisable()

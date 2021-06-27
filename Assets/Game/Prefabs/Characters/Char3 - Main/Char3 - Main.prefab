@@ -2511,6 +2511,7 @@ GameObject:
   - component: {fileID: 6991542308472413590}
   - component: {fileID: 7303005074040904347}
   - component: {fileID: 2976980904420197517}
+  - component: {fileID: 9108575158358979467}
   - component: {fileID: 3567652587972238345}
   - component: {fileID: 5696946237699299627}
   - component: {fileID: 5024997552997720195}
@@ -2628,6 +2629,28 @@ MonoBehaviour:
   m_DeathCdMax: 0
   m_Target: {fileID: 0}
   m_DistanceToTarget: 46.756344
+--- !u!114 &9108575158358979467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6840232972134110263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1b4315ae69be2479ee51b48f3686f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SkillType: 1
+  m_Char: {fileID: 2976980904420197517}
+  m_IsActivated: 0
+  m_Cooldown: 0
+  m_CooldownMax: 20
+  m_Duration: 0
+  m_DurationMax: 5
+  m_CastCd: 0
+  m_CastMax: 1
+  m_HealthBar: {fileID: 195096949451824058}
 --- !u!195 &3567652587972238345
 NavMeshAgent:
   m_ObjectHideFlags: 0

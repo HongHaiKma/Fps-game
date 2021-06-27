@@ -38,27 +38,6 @@ public class CamController : Singleton<CamController>
         EventManager1<bool>.RemoveListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
     }
 
-    // private void Update()
-    // {
-    //     // if (m_Char != null)
-    //     // {
-    //     //     if (m_Char.m_AI)
-    //     //     {
-    //     //         m_Char.m_AI = false;
-    //     //     }
-    //     // }
-
-    //     // if (m_ShakeTime > 0f)
-    //     // {
-    //     //     Helper.DebugLog("m_ShakeTime > 0f");
-    //     //     m_ShakeTime -= Time.deltaTime;
-    //     //     if (m_ShakeTime <= 0f)
-    //     //     {
-    //     //         m_CMChanelPerlin.m_AmplitudeGain = 0f;
-    //     //     }
-    //     // }
-    // }
-
     void FixedUpdate()
     {
         // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
@@ -73,13 +52,6 @@ public class CamController : Singleton<CamController>
     {
         m_CamShaker.Shake();
     }
-
-    // public void Shake(float _amplitude, float _duration)
-    // {
-    //     m_CMChanelPerlin.m_AmplitudeGain = _amplitude;
-    //     m_ShakeTime = _duration;
-    //     Helper.DebugLog("Camera shake called!!!!!");
-    // }
 
     public void CheckShoot()
     {
@@ -200,5 +172,8 @@ public class CamController : Singleton<CamController>
     public void Test()
     {
         EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
+        EventManager.CallEvent(GameEvent.DEACTIVATE_SKILL);
+        EventManager.CallEvent(GameEvent.SET_SKILL_BUTTON);
+        EventManager.CallEvent(GameEvent.SET_HP_BAR_UI);
     }
 }

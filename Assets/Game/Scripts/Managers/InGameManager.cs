@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGameManager : Singleton<InGameManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public HealthBarUI m_HealthBarUI;
+    public Button btn_Skill;
 
+    private void Awake()
+    {
+        GUIManager.Instance.AddClickEvent(btn_Skill, ActivateSkill);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ActivateSkill()
     {
-
+        EventManager.CallEvent(GameEvent.ACTIVATE_SKILL);
     }
 }

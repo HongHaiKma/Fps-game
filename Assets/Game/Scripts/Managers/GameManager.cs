@@ -14,10 +14,10 @@ public class GameManager : Singleton<GameManager>
         // Input.multiTouchEnabled = false;
     }
 
-    // private void Update()
-    // {
-    //     Character.UpdateState();
-    // }
+    private void Update()
+    {
+        // Character.UpdateState();
+    }
 
     // public Character GetNearestEnemyInRange(Transform finder, float range)
     // {

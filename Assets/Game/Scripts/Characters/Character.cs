@@ -90,28 +90,30 @@ public class Character : InGameObject
         m_NewPos = tf_Owner.position;
 
         ResetAllCooldown();
-        StartListenToEvents();
+        AddListener();
     }
 
     private void OnDisable()
     {
-        StopListenToEvents();
+        RemoveListener();
     }
 
-    public void StartListenToEvents()
+    public void AddListener()
     {
         EventManager1<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
         EventManager1<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.AddListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
         EventManager.AddListener(GameEvent.DESPAWN, Despawn);
+        EventManager.AddListener(GameEvent.SET_HP_BAR_UI, Event_SET_HP_BAR_UI);
     }
 
-    public void StopListenToEvents()
+    public void RemoveListener()
     {
         EventManager1<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
         EventManager1<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.RemoveListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
         EventManager.RemoveListener(GameEvent.DESPAWN, Despawn);
+        EventManager.RemoveListener(GameEvent.SET_HP_BAR_UI, Event_SET_HP_BAR_UI);
     }
 
     public void Despawn()
@@ -126,6 +128,26 @@ public class Character : InGameObject
 
     private void Update()
     {
+        HandleCooldown();
+
+        m_StateMachine.ExecuteStateUpdate();
+
+        if (m_Target != null)
+        {
+            m_DistanceToTarget = Helper.CalDistance(tf_Owner.position, m_Target.tf_Owner.position);
+        }
+    }
+
+    public void Event_SET_HP_BAR_UI()
+    {
+        if (!IsAI())
+        {
+            InGameManager.Instance.m_HealthBarUI.SetHealthBar(GetHpPercentage());
+        }
+    }
+
+    public void HandleCooldown()
+    {
         if (m_ShootCd < m_ShootCdMax)
         {
             m_ShootCd += Time.deltaTime;
@@ -139,13 +161,6 @@ public class Character : InGameObject
         if (m_AimModelCd < m_AimModelCdMax)
         {
             m_AimModelCd += Time.deltaTime;
-        }
-
-        m_StateMachine.ExecuteStateUpdate();
-
-        if (m_Target != null)
-        {
-            m_DistanceToTarget = Helper.CalDistance(tf_Owner.position, m_Target.tf_Owner.position);
         }
     }
 
@@ -810,8 +825,7 @@ public class Character : InGameObject
             m_HealthBar.SetHpBar();
 
         }
-
-        if (IsDead())
+        else
         {
             if (!m_AI)
             {
@@ -890,6 +904,33 @@ public class Character : InGameObject
     }
 
     #endregion
+
+    public virtual void HandleSkill()
+    {
+
+    }
+
+    public virtual void HandleSkill(bool _activated)
+    {
+        if (_activated)
+        {
+            TurnOnSkill();
+        }
+        else
+        {
+            TurnOffSkill();
+        }
+    }
+
+    public virtual void TurnOnSkill()
+    {
+
+    }
+
+    public virtual void TurnOffSkill()
+    {
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {

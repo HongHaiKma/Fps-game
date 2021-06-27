@@ -20,7 +20,7 @@ public class PrefabManager : Singleton<PrefabManager>
     private void Awake()
     {
         InitPrefab();
-        InitIngamePrefab();
+        // InitIngamePrefab();
     }
 
     public void InitIngamePrefab()
