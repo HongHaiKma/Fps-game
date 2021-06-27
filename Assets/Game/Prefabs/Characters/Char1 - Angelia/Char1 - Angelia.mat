@@ -8,9 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Char1 - Angelia
-  m_Shader: {fileID: 4800000, guid: f7e38193b7f064d7380403618fd8b69e, type: 3}
-  m_ShaderKeywords: DR_ENABLE_LIGHTMAP_DIR DR_RIM_ON DR_SPECULAR_ON _CELPRIMARYMODE_SINGLE
-    _TEXTUREBLENDINGMODE_MULTIPLY _UNITYSHADOWMODE_NONE
+  m_Shader: {fileID: 4800000, guid: bca56e75ecb7277438a3fc9b33ce803f, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -80,6 +79,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 79368a1cabc14df448b62ec1abfee76f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 79368a1cabc14df448b62ec1abfee76f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -112,7 +115,9 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DoubleSided: 1
     - _DstBlend: 0
+    - _EdgeSoftness: 0
     - _EnvironmentReflections: 1
     - _FlatRimEdgeSmoothness: 0.04
     - _FlatRimLightAlign: 0
@@ -144,6 +149,7 @@ Material:
     - _ReceiveShadows: 1
     - _RimEnabled: 1
     - _RimOffset: 0.65
+    - _SampleGI: 0
     - _SelfShadingSize: 0.57
     - _SelfShadingSizeExtra: 0.6
     - _ShadowEdgeSize: 0
@@ -164,6 +170,7 @@ Material:
     - _UnityShadowSharpness: 1
     - _VertexColorsEnabled: 0
     - _WorkflowMode: 1
+    - _ZTest: 0
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
@@ -181,6 +188,7 @@ Material:
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _UnityShadowColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
   m_BuildTextureStacks: []
 --- !u!114 &2153045955417562458

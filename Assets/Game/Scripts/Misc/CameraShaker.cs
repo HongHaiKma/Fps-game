@@ -13,7 +13,6 @@ public class CameraShaker : MonoBehaviour
     public void Shake()
     {
         shakeDuration = 0.3f;
-        Helper.DebugLog("Camera Shakiiiiiiiiiiiiiiing!!!!");
     }
     void Update()
     {

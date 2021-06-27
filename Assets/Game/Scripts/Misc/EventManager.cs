@@ -36,11 +36,11 @@ public class EventManager
     public static void Clear()
     {
         EventDictionary.Clear();
-        EventManagerWithParam<object>.Clear();
+        EventManager1<object>.Clear();
     }
 }
 
-public class EventManagerWithParam<T>
+public class EventManager1<T>
 {
     public static Dictionary<GameEvent, List<Action<T>>> EventDictionaryWithParam = new Dictionary<GameEvent, List<Action<T>>>();
 

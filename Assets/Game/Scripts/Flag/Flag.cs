@@ -10,6 +10,8 @@ public class Flag : InGameObject
     // public TEAM m_Team;
     public Image img_Health;
     public Transform tf_ShootPoint;
+    public Transform tf_Stop;
+    public Transform tf_HealthBar;
 
     private void OnEnable()
     {
@@ -38,8 +40,8 @@ public class Flag : InGameObject
 
     private void LateUpdate()
     {
-        transform.LookAt(Camera.main.transform);
-        transform.Rotate(0f, 90f, 0f);
+        tf_HealthBar.LookAt(Camera.main.transform);
+        // tf_HealthBar.Rotate(0f, 90f, 0f);
     }
 
     public void ResetBar()
@@ -71,8 +73,8 @@ public class Flag : InGameObject
     public override void OnHit(BigNumber _dmg)
     {
         m_Hp -= _dmg;
-        Debug.Log("m_Hp = " + m_Hp);
-        Debug.Log("m_HpMax = " + m_HpMax);
+        // Debug.Log("m_Hp = " + m_Hp);
+        // Debug.Log("m_HpMax = " + m_HpMax);
         SetHpBar();
 
         if (m_Hp <= 0f)
@@ -82,8 +84,8 @@ public class Flag : InGameObject
             // int team1Count = InGameObjectsManager.Instance.m_Team1.Count;
             // int team2Count = InGameObjectsManager.Instance.m_Team2.Count;
 
-            List<Character> list1 = InGameObjectsManager.Instance.m_Team1;
-            List<Character> list2 = InGameObjectsManager.Instance.m_Team2;
+            List<Character> list1 = ObjectsManager.Instance.m_Team1;
+            List<Character> list2 = ObjectsManager.Instance.m_Team2;
 
             for (int i = 0; i < list1.Count; i++)
             {
@@ -97,11 +99,11 @@ public class Flag : InGameObject
             }
             list2.Clear();
 
-            InGameObjectsManager.Instance.SpawnTeam1(5);
-            InGameObjectsManager.Instance.SpawnTeam2(5);
+            ObjectsManager.Instance.SpawnTeam1(5);
+            ObjectsManager.Instance.SpawnTeam2(5);
 
             EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
-            EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
+            EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
             EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
         }
     }

@@ -100,16 +100,16 @@ public class Character : InGameObject
 
     public void StartListenToEvents()
     {
-        EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
-        EventManagerWithParam<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
+        EventManager1<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
+        EventManager1<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.AddListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
         EventManager.AddListener(GameEvent.DESPAWN, Despawn);
     }
 
     public void StopListenToEvents()
     {
-        EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
-        EventManagerWithParam<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
+        EventManager1<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
+        EventManager1<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
         EventManager.RemoveListener(GameEvent.SET_CHAR_TARGET, SetCharTarget);
         EventManager.RemoveListener(GameEvent.DESPAWN, Despawn);
     }
@@ -179,8 +179,8 @@ public class Character : InGameObject
 
         m_ShootRange = 20.5f;
 
-        m_ChaseRange = 14f;
-        // m_ChaseRange = Mathf.Infinity;
+        // m_ChaseRange = 14f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -203,11 +203,11 @@ public class Character : InGameObject
     {
         if (m_Team == TEAM.Team1)
         {
-            m_Flag = InGameObjectsManager.Instance.m_Map.m_Flag2;
+            m_Flag = ObjectsManager.Instance.m_Map.m_Flag2;
         }
         else if (m_Team == TEAM.Team2)
         {
-            m_Flag = InGameObjectsManager.Instance.m_Map.m_Flag1;
+            m_Flag = ObjectsManager.Instance.m_Map.m_Flag1;
         }
 
         m_AI = true;
@@ -265,16 +265,27 @@ public class Character : InGameObject
         moveInput = moveInput.normalized;
         moveInput = tf_Owner.TransformDirection(moveInput);
 
-        cc_Owner.Move(moveInput * Time.deltaTime * 20f * m_MoveSpd);
+        HandleMoving(moveInput);
+    }
+
+    public void HandleMoving(Vector3 _moveInput)
+    {
+        float gravity = 0f;
+
+        gravity -= 9.81f * Time.deltaTime;
+        cc_Owner.Move(new Vector3(_moveInput.x, gravity, _moveInput.z * 1.2f));
+        if (cc_Owner.isGrounded)
+        {
+            gravity = 0;
+        }
     }
 
     [Task]
     public void SetAimingInput()
     {
         Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
-        // Vector2 mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * 0.35f;
 
-        EventManagerWithParam<Vector2>.CallEvent(GameEvent.SET_CMLOOK_VALUE, mouseInput);
+        EventManager1<Vector2>.CallEvent(GameEvent.SET_CMLOOK_VALUE, mouseInput);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -332,14 +343,14 @@ public class Character : InGameObject
         m_CharState = CharState.CHASE;
         anim_Onwer.SetFloat("InputY", 1);
 
-        // if (m_Target.IsDead())
-        // {
-        SetNavMeshDestination(m_Target.tf_Owner.position);
-        // }
-        // else
-        // {
-        //     ChangeState(StandState.Instance);
-        // }
+        if (!m_Target.IsDead())
+        {
+            SetNavMeshDestination(m_Target.tf_Owner.position);
+        }
+        else
+        {
+            ChangeState(StandState.Instance);
+        }
     }
 
     public virtual void OnChaseExecute()
@@ -360,11 +371,11 @@ public class Character : InGameObject
 
         m_ShootFlagCd += Time.deltaTime;
 
-        // if (m_ShootFlagCd >= m_ShootFlagCdMax)
-        // {
-        //     ChangeState(ShootFlagState.Instance);
-        //     return;
-        // }
+        if (m_ShootFlagCd >= m_ShootFlagCdMax)
+        {
+            ChangeState(ShootFlagState.Instance);
+            return;
+        }
 
         if (CanChase() || m_Target.IsMoving())
         {
@@ -387,11 +398,11 @@ public class Character : InGameObject
     {
         if (m_Team == TEAM.Team1)
         {
-            m_Target = InGameObjectsManager.Instance.GetRandomTeam2();
+            m_Target = ObjectsManager.Instance.GetRandomTeam2();
         }
         else if (m_Team == TEAM.Team2)
         {
-            m_Target = InGameObjectsManager.Instance.GetRandomTeam1();
+            m_Target = ObjectsManager.Instance.GetRandomTeam1();
         }
     }
     #endregion
@@ -654,11 +665,11 @@ public class Character : InGameObject
 
         m_ShootFlagCd += Time.deltaTime;
 
-        // if (m_ShootFlagCd >= m_ShootFlagCdMax)
-        // {
-        //     ChangeState(ShootFlagState.Instance);
-        //     return;
-        // }
+        if (m_ShootFlagCd >= m_ShootFlagCdMax)
+        {
+            ChangeState(ShootFlagState.Instance);
+            return;
+        }
 
         if (CanChase() && !CanStopChasing())
         {
@@ -687,7 +698,10 @@ public class Character : InGameObject
 
         m_CharState = CharState.SHOOT_FLAG;
         anim_Onwer.SetFloat("InputY", 1);
-        SetNavMeshDestination(m_Flag.transform.position);
+        m_ChaseStopRange = 0f;
+        m_ShootFlagCd = 20f;
+        SetNavMeshStopRange(m_ChaseStopRange);
+        SetNavMeshDestination(m_Flag.tf_Stop.position);
     }
 
     public virtual void OnShootFlagExecute()
@@ -707,7 +721,7 @@ public class Character : InGameObject
             ChangeState(ChaseState.Instance);
         }
 
-        if (Helper.InRange(tf_Owner.position, m_Flag.transform.position, 7f))
+        if (Helper.InRange(tf_Owner.position, m_Flag.tf_Stop.position, 0f))
         {
             anim_Onwer.SetFloat("InputY", 0);
             SetNavMeshDestination(tf_Owner.position);
@@ -715,13 +729,14 @@ public class Character : InGameObject
         else
         {
             anim_Onwer.SetFloat("InputY", 1);
-            SetNavMeshDestination(m_Flag.transform.position);
+            SetNavMeshDestination(m_Flag.tf_Stop.position);
         }
     }
 
     public virtual void OnShootFlagExit()
     {
-
+        m_ChaseStopRange = 15f;
+        SetNavMeshStopRange(m_ChaseStopRange);
     }
 
     #endregion
@@ -810,21 +825,21 @@ public class Character : InGameObject
 
     public void HandleDeath()
     {
-        InGameObjectsManager.Instance.RemoveDeadChar(m_Team, this);
+        ObjectsManager.Instance.RemoveDeadChar(m_Team, this);
         PrefabManager.Instance.DespawnPool(gameObject);
 
         if (m_Team == TEAM.Team1)
         {
-            InGameObjectsManager.Instance.SpawnTeam1(1);
+            ObjectsManager.Instance.SpawnTeam1(1);
         }
         else if (m_Team == TEAM.Team2)
         {
-            InGameObjectsManager.Instance.SpawnTeam2(1);
+            ObjectsManager.Instance.SpawnTeam2(1);
         }
 
         if (!m_AI)
         {
-            EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, false);
+            EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, false);
         }
 
         EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
@@ -875,6 +890,15 @@ public class Character : InGameObject
     }
 
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("DeadPlane"))
+        {
+            m_Hp = 0;
+            ChangeState(DeathState.Instance);
+        }
+    }
 }
 
 public interface ITakenDamage

@@ -14,7 +14,6 @@ public class FlagShootPoint : MonoBehaviour, ITakenDamage
 
     public void OnHit(BigNumber _dmg)
     {
-        Helper.DebugLog("FlagShootPoint OnHit");
         m_Flag.OnHit(_dmg);
     }
 

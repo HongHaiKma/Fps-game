@@ -83,6 +83,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1757,6 +1758,7 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2695,6 +2697,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2899,6 +2902,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3066,6 +3070,7 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3572,8 +3577,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Team: 0
+  m_InGameObjectType: 0
   m_OwnerChar: {fileID: 8450222287639211899}
   m_BodyPart: 0
+  col_Owner: {fileID: 0}
 --- !u!65 &8450222287227035152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3639,6 +3647,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3733,6 +3742,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3808,8 +3818,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa88f34e61458d4a90cfa06e44dc151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Team: 0
+  m_InGameObjectType: 0
   m_OwnerChar: {fileID: 8450222287639211899}
   m_BodyPart: 1
+  col_Owner: {fileID: 0}
 --- !u!136 &4508652780992202146
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3897,6 +3910,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8543739d2c278154a869c58a148909f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InGameObjectType: 0
+  m_Team: 0
   rb_Owner: {fileID: 0}
   tf_Owner: {fileID: 8450222287639211901}
   anim_Onwer: {fileID: 6891651273497744768}
@@ -3906,7 +3921,6 @@ MonoBehaviour:
     m_Bits: 128
   m_HealthBar: {fileID: 7678118237473184033}
   cc_Owner: {fileID: 4396484764442233028}
-  m_Team: 0
   m_AI: 0
   m_CharState: 0
   m_Dmg:
@@ -3919,14 +3933,15 @@ MonoBehaviour:
     v: 0
     m: 0
   m_Flag: {fileID: 0}
-  r_AimLayer: {fileID: 0}
-  m_MultiAimConstraint: {fileID: 0}
+  m_HeadPart: {fileID: 0}
+  m_BodyPart: {fileID: 0}
   m_TurnSpd: 15
   tf_Head: {fileID: 8450222287227035155}
   tf_Body: {fileID: 8450222287627149679}
   m_AimBodyPart: 1
   tf_FirePoint: {fileID: 6841089472472043203}
   tf_Crosshair: {fileID: 8450222288704783428}
+  tf_CrosshairAim: {fileID: 0}
   m_ShootBullet: 0
   m_MaxBullet: 0
   m_CurrentBullet: 0
@@ -3943,7 +3958,10 @@ MonoBehaviour:
   m_StopChaseCdMax: 0
   m_ShootFlagCd: 0
   m_ShootFlagCdMax: 0
+  m_DeathCd: 0
+  m_DeathCdMax: 0
   m_Target: {fileID: 0}
+  m_DistanceToTarget: 0
 --- !u!195 &8450222287639211846
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4036,6 +4054,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4120,6 +4139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9052990295608109092}
   - component: {fileID: 662070292972138240}
+  - component: {fileID: 4266595698837619856}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -4155,6 +4175,22 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!54 &4266595698837619856
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652494971660799334}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &8663800323720282937
 GameObject:
   m_ObjectHideFlags: 0
@@ -4206,6 +4242,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4287,6 +4324,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4368,6 +4406,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4455,6 +4494,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

@@ -2514,6 +2514,8 @@ GameObject:
   - component: {fileID: 3567652587972238345}
   - component: {fileID: 5696946237699299627}
   - component: {fileID: 5024997552997720195}
+  - component: {fileID: 1871107120697770846}
+  - component: {fileID: 8725833823050955667}
   m_Layer: 7
   m_Name: Char3 - Main
   m_TagString: Untagged
@@ -4923,6 +4925,36 @@ MonoBehaviour:
     - {x: 0.7851301, y: -0.43919313, z: -0.43666926}
     - {x: 0.46028063, y: -0.77264845, z: -0.43721396}
     - {x: 0.775794, y: -0.43273914, z: -0.45921722}
+--- !u!54 &1871107120697770846
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6840232972134110263}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!136 &8725833823050955667
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6840232972134110263}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.26
+  m_Height: 1.3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.62, z: 0}
 --- !u!1 &6963883514813449624
 GameObject:
   m_ObjectHideFlags: 0

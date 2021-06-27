@@ -22,36 +22,20 @@ public class CamController : Singleton<CamController>
 
     private void Awake()
     {
-        Helper.DebugLog("CamControler Awake Calledddd");
         // m_CMChanelPerlin = m_CMFreeLook.GetComponent<CinemachineBasicMultiChannelPerlin>();
         // m_CMChanelPerlin = m_CMFreeLook.Add<CinemachineBasicMultiChannelPerlin>();
     }
 
-    private void OnEnable()
+    public override void AddListener()
     {
-        // m_CMFreeLook.Follow = GameManager.Instance.m_Team1[0].tf_Owner;
-        // m_CMFreeLook.LookAt = GameManager.Instance.m_Team1[0].tf_Head;
-        // m_CMChanelPerlin = m_CMFreeLook.GetCinema<CinemachineBasicMultiChannelPerlin>();
-        // m_CMFreeLook.m_ExcludedPropertiesInInspector
-        // m_CMChanelPerlin = m_CMFreeLook2.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        StartListenToEvents();
+        EventManager1<Vector2>.AddListener(GameEvent.SET_CMLOOK_VALUE, SetCMLookAxisValue);
+        EventManager1<bool>.AddListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
     }
 
-    private void OnDisable()
+    public override void RemoveListener()
     {
-        StopListenToEvents();
-    }
-
-    public void StartListenToEvents()
-    {
-        EventManagerWithParam<Vector2>.AddListener(GameEvent.SET_CMLOOK_VALUE, SetCMLookAxisValue);
-        EventManagerWithParam<bool>.AddListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
-    }
-
-    public void StopListenToEvents()
-    {
-        EventManagerWithParam<Vector2>.RemoveListener(GameEvent.SET_CMLOOK_VALUE, SetCMLookAxisValue);
-        EventManagerWithParam<bool>.RemoveListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
+        EventManager1<Vector2>.RemoveListener(GameEvent.SET_CMLOOK_VALUE, SetCMLookAxisValue);
+        EventManager1<bool>.RemoveListener(GameEvent.SET_CMLOOK_TARGET, ChangeCameraToAnotherChar);
     }
 
     // private void Update()
@@ -80,14 +64,13 @@ public class CamController : Singleton<CamController>
         // Debug.DrawLine(tf_Owner.position, tf_CamCrosshair.position, Color.green);
         // Debug.DrawLine(tf_Owner.position, tf_Owner.forward * 80f, Color.green);
 
-        EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
+        EventManager1<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_POS, tf_CamCrosshair.position);
 
         CheckShoot();
     }
 
     public void Shake()
     {
-        Helper.DebugLog("CamController shakeeeeeeee!!!!!!!!!!!!");
         m_CamShaker.Shake();
     }
 
@@ -104,7 +87,7 @@ public class CamController : Singleton<CamController>
         RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f);
         // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity);
         // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity, lm_Ignore);
-        EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
+        EventManager1<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
 
         int hitCount = hit.Length;
 
@@ -118,7 +101,7 @@ public class CamController : Singleton<CamController>
             if ((lm_Char.value & (1 << hit[i].transform.gameObject.layer)) > 0)
             {
                 tf_CamCrosshairAim.position = hit[i].point;
-                EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
+                EventManager1<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
                 break;
             }
 
@@ -130,7 +113,7 @@ public class CamController : Singleton<CamController>
             // }
 
             tf_CamCrosshairAim.position = hit[0].point;
-            EventManagerWithParam<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
+            EventManager1<Vector3>.CallEvent(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, tf_CamCrosshairAim.position);
         }
     }
 
@@ -157,7 +140,7 @@ public class CamController : Singleton<CamController>
                 m_Char.m_AI = true;
             }
 
-            List<Character> chars = InGameObjectsManager.Instance.m_Team1;
+            List<Character> chars = ObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count);
             chars[a].m_AI = false;
@@ -181,7 +164,7 @@ public class CamController : Singleton<CamController>
                 m_Char.m_AI = true;
             }
 
-            List<Character> chars = InGameObjectsManager.Instance.m_Team1;
+            List<Character> chars = ObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count - 1);
             chars[a].m_AI = false;
@@ -199,7 +182,7 @@ public class CamController : Singleton<CamController>
                 m_Char.m_AI = true;
             }
 
-            List<Character> chars = InGameObjectsManager.Instance.m_Team1;
+            List<Character> chars = ObjectsManager.Instance.m_Team1;
 
             int a = Random.Range(0, chars.Count - 1);
             chars[a].m_AI = false;
@@ -216,6 +199,6 @@ public class CamController : Singleton<CamController>
 
     public void Test()
     {
-        EventManagerWithParam<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
+        EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
     }
 }
