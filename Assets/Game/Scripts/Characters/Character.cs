@@ -386,11 +386,11 @@ public class Character : InGameObject
 
         m_ShootFlagCd += Time.deltaTime;
 
-        if (m_ShootFlagCd >= m_ShootFlagCdMax)
-        {
-            ChangeState(ShootFlagState.Instance);
-            return;
-        }
+        // if (m_ShootFlagCd >= m_ShootFlagCdMax)
+        // {
+        //     ChangeState(ShootFlagState.Instance);
+        //     return;
+        // }
 
         if (CanChase() || m_Target.IsMoving())
         {
@@ -680,11 +680,11 @@ public class Character : InGameObject
 
         m_ShootFlagCd += Time.deltaTime;
 
-        if (m_ShootFlagCd >= m_ShootFlagCdMax)
-        {
-            ChangeState(ShootFlagState.Instance);
-            return;
-        }
+        // if (m_ShootFlagCd >= m_ShootFlagCdMax)
+        // {
+        //     ChangeState(ShootFlagState.Instance);
+        //     return;
+        // }
 
         if (CanChase() && !CanStopChasing())
         {
@@ -818,26 +818,35 @@ public class Character : InGameObject
     public void ApplyDamage(BigNumber _dmg, float _crit)
     {
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
-
+        m_Hp -= _dmg * _crit;
         if (!IsDead())
         {
-            m_Hp -= _dmg * _crit;
-            m_HealthBar.SetHpBar();
-
+            HandleApplyDamageAlive(_dmg, _crit);
         }
         else
         {
-            if (!m_AI)
-            {
-                CamController.Instance.m_CMFreeLook.m_Follow = null;
-            }
-            m_HeadPart.gameObject.SetActive(false);
-            m_BodyPart.gameObject.SetActive(false);
-            ChangeState(DeathState.Instance);
+            HandleApplyDamageDead(_dmg, _crit);
         }
     }
 
-    public void HandleDeath()
+    public virtual void HandleApplyDamageAlive(BigNumber _dmg, float _crit)
+    {
+        // m_Hp -= _dmg * _crit;
+        m_HealthBar.SetHpBar();
+    }
+
+    public virtual void HandleApplyDamageDead(BigNumber _dmg, float _crit)
+    {
+        if (!m_AI)
+        {
+            CamController.Instance.m_CMFreeLook.m_Follow = null;
+        }
+        m_HeadPart.gameObject.SetActive(false);
+        m_BodyPart.gameObject.SetActive(false);
+        ChangeState(DeathState.Instance);
+    }
+
+    public virtual void HandleDeath()
     {
         ObjectsManager.Instance.RemoveDeadChar(m_Team, this);
         PrefabManager.Instance.DespawnPool(gameObject);

@@ -166,13 +166,15 @@ public class CamController : Singleton<CamController>
             m_Char.m_AI = false;
         }
 
+        EventManager.CallEvent(GameEvent.DEACTIVATE_SKILL);
+        EventManager.CallEvent(GameEvent.SET_SKILL_BUTTON);
         EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
     }
 
     public void Test()
     {
-        EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
         EventManager.CallEvent(GameEvent.DEACTIVATE_SKILL);
+        EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
         EventManager.CallEvent(GameEvent.SET_SKILL_BUTTON);
         EventManager.CallEvent(GameEvent.SET_HP_BAR_UI);
     }
