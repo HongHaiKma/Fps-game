@@ -821,21 +821,21 @@ public class Character : InGameObject
         m_Hp -= _dmg * _crit;
         if (!IsDead())
         {
-            HandleApplyDamageAlive(_dmg, _crit);
+            HandleApplyDamageAlive();
         }
         else
         {
-            HandleApplyDamageDead(_dmg, _crit);
+            HandleApplyDamageDead();
         }
     }
 
-    public virtual void HandleApplyDamageAlive(BigNumber _dmg, float _crit)
+    public virtual void HandleApplyDamageAlive()
     {
         // m_Hp -= _dmg * _crit;
         m_HealthBar.SetHpBar();
     }
 
-    public virtual void HandleApplyDamageDead(BigNumber _dmg, float _crit)
+    public virtual void HandleApplyDamageDead()
     {
         if (!m_AI)
         {
@@ -946,7 +946,7 @@ public class Character : InGameObject
         if (other.tag.Equals("DeadPlane"))
         {
             m_Hp = 0;
-            ChangeState(DeathState.Instance);
+            HandleApplyDamageDead();
         }
     }
 }

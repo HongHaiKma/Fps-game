@@ -43,7 +43,10 @@ public class CharacterSkill : MonoBehaviour
 
     public virtual void DeactivateSkill()
     {
-
+        if (!m_Char.IsAI())
+        {
+            InGameManager.Instance.btn_Skill.interactable = false;
+        }
     }
 
     public virtual void HandleSkill()

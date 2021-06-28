@@ -16,6 +16,14 @@ public class AngeliaSkill : NotCdSkill
         EventManager.RemoveListener(GameEvent.DEACTIVATE_SKILL, Event_DEACTIVATE_SKILL);
     }
 
+    private void Update()
+    {
+        if (!m_Char.IsAI())
+        {
+
+        }
+    }
+
     public void Event_DEACTIVATE_SKILL()
     {
         if (!m_Char.IsAI())
@@ -27,7 +35,6 @@ public class AngeliaSkill : NotCdSkill
     public override void DeactivateSkill()
     {
         base.DeactivateSkill();
-        Helper.DebugLog("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     }
 
     public override void HandleSkill()
