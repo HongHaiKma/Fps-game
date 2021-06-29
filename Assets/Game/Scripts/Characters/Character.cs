@@ -194,8 +194,8 @@ public class Character : InGameObject
 
         m_ShootRange = 20.5f;
 
-        // m_ChaseRange = 14f;
-        m_ChaseRange = Mathf.Infinity;
+        m_ChaseRange = 14f;
+        // m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;

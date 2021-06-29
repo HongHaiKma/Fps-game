@@ -8,7 +8,7 @@ public class TestButton : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            // PrefabManager.Instance.SpawnVFXPool("GreenBuff", new Vector3(0f, 3.5f, 0f));
+            PPManager.Instance.DashLens();
         }
     }
 }
