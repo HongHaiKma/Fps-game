@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         Application.targetFrameRate = 60;
+        // Helper.DebugLog("AAAAAAAAAAAAAAAAAAAAAAAAA");
         // #if UNITY_EDITOR
         // Cursor.visible = false;
         // Cursor.lockState = CursorLockMode.Locked;

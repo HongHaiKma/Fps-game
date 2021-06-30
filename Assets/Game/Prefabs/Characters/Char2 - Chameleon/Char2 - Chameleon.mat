@@ -8,14 +8,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Char2 - Chameleon
-  m_Shader: {fileID: 4800000, guid: bca56e75ecb7277438a3fc9b33ce803f, type: 3}
-  m_ShaderKeywords: DR_ENABLE_LIGHTMAP_DIR DR_RIM_ON DR_SPECULAR_ON _CELPRIMARYMODE_SINGLE
-    _TEXTUREBLENDINGMODE_MULTIPLY _UNITYSHADOWMODE_NONE
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: _ENVIRONMENTREFLECTIONS_OFF _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+    _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -53,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 79368a1cabc14df448b62ec1abfee76f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1435c6ea4cd17224aa930f477d0408f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -104,7 +105,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
-    - _Blend: 0
+    - _Blend: 1
     - _BumpScale: 1
     - _CameraDistanceImpact: 0.09
     - _CelExtraEnabled: 0
@@ -117,7 +118,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _FlatRimEdgeSmoothness: 0.04
     - _FlatRimLightAlign: 0
     - _FlatRimSize: 0.23
@@ -148,17 +149,18 @@ Material:
     - _ReceiveShadows: 1
     - _RimEnabled: 1
     - _RimOffset: 0.65
+    - _SampleGI: 0
     - _SelfShadingSize: 0.57
     - _SelfShadingSizeExtra: 0.6
     - _ShadowEdgeSize: 0
     - _ShadowEdgeSizeExtra: 0.05
     - _Shininess: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessSource: 0
-    - _SmoothnessTextureChannel: 0
+    - _SmoothnessTextureChannel: 1
     - _SpecSource: 0
     - _SpecularEnabled: 1
-    - _SpecularHighlights: 1
+    - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _Surface: 0
     - _TextureBlendingMode: 0
@@ -170,7 +172,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.32452828, g: 0.67359734, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorDim: {r: 0.9063225, g: 0.4660377, b: 1, a: 1}
     - _ColorDimCurve: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}

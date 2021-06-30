@@ -126,7 +126,7 @@ public class Character : InGameObject
         cam_Main = Camera.main;
     }
 
-    private void Update()
+    public virtual void Update()
     {
         HandleCooldown();
 
@@ -639,6 +639,21 @@ public class Character : InGameObject
 
     #endregion
 
+    public virtual void OnDashStateEnter()
+    {
+        m_CharState = CharState.DASH;
+    }
+
+    public virtual void OnDashStateExecute()
+    {
+
+    }
+
+    public virtual void OnDashStateExit()
+    {
+
+    }
+
     #region STAND_STATE
 
     // [Task]
@@ -941,7 +956,7 @@ public class Character : InGameObject
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals("DeadPlane"))
         {
@@ -982,4 +997,5 @@ public enum CharState
     SHOOT_FLAG,
     DEATH,
     EMPTY,
+    DASH,
 }
