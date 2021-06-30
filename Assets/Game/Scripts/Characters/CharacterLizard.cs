@@ -6,18 +6,39 @@ public class CharacterLizard : Character
 {
     public bool m_Dash = true;
 
-    public override void Update()
-    {
-        base.Update();
+    // public override void Update()
+    // {
+    //     base.Update();
 
-        if (Input.GetKeyDown(KeyCode.F))
+    //     if (Input.GetKeyDown(KeyCode.F))
+    //     {
+    //         if (!IsAI())
+    //         {
+    //             ChangeState(DashState.Instance);
+    //         }
+    //     }
+    // }
+
+    public override void AddListener()
+    {
+        base.AddListener();
+        EventManager.AddListener(GameEvent.TEST_LIZARD_SKILL, Event_TEST_LIZARD_DASH);
+    }
+
+    public override void RemoveListener()
+    {
+        base.RemoveListener();
+        EventManager.RemoveListener(GameEvent.TEST_LIZARD_SKILL, Event_TEST_LIZARD_DASH);
+    }
+
+    public void Event_TEST_LIZARD_DASH()
+    {
+        if (!IsAI())
         {
-            if (!IsAI())
-            {
-                ChangeState(DashState.Instance);
-            }
+            ChangeState(DashState.Instance);
         }
     }
+
     public override void OnDashStateEnter()
     {
         base.OnDashStateEnter();
@@ -55,17 +76,20 @@ public class CharacterLizard : Character
         PPManager.Instance.SetMotionBlurDash(0f);
     }
 
-    public override void OnTriggerEnter(Collider other)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        base.OnTriggerEnter(other);
+        ITakenDamage iTaken = hit.gameObject.GetComponent<ITakenDamage>();
 
-        Character charrr = other.GetComponent<Character>();
+        Character charrr = iTaken as Character;
 
-        if (m_Dash && m_CharState == CharState.DASH)
+        if (m_Dash && (m_CharState == CharState.DASH))
         {
-            if (charrr != null)
+            if ((iTaken != null) && (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER) && (iTaken.GetTeam() != GetTeam()))
+            // if ((iTaken != null) && (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER))
             {
                 m_Dash = false;
+                iTaken.OnHit(200f, 1f);
+                charrr.KnockBack(tf_Owner.position);
             }
         }
     }

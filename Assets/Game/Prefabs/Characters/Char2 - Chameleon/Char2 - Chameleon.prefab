@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_AI: 1
   m_CharState: 1
   m_Dmg:
-    v: 50
+    v: 0
     m: 0
   m_Hp:
     v: 100

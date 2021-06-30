@@ -65,7 +65,6 @@ public class PPManager : Singleton<PPManager>
             }
             yield return Yielders.Get(1f);
             m_LensDistortion.intensity.Override(0f);
-            Helper.DebugLog("Get lens distorrion");
         }
     }
 }

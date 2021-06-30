@@ -81,7 +81,7 @@ public class Character : InGameObject
     public float m_DistanceToTarget;
 
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         m_StateMachine = new StateMachine<Character>(this);
         m_StateMachine.Init(StandState.Instance);
@@ -93,12 +93,12 @@ public class Character : InGameObject
         AddListener();
     }
 
-    private void OnDisable()
+    public virtual void OnDisable()
     {
         RemoveListener();
     }
 
-    public void AddListener()
+    public virtual void AddListener()
     {
         EventManager1<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
         EventManager1<Vector3>.AddListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
@@ -107,7 +107,7 @@ public class Character : InGameObject
         EventManager.AddListener(GameEvent.SET_HP_BAR_UI, Event_SET_HP_BAR_UI);
     }
 
-    public void RemoveListener()
+    public virtual void RemoveListener()
     {
         EventManager1<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_AIM_POS, SetOwnerCrosshairAimPos);
         EventManager1<Vector3>.RemoveListener(GameEvent.SET_CHAR_CROSSHAIR_POS, SetOwnerCrosshairPos);
@@ -188,14 +188,14 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 200;
+        m_Dmg = 0;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
         m_ShootRange = 20.5f;
 
-        m_ChaseRange = 14f;
-        // m_ChaseRange = Mathf.Infinity;
+        // m_ChaseRange = 14f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -639,6 +639,7 @@ public class Character : InGameObject
 
     #endregion
 
+    #region DASHSTATE
     public virtual void OnDashStateEnter()
     {
         m_CharState = CharState.DASH;
@@ -653,6 +654,8 @@ public class Character : InGameObject
     {
 
     }
+
+    #endregion
 
     #region STAND_STATE
 
@@ -815,6 +818,39 @@ public class Character : InGameObject
 
     #endregion
 
+    #region CC
+
+    public void KnockBack(Vector3 _dir)
+    {
+        // nav_Agent.enabled = false;
+        StartCoroutine(IEKnockBack(_dir));
+    }
+
+    IEnumerator IEKnockBack(Vector3 _dir)
+    {
+        float startTime = Time.time;
+        float dashTime = 0.25f;
+        float dashSpd = 5f;
+
+        while (Time.time < startTime + dashTime)
+        {
+
+            float gravity = 0f;
+            gravity -= 9.81f * Time.deltaTime;
+            if (cc_Owner.isGrounded)
+            {
+                gravity = 0f;
+            }
+            Vector3 dir = new Vector3(tf_Owner.position.x - _dir.x, gravity, tf_Owner.position.z - _dir.z);
+            cc_Owner.Move(dir * dashSpd * Time.deltaTime);
+            yield return null;
+        }
+
+        // nav_Agent.enabled = false;
+    }
+
+    #endregion
+
     public override void OnHit()
     {
 
@@ -834,6 +870,7 @@ public class Character : InGameObject
     {
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
         m_Hp -= _dmg * _crit;
+        // Helper.DebugLog("zvdkvnadjkbvadjkbvadjkmbvadujadvihadvui");
         if (!IsDead())
         {
             HandleApplyDamageAlive();

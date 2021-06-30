@@ -92,4 +92,5 @@ public enum GameEvent
     DEACTIVATE_SKILL,
     SET_SKILL_BUTTON,
     SET_HP_BAR_UI,
+    TEST_LIZARD_SKILL,
 }
