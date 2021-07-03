@@ -11,8 +11,8 @@ public class InGameManager : Singleton<InGameManager>
 
     private void Awake()
     {
-        // GUIManager.Instance.AddClickEvent(btn_Skill, ActivateSkill);
-        GUIManager.Instance.AddClickEvent(btn_TestLizardSkill, Event_TEST_LIZARD_DASH);
+        GUIManager.Instance.AddClickEvent(btn_Skill, ActivateSkill);
+        // GUIManager.Instance.AddClickEvent(btn_TestLizardSkill, Event_TEST_LIZARD_DASH);
     }
 
     public void ActivateSkill()

@@ -16,14 +16,13 @@ public class CharacterAngelia : Character
 
     public override void HandleApplyDamageDead()
     {
+        base.HandleApplyDamageDead();
+
         if (!IsAI())
         {
             CamController.Instance.m_CMFreeLook.m_Follow = null;
             EventManager.CallEvent(GameEvent.DEACTIVATE_SKILL);
-            Helper.DebugLog("Agelia die");
+            InGameManager.Instance.btn_Skill.interactable = false;
         }
-        m_HeadPart.gameObject.SetActive(false);
-        m_BodyPart.gameObject.SetActive(false);
-        ChangeState(DeathState.Instance);
     }
 }

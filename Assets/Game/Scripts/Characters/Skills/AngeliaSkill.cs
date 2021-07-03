@@ -49,5 +49,6 @@ public class AngeliaSkill : NotCdSkill
             CamController.Instance.m_CMFreeLook.m_Lens.FieldOfView = 40f;
             m_Char.HandleSkill(false);
         }
+        InGameManager.Instance.btn_Skill.interactable = true;
     }
 }

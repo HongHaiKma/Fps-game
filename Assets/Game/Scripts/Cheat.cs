@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class Cheat : MonoBehaviour
 {
-    public void OpenDebugger()
-    {
-        SRDebug.Instance.ShowDebugPanel();
-    }
+
 }

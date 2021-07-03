@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CdSkill : CharacterSkill
 {
@@ -17,10 +18,20 @@ public class CdSkill : CharacterSkill
     {
         if (m_Cooldown <= m_CooldownMax)
         {
+            Button btn = InGameManager.Instance.btn_Skill;
             m_Cooldown += Time.deltaTime;
-            if (m_Cooldown >= m_CooldownMax && !m_Char.IsAI())
+
+            if (!m_Char.IsAI())
             {
-                InGameManager.Instance.btn_Skill.interactable = true;
+                if (m_Cooldown >= m_CooldownMax)
+                {
+                    btn.GetComponent<Image>().fillAmount = 1f;
+                    btn.interactable = true;
+                }
+                else
+                {
+                    btn.GetComponent<Image>().fillAmount = (m_Cooldown / m_CooldownMax);
+                }
             }
         }
     }
@@ -47,13 +58,17 @@ public class CdSkill : CharacterSkill
 
     public override void SetSkillButton()
     {
+        Button btn = InGameManager.Instance.btn_Skill;
         if (m_Cooldown <= m_CooldownMax)
         {
-            InGameManager.Instance.btn_Skill.interactable = false;
+
+            btn.interactable = false;
+            btn.GetComponent<Image>().fillAmount = (m_Cooldown / m_CooldownMax);
         }
         else
         {
-            InGameManager.Instance.btn_Skill.interactable = true;
+            btn.interactable = true;
+            btn.GetComponent<Image>().fillAmount = 1f;
         }
     }
 }

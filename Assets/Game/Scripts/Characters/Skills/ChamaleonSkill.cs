@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChamaleonSkill : MonoBehaviour
+public class ChamaleonSkill : NotDurationSkill
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void HandleSkill()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Helper.DebugLog("ChamaleonSkill handle skil");
+        CharacterChameleon charrr = m_Char as CharacterChameleon;
+        charrr.Event_TEST_LIZARD_DASH();
     }
 }

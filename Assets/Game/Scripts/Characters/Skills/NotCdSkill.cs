@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NotCdSkill : CharacterSkill
 {
@@ -29,6 +30,8 @@ public class NotCdSkill : CharacterSkill
 
     public override void SetSkillButton()
     {
-        InGameManager.Instance.btn_Skill.interactable = true;
+        Button btn = InGameManager.Instance.btn_Skill;
+        btn.GetComponent<Image>().fillAmount = 1f;
+        btn.interactable = true;
     }
 }

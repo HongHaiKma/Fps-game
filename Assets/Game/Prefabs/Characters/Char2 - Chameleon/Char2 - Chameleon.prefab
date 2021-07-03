@@ -1462,6 +1462,7 @@ GameObject:
   - component: {fileID: 6180994952973600573}
   - component: {fileID: 1319528909474572373}
   - component: {fileID: 4597773316488854035}
+  - component: {fileID: 3255639152912396493}
   - component: {fileID: 5364040027293362535}
   - component: {fileID: 7555388933681974238}
   - component: {fileID: 8423931490542077542}
@@ -1580,7 +1581,25 @@ MonoBehaviour:
   m_Target: {fileID: 0}
   v3_KnockBackDir: {x: 0, y: 0, z: 0}
   m_DistanceToTarget: 47.673584
-  m_Dash: 1
+  m_IsDash: 1
+  m_IsDashDam: 1
+--- !u!114 &3255639152912396493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4462982759565529161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e176fd3ce2f063d4f8de5e7dbc4e64c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SkillType: 1
+  m_Char: {fileID: 4597773316488854035}
+  m_IsActivated: 0
+  m_Cooldown: 0
+  m_CooldownMax: 5
 --- !u!195 &5364040027293362535
 NavMeshAgent:
   m_ObjectHideFlags: 0

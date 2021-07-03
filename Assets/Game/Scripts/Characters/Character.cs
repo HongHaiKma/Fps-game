@@ -189,7 +189,7 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 0;
+        m_Dmg = 100;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
@@ -678,9 +678,12 @@ public class Character : InGameObject
             return;
         }
 
-        nav_Agent.isStopped = true;
-        nav_Agent.Warp(tf_Owner.position);
-        SetNavMeshUpdatePosition(false);
+        if (cc_Owner.isGrounded)
+        {
+            nav_Agent.isStopped = true;
+            nav_Agent.Warp(tf_Owner.position);
+            SetNavMeshUpdatePosition(false);
+        }
 
         m_CharState = CharState.STAND;
         anim_Onwer.SetFloat("InputY", 0);
@@ -705,6 +708,14 @@ public class Character : InGameObject
         }
 
         // SetNavMeshUpdatePosition(false);
+
+        if (!cc_Owner.isGrounded)
+        {
+            float gravity = 0f;
+            gravity -= 9.81f * Time.deltaTime;
+            Vector3 dir = new Vector3(0f, gravity, 0f);
+            cc_Owner.Move(dir);
+        }
 
         m_ShootFlagCd += Time.deltaTime;
 
@@ -856,21 +867,13 @@ public class Character : InGameObject
     {
         float startTime = Time.time;
         float dashTime = 0.25f;
-        float dashSpd = 5f;
+        float dashSpd = 7.5f;
 
         nav_Agent.enabled = false;
 
         while (Time.time < startTime + dashTime)
         {
-
-            float gravity = 0f;
-            gravity -= 9.81f * Time.deltaTime;
-            if (cc_Owner.isGrounded)
-            {
-                // gravity = 0f;
-                Helper.DebugLog("KNock back gravity == 0");
-            }
-            Vector3 dir = new Vector3(tf_Owner.position.x - _dir.x, gravity, tf_Owner.position.z - _dir.z);
+            Vector3 dir = new Vector3(tf_Owner.position.x - _dir.x, 0f, tf_Owner.position.z - _dir.z);
             cc_Owner.Move(dir * dashSpd * Time.deltaTime);
             yield return null;
         }
@@ -933,6 +936,7 @@ public class Character : InGameObject
         if (!m_AI)
         {
             CamController.Instance.m_CMFreeLook.m_Follow = null;
+            InGameManager.Instance.btn_Skill.interactable = false;
         }
         m_HeadPart.gameObject.SetActive(false);
         m_BodyPart.gameObject.SetActive(false);
