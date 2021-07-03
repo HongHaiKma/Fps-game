@@ -76,6 +76,7 @@ public class Character : InGameObject
     public Character m_Target;
     private Vector3 m_OldPos;
     private Vector3 m_NewPos;
+    public Vector3 v3_KnockBackDir;
 
 
     public float m_DistanceToTarget;
@@ -684,6 +685,15 @@ public class Character : InGameObject
         m_CharState = CharState.STAND;
         anim_Onwer.SetFloat("InputY", 0);
         anim_Onwer.SetFloat("InputX", 0);
+
+        // float gravity = 0f;
+        // gravity -= 9.81f * Time.deltaTime;
+        // if (cc_Owner.isGrounded)
+        // {
+        //     gravity = 0f;
+        // }
+        // Vector3 dir = new Vector3(0f, gravity, 0f);
+        // cc_Owner.Move(dir);
     }
 
     public virtual void OnStandExecute()
@@ -820,10 +830,26 @@ public class Character : InGameObject
 
     #region CC
 
-    public void KnockBack(Vector3 _dir)
+    public virtual void OnKnockBackStateEnter()
     {
-        // nav_Agent.enabled = false;
-        StartCoroutine(IEKnockBack(_dir));
+        m_CharState = CharState.KNOCKBACK;
+        KnockBack();
+    }
+
+    public virtual void OnKnockBackStateExecute()
+    {
+
+    }
+
+    public virtual void OnKnockBackStateExit()
+    {
+
+    }
+
+    // public void KnockBack(Vector3 _dir)
+    public void KnockBack()
+    {
+        StartCoroutine(IEKnockBack(v3_KnockBackDir));
     }
 
     IEnumerator IEKnockBack(Vector3 _dir)
@@ -832,6 +858,8 @@ public class Character : InGameObject
         float dashTime = 0.25f;
         float dashSpd = 5f;
 
+        nav_Agent.enabled = false;
+
         while (Time.time < startTime + dashTime)
         {
 
@@ -839,14 +867,27 @@ public class Character : InGameObject
             gravity -= 9.81f * Time.deltaTime;
             if (cc_Owner.isGrounded)
             {
-                gravity = 0f;
+                // gravity = 0f;
+                Helper.DebugLog("KNock back gravity == 0");
             }
             Vector3 dir = new Vector3(tf_Owner.position.x - _dir.x, gravity, tf_Owner.position.z - _dir.z);
             cc_Owner.Move(dir * dashSpd * Time.deltaTime);
             yield return null;
         }
 
-        // nav_Agent.enabled = false;
+        while (!cc_Owner.isGrounded)
+        {
+            float gravity = 0f;
+            gravity -= 9.81f * Time.deltaTime;
+            Vector3 dir = new Vector3(0f, gravity, 0f);
+            cc_Owner.Move(dir);
+            // tf_Owner.position = new Vector3(tf_Owner.position.x, gravity, tf_Owner.position.z);
+            yield return null;
+        }
+
+        nav_Agent.enabled = true;
+
+        ChangeState(StandState.Instance);
     }
 
     #endregion
@@ -1035,4 +1076,5 @@ public enum CharState
     DEATH,
     EMPTY,
     DASH,
+    KNOCKBACK,
 }

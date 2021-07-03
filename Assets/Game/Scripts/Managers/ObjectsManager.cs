@@ -9,10 +9,12 @@ public class ObjectsManager : Singleton<ObjectsManager>
     public List<Character> m_Team1;
     public List<Character> m_Team2;
 
+    public int m_SpawnTeam;
+
     public override void OnEnable()
     {
-        SpawnTeam1(5);
-        SpawnTeam2(5);
+        SpawnTeam1(m_SpawnTeam);
+        SpawnTeam2(m_SpawnTeam);
 
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
         EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
@@ -27,7 +29,7 @@ public class ObjectsManager : Singleton<ObjectsManager>
 
     public void SpawnTeam1(int _number)
     {
-        for (int i = 0; i < _number; i++)
+        for (int i = 0; i < m_SpawnTeam; i++)
         {
             Vector3 pos = ConfigManager.Instance.m_Team1StartPos[Random.Range(0, ConfigManager.Instance.m_Team1StartPos.Count - 1)].position;
             int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);
@@ -54,7 +56,7 @@ public class ObjectsManager : Singleton<ObjectsManager>
 
     public void SpawnTeam2(int _number)
     {
-        for (int i = 0; i < _number; i++)
+        for (int i = 0; i < m_SpawnTeam; i++)
         {
             Vector3 pos = ConfigManager.Instance.m_Team2StartPos[Random.Range(0, ConfigManager.Instance.m_Team2StartPos.Count - 1)].position;
             int charRandom = Random.Range(0, PrefabManager.Instance.m_CharPrefabs.Length);

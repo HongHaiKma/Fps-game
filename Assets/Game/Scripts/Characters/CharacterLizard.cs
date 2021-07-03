@@ -6,18 +6,18 @@ public class CharacterLizard : Character
 {
     public bool m_Dash = true;
 
-    // public override void Update()
-    // {
-    //     base.Update();
+    public override void Update()
+    {
+        base.Update();
 
-    //     if (Input.GetKeyDown(KeyCode.F))
-    //     {
-    //         if (!IsAI())
-    //         {
-    //             ChangeState(DashState.Instance);
-    //         }
-    //     }
-    // }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (!IsAI())
+            {
+                ChangeState(DashState.Instance);
+            }
+        }
+    }
 
     public override void AddListener()
     {
@@ -88,8 +88,10 @@ public class CharacterLizard : Character
             // if ((iTaken != null) && (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER))
             {
                 m_Dash = false;
-                iTaken.OnHit(200f, 1f);
-                charrr.KnockBack(tf_Owner.position);
+                iTaken.OnHit(0f, 1f);
+                // charrr.KnockBack(tf_Owner.position);
+                charrr.v3_KnockBackDir = tf_Owner.position;
+                charrr.ChangeState(KnockBackState.Instance);
             }
         }
     }

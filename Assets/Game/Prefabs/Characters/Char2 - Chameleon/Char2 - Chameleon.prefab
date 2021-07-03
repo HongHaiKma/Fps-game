@@ -1578,6 +1578,7 @@ MonoBehaviour:
   m_DeathCd: 0
   m_DeathCdMax: 0
   m_Target: {fileID: 0}
+  v3_KnockBackDir: {x: 0, y: 0, z: 0}
   m_DistanceToTarget: 47.673584
   m_Dash: 1
 --- !u!195 &5364040027293362535
