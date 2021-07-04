@@ -18,6 +18,14 @@ public class ChangeScene : Editor
         OpenScene("PlayScene");
     }
 
+    [MenuItem("Scene/Character Scripts")]
+    public static void OpenCharScripts()
+    {
+        string path = "Assets/Game/Scripts/Characters/Character.cs";
+
+        OpenFolder(path);
+    }
+
     // [MenuItem("Scene/Popup Prefab")]
     // public static void OpenPopupFolder()
     // {
@@ -66,14 +74,14 @@ public class ChangeScene : Editor
     //     OpenFolder(path);
     // }
 
-    // private static void OpenFolder(string _path)
-    // {
-    //     Object obj = AssetDatabase.LoadAssetAtPath(_path, typeof(Object));
+    private static void OpenFolder(string _path)
+    {
+        Object obj = AssetDatabase.LoadAssetAtPath(_path, typeof(Object));
 
-    //     EditorUtility.FocusProjectWindow();
-    //     Selection.activeObject = obj;
-    //     EditorGUIUtility.PingObject(Selection.activeObject);
-    // }
+        EditorUtility.FocusProjectWindow();
+        Selection.activeObject = obj;
+        EditorGUIUtility.PingObject(Selection.activeObject);
+    }
 
     private static void OpenScene(string sceneName)
     {

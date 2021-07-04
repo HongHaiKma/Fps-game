@@ -10,6 +10,7 @@ public class PPManager : Singleton<PPManager>
     public Volume m_Volume;
     private LensDistortion m_LensDistortion;
     private MotionBlur m_MotionBlur;
+    private Vignette m_Vignette;
 
     float maxLensIntensity = -1f;
     float vignIntensity = 0;
@@ -20,6 +21,14 @@ public class PPManager : Singleton<PPManager>
         if (m_Volume.profile.TryGet(out m_MotionBlur))
         {
             m_MotionBlur.intensity.Override(_value);
+        }
+    }
+
+    public void SetZoomVinegtte(float _value)
+    {
+        if (m_Volume.profile.TryGet(out m_Vignette))
+        {
+            m_Vignette.intensity.Override(_value);
         }
     }
 
