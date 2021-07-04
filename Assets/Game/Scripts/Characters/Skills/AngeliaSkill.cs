@@ -54,7 +54,7 @@ public class AngeliaSkill : NotCdSkill
             float zoom = 0f;
             while (zoom <= 0.45f)
             {
-                zoom += Time.deltaTime;
+                zoom += Time.deltaTime * 1.5f;
                 PPManager.Instance.SetZoomVinegtte(zoom);
                 yield return null;
             }
@@ -67,7 +67,7 @@ public class AngeliaSkill : NotCdSkill
             float zoom = 0.45f;
             while (zoom > 0f)
             {
-                zoom -= Time.deltaTime;
+                zoom -= Time.deltaTime * 1.5f;
                 PPManager.Instance.SetZoomVinegtte(zoom);
                 yield return null;
             }
@@ -84,7 +84,7 @@ public class AngeliaSkill : NotCdSkill
             float zoom = 40f;
             while (zoom > 10f)
             {
-                zoom -= Time.deltaTime * 120f;
+                zoom -= Time.deltaTime * 100f * 1.5f;
                 CamController.Instance.m_CMFreeLook.m_Lens.FieldOfView = zoom;
                 yield return null;
             }
@@ -97,7 +97,7 @@ public class AngeliaSkill : NotCdSkill
             float zoom = 10f;
             while (zoom < 40f)
             {
-                zoom += Time.deltaTime * 120f;
+                zoom += Time.deltaTime * 100f * 1.5f;
                 CamController.Instance.m_CMFreeLook.m_Lens.FieldOfView = zoom;
                 yield return null;
             }

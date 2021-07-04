@@ -23,15 +23,6 @@ public class DontGoThroughThings : MonoBehaviour
     public bool m_Collided;
     public Collider col_Onwer;
 
-    //initialize values 
-    // void Start()
-    // {
-    //     previousPosition = myRigidbody.position;
-    //     minimumExtent = Mathf.Min(Mathf.Min(myCollider.bounds.extents.x, myCollider.bounds.extents.y), myCollider.bounds.extents.z);
-    //     partialExtent = minimumExtent * (1.0f - skinWidth);
-    //     sqrMinimumExtent = minimumExtent * minimumExtent;
-    // }
-
     private void OnEnable()
     {
         previousPosition = myRigidbody.position;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Bullet : InGameObject
 {
@@ -20,13 +21,16 @@ public class Bullet : InGameObject
     public float m_FlyingTimeMax;
     public bool m_Collided;
 
+    [Header("Test Rocket")]
+    public Vector3 v3_Rotation;
+
     private void OnEnable()
     {
         m_Collided = false;
         // col_Onwer.enabled = true;
 
         m_FlyingTime = 0f;
-        m_FlyingTimeMax = 3f;
+        m_FlyingTimeMax = 10f;
     }
 
     private void OnDisable()
@@ -39,12 +43,16 @@ public class Bullet : InGameObject
     {
         m_Team = _bulletInfor.m_Team;
         m_Dmg = _bulletInfor.m_Dmg;
-        tf_Onwer.LookAt(_bulletInfor.m_Rotation);
+        v3_Rotation = _bulletInfor.m_Rotation.position;
+        tf_Onwer.LookAt(_bulletInfor.m_Rotation.position);
+        TestRocket();
     }
 
     public virtual void FixedUpdate()
     {
+
         tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.fixedDeltaTime;
+
 
         m_FlyingTime += Time.fixedDeltaTime;
 
@@ -64,11 +72,25 @@ public class Bullet : InGameObject
 
     }
 
-    // public void OnTriggerEnter(Collider other)
-    // {
-    //     OnHit(other.gameObject.name);
-    //     VFXEffect();
-    // }
+    public void TestRocket()
+    {
+        float offset = 6f;
+        DOTween.To(
+            () =>
+            offset,
+            x => offset = x, 0f, 0.3f).SetEase(Ease.InCirc)
+            .OnUpdate(
+                () =>
+                {
+                    Vector3 v33 = v3_Rotation + new Vector3(offset, offset, offset);
+                    tf_Onwer.LookAt(v33);
+                }
+            ).
+            OnComplete(() =>
+            {
+                tf_Onwer.LookAt(v3_Rotation);
+            });
+    }
 
     public override void OnHit()
     {

@@ -189,14 +189,14 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 100;
+        m_Dmg = 0;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
         m_ShootRange = 20.5f;
 
-        // m_ChaseRange = 14f;
-        m_ChaseRange = Mathf.Infinity;
+        m_ChaseRange = 14f;
+        // m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;

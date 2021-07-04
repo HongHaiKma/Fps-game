@@ -56,10 +56,11 @@ MonoBehaviour:
   tf_Onwer: {fileID: 1933021457815705096}
   col_Onwer: {fileID: 4710477348562157043}
   v3_CollisionPoint: {x: 0, y: 0, z: 0}
-  m_MoveSpd: 200
+  m_MoveSpd: 20
   m_FlyingTime: 0
   m_FlyingTimeMax: 0
   m_Collided: 0
+  v3_Rotation: {x: 0, y: 0, z: 0}
 --- !u!114 &-5810629412748444189
 MonoBehaviour:
   m_ObjectHideFlags: 0

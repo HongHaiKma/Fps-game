@@ -23,9 +23,12 @@ public class NotCdSkill : CharacterSkill
 
     public override void DeactivateSkill()
     {
-        base.DeactivateSkill();
-        m_IsActivated = false;
-        HandleSkill();
+        if (m_IsActivated)
+        {
+            base.DeactivateSkill();
+            m_IsActivated = false;
+            HandleSkill();
+        }
     }
 
     public override void SetSkillButton()
