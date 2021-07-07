@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class Bullet : InGameObject
 {
@@ -24,7 +23,7 @@ public class Bullet : InGameObject
     [Header("Test Rocket")]
     public Vector3 v3_Rotation;
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         m_Collided = false;
         // col_Onwer.enabled = true;
@@ -39,18 +38,27 @@ public class Bullet : InGameObject
         // col_Onwer.enabled = false;
     }
 
-    public void SetupBullet(BulletConfigData _bulletInfor)
+    public virtual void SetupBullet(BulletConfigData _bulletInfor)
+    {
+        ConfigBullet(_bulletInfor);
+    }
+
+    public virtual void SetupBullet(BulletConfigData _bulletInfor, Vector3 _offset, float _speed = 5000f)
+    {
+        ConfigBullet(_bulletInfor, _speed);
+    }
+
+    public void ConfigBullet(BulletConfigData _bulletInfor, float _speed = 5000f)
     {
         m_Team = _bulletInfor.m_Team;
         m_Dmg = _bulletInfor.m_Dmg;
+        m_MoveSpd = _speed;
         v3_Rotation = _bulletInfor.m_Rotation.position;
         tf_Onwer.LookAt(_bulletInfor.m_Rotation.position);
-        TestRocket();
     }
 
     public virtual void FixedUpdate()
     {
-
         tf_Onwer.position += tf_Onwer.forward * m_MoveSpd * Time.fixedDeltaTime;
 
 
@@ -64,7 +72,8 @@ public class Bullet : InGameObject
 
     public virtual void SpawnVFX(Vector3 _collisionPoint)
     {
-
+        string vfx = ConfigName.vfx1;
+        PrefabManager.Instance.SpawnVFXPool(vfx, _collisionPoint);
     }
 
     public virtual void SpawnVFX()
@@ -72,25 +81,7 @@ public class Bullet : InGameObject
 
     }
 
-    public void TestRocket()
-    {
-        float offset = 6f;
-        DOTween.To(
-            () =>
-            offset,
-            x => offset = x, 0f, 0.3f).SetEase(Ease.InCirc)
-            .OnUpdate(
-                () =>
-                {
-                    Vector3 v33 = v3_Rotation + new Vector3(offset, offset, offset);
-                    tf_Onwer.LookAt(v33);
-                }
-            ).
-            OnComplete(() =>
-            {
-                tf_Onwer.LookAt(v3_Rotation);
-            });
-    }
+
 
     public override void OnHit()
     {
@@ -121,6 +112,12 @@ public class Bullet : InGameObject
 
             if (iTaken != null && m_Team != iTaken.GetTeam())
             {
+                // m_Collided = true;
+
+                // SpawnVFX(v3_CollisionPoint);
+                // PrefabManager.Instance.DespawnPool(gameObject);
+
+
                 iTaken.OnHit(m_Dmg);
             }
         }

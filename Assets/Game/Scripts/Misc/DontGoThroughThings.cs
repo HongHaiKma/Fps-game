@@ -51,8 +51,24 @@ public class DontGoThroughThings : MonoBehaviour
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_BodyPart.value) && !m_Collided)
+            if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_Map.value) && !m_Collided)
             {
+                // Helper.DebugLog("Name: " + hitInfo.collider.name);
+                m_Collided = true;
+                col_Onwer.enabled = false;
+
+                if (!hitInfo.collider)
+                {
+                    return;
+                }
+
+                m_Bullet.v3_CollisionPoint = hitInfo.point;
+                m_Bullet.OnHit(hitInfo.collider.gameObject);
+
+            }
+            else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_BodyPart.value) && !m_Collided)
+            {
+                // Helper.DebugLog("Name: " + hitInfo.collider.name);
                 m_Collided = true;
                 col_Onwer.enabled = false;
 
@@ -64,19 +80,36 @@ public class DontGoThroughThings : MonoBehaviour
                 m_Bullet.v3_CollisionPoint = hitInfo.point;
                 m_Bullet.OnHit(hitInfo.collider.gameObject);
             }
-            else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_Map.value) && !m_Collided)
-            {
-                m_Collided = true;
-                col_Onwer.enabled = false;
 
-                if (!hitInfo.collider)
-                {
-                    return;
-                }
+            // if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_BodyPart.value) && !m_Collided)
+            // {
+            //     Helper.DebugLog("Name: " + hitInfo.collider.name);
+            //     m_Collided = true;
+            //     col_Onwer.enabled = false;
 
-                m_Bullet.v3_CollisionPoint = hitInfo.point;
-                m_Bullet.OnHit(hitInfo.collider.gameObject);
-            }
+            //     if (!hitInfo.collider)
+            //     {
+            //         return;
+            //     }
+
+            //     m_Bullet.v3_CollisionPoint = hitInfo.point;
+            //     m_Bullet.OnHit(hitInfo.collider.gameObject);
+            // }
+            // else if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, lm_Map.value) && !m_Collided)
+            // {
+            //     Helper.DebugLog("Name: " + hitInfo.collider.name);
+            //     m_Collided = true;
+            //     col_Onwer.enabled = false;
+
+            //     if (!hitInfo.collider)
+            //     {
+            //         return;
+            //     }
+
+            //     m_Bullet.v3_CollisionPoint = hitInfo.point;
+            //     m_Bullet.OnHit(hitInfo.collider.gameObject);
+
+            // }
         }
 
         previousPosition = myRigidbody.position;

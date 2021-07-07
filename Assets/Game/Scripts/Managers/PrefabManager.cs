@@ -23,14 +23,14 @@ public class PrefabManager : Singleton<PrefabManager>
         // InitIngamePrefab();
     }
 
-    public void InitIngamePrefab()
-    {
-        string bullet1 = ConfigName.bullet1;
-        CreatePool(bullet1, GetBulletPrefabByName(bullet1), 5);
+    // public void InitIngamePrefab()
+    // {
+    //     string bullet1 = ConfigName.bullet1;
+    //     CreatePool(bullet1, GetBulletPrefabByName(bullet1), 5);
 
-        string vfx1 = ConfigName.vfx1;
-        CreatePool(vfx1, GetVFXPrefabByName(vfx1), 5);
-    }
+    //     string vfx1 = ConfigName.vfx1;
+    //     CreatePool(vfx1, GetVFXPrefabByName(vfx1), 5);
+    // }
 
     public void InitPrefab()
     {

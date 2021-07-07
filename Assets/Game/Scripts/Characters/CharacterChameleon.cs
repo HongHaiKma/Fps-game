@@ -23,20 +23,20 @@ public class CharacterChameleon : Character
     public override void AddListener()
     {
         base.AddListener();
-        EventManager.AddListener(GameEvent.TEST_LIZARD_SKILL, Event_TEST_LIZARD_DASH);
+        EventManager.AddListener(GameEvent.TEST_LIZARD_SKILL, Skill_Dash);
     }
 
     public override void RemoveListener()
     {
         base.RemoveListener();
-        EventManager.RemoveListener(GameEvent.TEST_LIZARD_SKILL, Event_TEST_LIZARD_DASH);
+        EventManager.RemoveListener(GameEvent.TEST_LIZARD_SKILL, Skill_Dash);
     }
 
-    public void Event_TEST_LIZARD_DASH()
+    public void Skill_Dash()
     {
         if (!IsAI())
         {
-            Helper.DebugLog("Event_TEST_LIZARD_DASH");
+            // Helper.DebugLog("Event_TEST_LIZARD_DASH");
             ChangeState(DashState.Instance);
         }
     }

@@ -8,6 +8,6 @@ public class ChamaleonSkill : NotDurationSkill
     {
         Helper.DebugLog("ChamaleonSkill handle skil");
         CharacterChameleon charrr = m_Char as CharacterChameleon;
-        charrr.Event_TEST_LIZARD_DASH();
+        charrr.Skill_Dash();
     }
 }

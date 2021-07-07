@@ -189,14 +189,14 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 0;
+        m_Dmg = 200f;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
         m_ShootRange = 20.5f;
 
-        m_ChaseRange = 14f;
-        // m_ChaseRange = Mathf.Infinity;
+        // m_ChaseRange = 14f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -297,15 +297,20 @@ public class Character : InGameObject
     }
 
     [Task]
-    public void SetAimingInput()
+    public virtual void SetAimingInput()
     {
         Vector2 mouseInput = new Vector2(CF2Input.GetAxis("Mouse X"), CF2Input.GetAxis("Mouse Y")) * 0.35f;
 
         EventManager1<Vector2>.CallEvent(GameEvent.SET_CMLOOK_VALUE, mouseInput);
 
+        ShootByMouse();
+    }
+
+    public virtual void ShootByMouse()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            string bulletS = ConfigName.bullet1;
+            string bulletS = ConfigName.m_Bullet;
             BulletConfigData infor;
             if (!m_AI)
             {
@@ -425,11 +430,11 @@ public class Character : InGameObject
 
     #region SHOOTING
     [Task]
-    public void OnShooting()
+    public virtual void OnShooting()
     {
         for (int i = 0; i < m_ShootBullet; i++)
         {
-            string bulletS = ConfigName.bullet1;
+            string bulletS = ConfigName.m_BulletValkyrja;
             // BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
             BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_Crosshair);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
