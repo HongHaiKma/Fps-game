@@ -15,6 +15,8 @@ public class Character : InGameObject
     public Animator anim_Onwer;
     public NavMeshAgent nav_Agent;
     public LayerMask m_LayerMask;
+    public LayerMask m_CheckLayer;
+    public LayerMask m_LayerMap;
     public HealthBar m_HealthBar;
     public CharacterController cc_Owner;
     // public MiniIcon m_MiniIcon;
@@ -191,7 +193,7 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 0f;
+        m_Dmg = 100f;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
@@ -442,6 +444,12 @@ public class Character : InGameObject
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
+
+            // // Helper.DebugLog("CanSHOTTTTTTTTTTTTTTTTTT");
+            // Vector3 v3_CollisionPoint = hits[index].point;
+            // string vfx = ConfigName.vfx1;
+            // PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
+            // iTaken.OnHit(m_Dmg);
         }
 
         if (!m_AI)
@@ -459,7 +467,15 @@ public class Character : InGameObject
         // Vector3 direction = (tf_CheckShootPoint.position - tf_Crosshair.position);
         tf_CheckShootPoint.LookAt(tf_Crosshair);
         // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 90f, Color.red);
-        Debug.DrawRay(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 90f, Color.red);
+
+        if (IsAI())
+        {
+            Debug.DrawRay(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 90f, Color.red);
+        }
+        else
+        {
+            Debug.DrawRay(CamController.Instance.tf_Owner.position, CamController.Instance.tf_Owner.forward * 90f, Color.red);
+        }
 
         if (m_CharState == CharState.DEATH || m_CharState == CharState.EMPTY)
         {
@@ -467,7 +483,18 @@ public class Character : InGameObject
         }
 
         // RaycastHit[] hit = Physics.RaycastAll(tf_FirePoint.position, tf_FirePoint.forward * 10f);
-        RaycastHit[] hit = Physics.RaycastAll(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 10f);
+
+        RaycastHit[] hit;
+
+        if (IsAI())
+        {
+            hit = Physics.RaycastAll(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 10f);
+        }
+        else
+        {
+            hit = Physics.RaycastAll(CamController.Instance.tf_Owner.position, CamController.Instance.tf_Owner.forward * 10f);
+        }
+
         int hitCount = hit.Length;
 
         if (hitCount <= 0)
@@ -475,28 +502,32 @@ public class Character : InGameObject
             return false;
         }
 
-        int index = 0;
-        for (int i = 0; i < hitCount; i++)
-        {
-            if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
-            {
-                index = i;
-            }
-            // else
-            // {
-            //     return false;
-            // }
-        }
+        // int index = 0;
+        // for (int i = 0; i < hitCount; i++)
+        // {
+        //     if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
+        //     {
+        //         index = i;
+        //     }
+        //     // else
+        //     // {
+        //     //     return false;
+        //     // }
+        // }
 
         List<RaycastHit> hits = new List<RaycastHit>();
 
         for (int i = 0; i < hitCount; i++)
         {
-            if (true)
-            {
-
-            }
+            // if ((m_CheckLayer.value & (1 << hit[i].transform.gameObject.layer)) != 0 || (m_LayerMap.value & (1 << hit[i].transform.gameObject.layer)) != 0)
+            // {
             hits.Add(hit[i]);
+            // }
+        }
+
+        if (hits.Count <= 0)
+        {
+            return false;
         }
 
         hits.Sort(delegate (RaycastHit a, RaycastHit b)
@@ -508,34 +539,85 @@ public class Character : InGameObject
 
         if (Input.GetKeyDown(KeyCode.F) && !IsAI())
         {
-            // hitCount.
+            for (int i = 0; i < hits.Count; i++)
+            {
+                // if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0 && (m_LayerMap.value & (1 << hits[i].transform.gameObject.layer)) == 0)
+                if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0)
+                {
+                    Helper.DebugLog("layer name:" + LayerMask.LayerToName(hits[i].transform.gameObject.layer));
+                    hits.Remove(hits[i]);
+                }
+            }
+
+            int indexx = 0;
+
+            for (int i = 0; i < hits.Count; i++)
+            {
+                ITakenDamage iTakenn = hits[indexx].transform.GetComponent<ITakenDamage>();
+                if (iTakenn != null && iTakenn.GetInGameObjectType() == InGameObjectType.CHARACTER)
+                {
+                    hits.Remove(hits[i]);
+                }
+            }
+
             for (int i = 0; i < hits.Count; i++)
             {
                 Helper.DebugLog(hits[i].transform.name);
             }
         }
 
-        ITakenDamage iTaken = hits[index].transform.GetComponent<ITakenDamage>();
+        // for (int i = 0; i < hits.Count; i++)
+        // {
+        //     if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0 && (m_LayerMap.value & (1 << hits[i].transform.gameObject.layer)) == 0)
+        //     {
+        //         // Helper.DebugLog("layer name:" + LayerMask.LayerToName(hits[i].transform.gameObject.layer));
+        //         hits.Remove(hits[i]);
+        //     }
+        // }
 
-        if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hits[index].transform.position, m_ShootRange))
+        // int index = 0;
+
+        // for (int i = 0; i < hits.Count; i++)
+        // {
+        //     ITakenDamage iTakenn = hits[index].transform.GetComponent<ITakenDamage>();
+        //     if (iTakenn != null && iTakenn.GetInGameObjectType() == InGameObjectType.CHARACTER_BODY)
+        //     {
+        //         index = i;
+        //         break;
+        //         // Helper.DebugLog("22222222222222222222");
+        //     }
+        // }
+
+        if (hits.Count <= 0)
         {
+            return false;
+        }
+
+        ITakenDamage iTaken = hits[1].transform.GetComponent<ITakenDamage>();
+
+        if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hits[1].transform.position, m_ShootRange))
+        {
+            // Helper.DebugLog("Object type: " + iTaken.GetInGameObjectType());
             if (m_CharState != CharState.SHOOT_FLAG)
             {
-                if (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER)
+                if (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER_BODY)
                 {
+                    Helper.DebugLog("InGameObjectType.CHARACTER_BODY");
                     if (m_Team != iTaken.GetTeam())
                     {
-                        if (GetTeam() == TEAM.Team1)
-                        {
-                            if (iTaken != null && m_Team != iTaken.GetTeam())
-                            {
-                                Helper.DebugLog("CanSHOTTTTTTTTTTTTTTTTTT");
-                                Vector3 v3_CollisionPoint = hits[index].transform.position;
-                                string vfx = ConfigName.vfx1;
-                                PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
-                                iTaken.OnHit(m_Dmg, 1f);
-                            }
-                        }
+                        // if (GetTeam() == TEAM.Team1)
+                        // {
+                        // if (iTaken != null && m_Team != iTaken.GetTeam())
+                        // {
+
+                        Helper.DebugLog("CanSHOTTTTTTTTTTTTTTTTTT");
+                        Vector3 v3_CollisionPoint = hits[0].point;
+                        string vfx = ConfigName.vfx1;
+                        PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
+                        iTaken.OnHit(m_Dmg);
+
+                        // }
+                        // }
                         return true;
                     }
                     else
@@ -958,8 +1040,14 @@ public class Character : InGameObject
 
     }
 
+    public override void OnHit(BigNumber _dmg)
+    {
+        Helper.DebugLog("DMG: " + _dmg);
+    }
+
     public override void OnHit(BigNumber _dmg, float _crit)
     {
+        Helper.DebugLog("Character OnHitttttttttttttttttttttt");
         ApplyDamage(_dmg, _crit);
     }
 

@@ -24,13 +24,16 @@ public class CharacterModelPart : MonoBehaviour, ITakenDamage
 
     public void OnHit(BigNumber _dmg)
     {
+        Helper.DebugLog("SHOTTTTTTTTT BODY PARTTTTT");
         if (m_BodyPart == BodyPart.HEAD)
         {
             m_OwnerChar.OnHit(_dmg, 2f);
+            Helper.DebugLog("Shoot HEAD");
         }
         else if (m_BodyPart == BodyPart.BODY)
         {
             m_OwnerChar.OnHit(_dmg, 1f);
+            Helper.DebugLog("Shoot BODY");
         }
     }
 

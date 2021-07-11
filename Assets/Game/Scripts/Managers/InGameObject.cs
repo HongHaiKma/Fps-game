@@ -30,6 +30,7 @@ public class InGameObject : MonoBehaviour, ITakenDamage
 public enum InGameObjectType
 {
     CHARACTER,
+    CHARACTER_BODY,
     BULLET,
     FLAG,
 }
