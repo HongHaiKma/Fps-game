@@ -41,7 +41,6 @@ public class Flag : InGameObject
     private void LateUpdate()
     {
         tf_HealthBar.LookAt(Camera.main.transform);
-        // tf_HealthBar.Rotate(0f, 90f, 0f);
     }
 
     public void ResetBar()

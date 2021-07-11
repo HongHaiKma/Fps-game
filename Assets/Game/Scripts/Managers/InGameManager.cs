@@ -9,9 +9,15 @@ public class InGameManager : Singleton<InGameManager>
     public Button btn_Skill;
     public Button btn_TestLizardSkill;
 
+    public Camera m_MiniMapCam;
+    public RenderTexture m_MiniMapTexture;
+    public Button btn_MiniMap;
+    public GameObject g_Joystick;
+
     private void Awake()
     {
         GUIManager.Instance.AddClickEvent(btn_Skill, ActivateSkill);
+        GUIManager.Instance.AddClickEvent(btn_MiniMap, OnClickMiniMap);
         // GUIManager.Instance.AddClickEvent(btn_TestLizardSkill, Event_TEST_LIZARD_DASH);
     }
 
@@ -20,8 +26,20 @@ public class InGameManager : Singleton<InGameManager>
         EventManager.CallEvent(GameEvent.ACTIVATE_SKILL);
     }
 
-    public void Event_TEST_LIZARD_DASH()
+    public void OnClickMiniMap()
     {
-        EventManager.CallEvent(GameEvent.TEST_LIZARD_SKILL);
+        EventManager.CallEvent(GameEvent.DEACTIVATE_SKILL);
+        g_Joystick.SetActive(false);
+        btn_Skill.gameObject.SetActive(false);
+        m_MiniMapCam.targetTexture = null;
+        btn_MiniMap.gameObject.SetActive(false);
+    }
+
+    public void OnUnClickMiniMap()
+    {
+        g_Joystick.SetActive(true);
+        btn_Skill.gameObject.SetActive(true);
+        m_MiniMapCam.targetTexture = m_MiniMapTexture;
+        btn_MiniMap.gameObject.SetActive(true);
     }
 }

@@ -105,21 +105,21 @@ public class Bullet : InGameObject
         {
             m_Collided = true;
 
-            SpawnVFX(v3_CollisionPoint);
+            // SpawnVFX(v3_CollisionPoint);
             PrefabManager.Instance.DespawnPool(gameObject);
 
-            ITakenDamage iTaken = _go.GetComponent<ITakenDamage>();
+            // ITakenDamage iTaken = _go.GetComponent<ITakenDamage>();
 
-            if (iTaken != null && m_Team != iTaken.GetTeam())
-            {
-                // m_Collided = true;
+            // if (iTaken != null && m_Team != iTaken.GetTeam())
+            // {
+            //     // m_Collided = true;
 
-                // SpawnVFX(v3_CollisionPoint);
-                // PrefabManager.Instance.DespawnPool(gameObject);
+            //     // SpawnVFX(v3_CollisionPoint);
+            //     // PrefabManager.Instance.DespawnPool(gameObject);
 
 
-                iTaken.OnHit(m_Dmg);
-            }
+            //     iTaken.OnHit(m_Dmg);
+            // }
         }
     }
 }

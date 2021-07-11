@@ -55,7 +55,7 @@ public class CamController : Singleton<CamController>
 
     public void CheckShoot()
     {
-        Debug.DrawLine(tf_Owner.position, tf_CamCrosshairAim.position, Color.green);
+        // Debug.DrawLine(tf_Owner.position, tf_CamCrosshairAim.position, Color.green);
         RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f);
         // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity);
         // RaycastHit[] hit = Physics.RaycastAll(tf_Owner.position, tf_Owner.forward * 80f, Mathf.Infinity, lm_Ignore);
@@ -103,6 +103,27 @@ public class CamController : Singleton<CamController>
         }
     }
 
+    public void SelectCharMiniMap(Character _character)
+    {
+        if (m_Char != null)
+        {
+            m_Char.m_AI = true;
+        }
+
+        _character.m_AI = false;
+        m_CMFreeLook.Follow = _character.tf_Owner;
+        m_CMFreeLook.LookAt = _character.tf_Head;
+
+        m_Char = null;
+        m_Char = _character;
+        m_Char.m_AI = false;
+
+        // EventManager.CallEvent(GameEvent.DEACTIVATE_SKILL);
+        EventManager.CallEvent(GameEvent.SET_HP_BAR_UI);
+        EventManager.CallEvent(GameEvent.SET_SKILL_BUTTON);
+        EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
+    }
+
     public void ChangeCameraToAnotherChar(bool _init)
     {
         if (_init)
@@ -127,25 +148,6 @@ public class CamController : Singleton<CamController>
             EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
 
             return;
-        }
-
-        if (m_Char.gameObject.activeInHierarchy)
-        {
-            if (m_Char != null)
-            {
-                m_Char.m_AI = true;
-            }
-
-            List<Character> chars = ObjectsManager.Instance.m_Team1;
-
-            int a = Random.Range(0, chars.Count - 1);
-            chars[a].m_AI = false;
-            m_CMFreeLook.Follow = chars[a].tf_Owner;
-            m_CMFreeLook.LookAt = chars[a].tf_Head;
-
-            m_Char = null;
-            m_Char = chars[a];
-            m_Char.m_AI = false;
         }
         else
         {

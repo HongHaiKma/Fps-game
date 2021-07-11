@@ -17,9 +17,15 @@ public class ObjectsManager : Singleton<ObjectsManager>
         SpawnTeam2(m_SpawnTeam);
 
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
-        EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
         EventManager.CallEvent(GameEvent.SET_HEALTH_BAR);
+        StartCoroutine(TestSetChar());
         base.OnEnable();
+    }
+
+    IEnumerator TestSetChar()
+    {
+        yield return Yielders.EndOfFrame;
+        EventManager1<bool>.CallEvent(GameEvent.SET_CMLOOK_TARGET, true);
     }
 
     public void Test()

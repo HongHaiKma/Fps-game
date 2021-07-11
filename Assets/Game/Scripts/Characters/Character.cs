@@ -17,6 +17,7 @@ public class Character : InGameObject
     public LayerMask m_LayerMask;
     public HealthBar m_HealthBar;
     public CharacterController cc_Owner;
+    // public MiniIcon m_MiniIcon;
 
     [Header("---Charcteristics---")]
     // public TEAM m_Team;
@@ -41,6 +42,7 @@ public class Character : InGameObject
     public AimBodyPart m_AimBodyPart;
 
     [Header("---Shoot---")]
+    public Transform tf_CheckShootPoint;
     public Transform tf_FirePoint;
     public Transform tf_Crosshair;
     public Transform tf_CrosshairAim;
@@ -189,14 +191,14 @@ public class Character : InGameObject
 
     public void LoadCharacterConfig()
     {
-        m_Dmg = 200f;
+        m_Dmg = 0f;
         m_HpMax = GetMaxHP();
         m_Hp = m_HpMax;
 
         m_ShootRange = 20.5f;
 
-        // m_ChaseRange = 14f;
-        m_ChaseRange = Mathf.Infinity;
+        m_ChaseRange = 14f;
+        // m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -454,14 +456,18 @@ public class Character : InGameObject
     [Task]
     public bool CanShoot()
     {
-        Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 10f, Color.red);
+        // Vector3 direction = (tf_CheckShootPoint.position - tf_Crosshair.position);
+        tf_CheckShootPoint.LookAt(tf_Crosshair);
+        // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 90f, Color.red);
+        Debug.DrawRay(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 90f, Color.red);
 
         if (m_CharState == CharState.DEATH || m_CharState == CharState.EMPTY)
         {
             return false;
         }
 
-        RaycastHit[] hit = Physics.RaycastAll(tf_FirePoint.position, tf_FirePoint.forward * 10f);
+        // RaycastHit[] hit = Physics.RaycastAll(tf_FirePoint.position, tf_FirePoint.forward * 10f);
+        RaycastHit[] hit = Physics.RaycastAll(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 10f);
         int hitCount = hit.Length;
 
         if (hitCount <= 0)
@@ -476,11 +482,42 @@ public class Character : InGameObject
             {
                 index = i;
             }
+            // else
+            // {
+            //     return false;
+            // }
         }
 
-        ITakenDamage iTaken = hit[index].transform.GetComponent<ITakenDamage>();
+        List<RaycastHit> hits = new List<RaycastHit>();
 
-        if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hit[index].transform.position, m_ShootRange))
+        for (int i = 0; i < hitCount; i++)
+        {
+            if (true)
+            {
+
+            }
+            hits.Add(hit[i]);
+        }
+
+        hits.Sort(delegate (RaycastHit a, RaycastHit b)
+        {
+            return Vector3.Distance(tf_FirePoint.position, a.point)
+        .CompareTo(
+            Vector3.Distance(tf_FirePoint.position, b.point));
+        });
+
+        if (Input.GetKeyDown(KeyCode.F) && !IsAI())
+        {
+            // hitCount.
+            for (int i = 0; i < hits.Count; i++)
+            {
+                Helper.DebugLog(hits[i].transform.name);
+            }
+        }
+
+        ITakenDamage iTaken = hits[index].transform.GetComponent<ITakenDamage>();
+
+        if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hits[index].transform.position, m_ShootRange))
         {
             if (m_CharState != CharState.SHOOT_FLAG)
             {
@@ -488,6 +525,17 @@ public class Character : InGameObject
                 {
                     if (m_Team != iTaken.GetTeam())
                     {
+                        if (GetTeam() == TEAM.Team1)
+                        {
+                            if (iTaken != null && m_Team != iTaken.GetTeam())
+                            {
+                                Helper.DebugLog("CanSHOTTTTTTTTTTTTTTTTTT");
+                                Vector3 v3_CollisionPoint = hits[index].transform.position;
+                                string vfx = ConfigName.vfx1;
+                                PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
+                                iTaken.OnHit(m_Dmg, 1f);
+                            }
+                        }
                         return true;
                     }
                     else
@@ -919,7 +967,10 @@ public class Character : InGameObject
     {
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
         m_Hp -= _dmg * _crit;
-        // Helper.DebugLog("zvdkvnadjkbvadjkbvadjkmbvadujadvihadvui");
+        if (GetTeam() == TEAM.Team2)
+        {
+            Helper.DebugLog("zvdkvnadjkbvadjkbvadjkmbvadujadvihadvui");
+        }
         if (!IsDead())
         {
             HandleApplyDamageAlive();
