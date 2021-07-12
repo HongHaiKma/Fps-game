@@ -1180,15 +1180,9 @@ MonoBehaviour:
   tf_Owner: {fileID: 7054255019204794594}
   anim_Onwer: {fileID: 9058307584904015837}
   nav_Agent: {fileID: 225342800819436718}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 128
   m_CheckLayer:
     serializedVersion: 2
     m_Bits: 768
-  m_LayerMap:
-    serializedVersion: 2
-    m_Bits: 256
   m_HealthBar: {fileID: 6833213351606573681}
   cc_Owner: {fileID: 7411431785404258196}
   m_AI: 1

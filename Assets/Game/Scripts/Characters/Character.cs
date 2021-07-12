@@ -14,9 +14,7 @@ public class Character : InGameObject
     public Transform tf_Owner;
     public Animator anim_Onwer;
     public NavMeshAgent nav_Agent;
-    public LayerMask m_LayerMask;
     public LayerMask m_CheckLayer;
-    public LayerMask m_LayerMap;
     public HealthBar m_HealthBar;
     public CharacterController cc_Owner;
     // public MiniIcon m_MiniIcon;
@@ -466,15 +464,17 @@ public class Character : InGameObject
     {
         // Vector3 direction = (tf_CheckShootPoint.position - tf_Crosshair.position);
         tf_CheckShootPoint.LookAt(tf_Crosshair);
+        // tf_CheckShootPoint.LookAt(tf_CrosshairAim);
         // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 90f, Color.red);
 
         if (IsAI())
         {
-            Debug.DrawRay(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 90f, Color.red);
+            // Debug.DrawRay(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 90f, Color.red);
+            Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 90f, Color.red);
         }
         else
         {
-            Debug.DrawRay(CamController.Instance.tf_Owner.position, CamController.Instance.tf_Owner.forward * 90f, Color.red);
+            Debug.DrawRay(CamController.Instance.tf_Owner.position, CamController.Instance.tf_Owner.forward * 90f, Color.green);
         }
 
         if (m_CharState == CharState.DEATH || m_CharState == CharState.EMPTY)
@@ -502,19 +502,6 @@ public class Character : InGameObject
             return false;
         }
 
-        // int index = 0;
-        // for (int i = 0; i < hitCount; i++)
-        // {
-        //     if ((m_LayerMask.value & (1 << hit[i].transform.gameObject.layer)) > 0)
-        //     {
-        //         index = i;
-        //     }
-        //     // else
-        //     // {
-        //     //     return false;
-        //     // }
-        // }
-
         List<RaycastHit> hits = new List<RaycastHit>();
 
         for (int i = 0; i < hitCount; i++)
@@ -523,6 +510,51 @@ public class Character : InGameObject
             // {
             hits.Add(hit[i]);
             // }
+        }
+
+        // hits.Sort(delegate (RaycastHit a, RaycastHit b)
+        // {
+        //     return Vector3.Distance(tf_FirePoint.position, a.point)
+        // .CompareTo(
+        //     Vector3.Distance(tf_FirePoint.position, b.point));
+        // });
+
+        // if (Input.GetKeyDown(KeyCode.F) && !IsAI())
+        // {
+        //     for (int i = 0; i < hits.Count; i++)
+        //     {
+        //         // if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0 && (m_LayerMap.value & (1 << hits[i].transform.gameObject.layer)) == 0)
+        //         if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0)
+        //         {
+        //             Helper.DebugLog("layer name:" + LayerMask.LayerToName(hits[i].transform.gameObject.layer));
+        //             hits.Remove(hits[i]);
+        //         }
+        //     }
+
+        //     int indexx = 0;
+
+        //     for (int i = 0; i < hits.Count; i++)
+        //     {
+        //         ITakenDamage iTakenn = hits[indexx].transform.GetComponent<ITakenDamage>();
+        //         if (iTakenn != null && iTakenn.GetInGameObjectType() == InGameObjectType.CHARACTER)
+        //         {
+        //             hits.Remove(hits[i]);
+        //         }
+        //     }
+
+        //     for (int i = 0; i < hits.Count; i++)
+        //     {
+        //         Helper.DebugLog(hits[i].transform.name);
+        //     }
+        // }
+        LayerMask rayMask = 1 << LayerMask.NameToLayer("Char");
+        for (int i = 0; i < hits.Count; i++)
+        {
+            if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0)
+            // if (((1 >> hits[i].transform.gameObject.layer) & rayMask) > 0)
+            {
+                hits.Remove(hits[i]);
+            }
         }
 
         if (hits.Count <= 0)
@@ -537,54 +569,16 @@ public class Character : InGameObject
             Vector3.Distance(tf_FirePoint.position, b.point));
         });
 
-        if (Input.GetKeyDown(KeyCode.F) && !IsAI())
-        {
-            for (int i = 0; i < hits.Count; i++)
-            {
-                // if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0 && (m_LayerMap.value & (1 << hits[i].transform.gameObject.layer)) == 0)
-                if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0)
-                {
-                    Helper.DebugLog("layer name:" + LayerMask.LayerToName(hits[i].transform.gameObject.layer));
-                    hits.Remove(hits[i]);
-                }
-            }
+        int index = 0;
 
-            int indexx = 0;
+        ITakenDamage iTaken = hits[index].transform.GetComponent<ITakenDamage>();
 
-            for (int i = 0; i < hits.Count; i++)
-            {
-                ITakenDamage iTakenn = hits[indexx].transform.GetComponent<ITakenDamage>();
-                if (iTakenn != null && iTakenn.GetInGameObjectType() == InGameObjectType.CHARACTER)
-                {
-                    hits.Remove(hits[i]);
-                }
-            }
-
-            for (int i = 0; i < hits.Count; i++)
-            {
-                Helper.DebugLog(hits[i].transform.name);
-            }
-        }
-
-        // for (int i = 0; i < hits.Count; i++)
+        // if (((1 >> hits[index].transform.gameObject.layer) & rayMask) != 0)
         // {
-        //     if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0 && (m_LayerMap.value & (1 << hits[i].transform.gameObject.layer)) == 0)
+        //     if (hits.Count <= 0)
         //     {
-        //         // Helper.DebugLog("layer name:" + LayerMask.LayerToName(hits[i].transform.gameObject.layer));
-        //         hits.Remove(hits[i]);
-        //     }
-        // }
-
-        // int index = 0;
-
-        // for (int i = 0; i < hits.Count; i++)
-        // {
-        //     ITakenDamage iTakenn = hits[index].transform.GetComponent<ITakenDamage>();
-        //     if (iTakenn != null && iTakenn.GetInGameObjectType() == InGameObjectType.CHARACTER_BODY)
-        //     {
-        //         index = i;
-        //         break;
-        //         // Helper.DebugLog("22222222222222222222");
+        //         hits.Remove(hits[index]);
+        //         return false;
         //     }
         // }
 
@@ -593,31 +587,46 @@ public class Character : InGameObject
             return false;
         }
 
-        ITakenDamage iTaken = hits[1].transform.GetComponent<ITakenDamage>();
-
-        if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hits[1].transform.position, m_ShootRange))
+        if (!IsAI())
         {
-            // Helper.DebugLog("Object type: " + iTaken.GetInGameObjectType());
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                // Helper.DebugLog("Objecttttttt: " + hits[0].transform.name);
+                for (int i = 0; i < hits.Count; i++)
+                {
+                    Helper.DebugLog(hits[i].transform.name);
+                }
+            }
+        }
+
+        if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hits[index].transform.position, m_ShootRange))
+        {
+            // if (IsAI())
+            // {
+            //     Helper.DebugLog("BBBBBBBBBBBBBBBBBBBBBBBBB");
+            // }
             if (m_CharState != CharState.SHOOT_FLAG)
             {
+                // if (IsAI())
+                // {
+                //     Helper.DebugLog("CCCCCCCCCCCCCCCCCCCCC");
+                // }
                 if (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER_BODY)
                 {
-                    Helper.DebugLog("InGameObjectType.CHARACTER_BODY");
+                    // if (IsAI())
+                    // {
+                    //     Helper.DebugLog("DDDDDDDDDDDDDDDDDDDDD");
+                    // }
                     if (m_Team != iTaken.GetTeam())
                     {
-                        // if (GetTeam() == TEAM.Team1)
+                        // if (IsAI())
                         // {
-                        // if (iTaken != null && m_Team != iTaken.GetTeam())
-                        // {
-
-                        Helper.DebugLog("CanSHOTTTTTTTTTTTTTTTTTT");
-                        Vector3 v3_CollisionPoint = hits[0].point;
+                        //     Helper.DebugLog("AAAAAAAAAAAAAAAAAAAAA");
+                        // }
+                        Vector3 v3_CollisionPoint = hits[index].point;
                         string vfx = ConfigName.vfx1;
                         PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
                         iTaken.OnHit(m_Dmg);
-
-                        // }
-                        // }
                         return true;
                     }
                     else
@@ -676,7 +685,7 @@ public class Character : InGameObject
     {
         if (m_AimModelCd >= m_AimModelCdMax)
         {
-            if (Helper.Random2Probability(20))
+            if (Helper.Random2Probability(0))
             {
                 m_AimBodyPart = AimBodyPart.HEAD;
             }
@@ -1040,14 +1049,8 @@ public class Character : InGameObject
 
     }
 
-    public override void OnHit(BigNumber _dmg)
-    {
-        Helper.DebugLog("DMG: " + _dmg);
-    }
-
     public override void OnHit(BigNumber _dmg, float _crit)
     {
-        Helper.DebugLog("Character OnHitttttttttttttttttttttt");
         ApplyDamage(_dmg, _crit);
     }
 
@@ -1055,10 +1058,6 @@ public class Character : InGameObject
     {
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
         m_Hp -= _dmg * _crit;
-        if (GetTeam() == TEAM.Team2)
-        {
-            Helper.DebugLog("zvdkvnadjkbvadjkbvadjkmbvadujadvihadvui");
-        }
         if (!IsDead())
         {
             HandleApplyDamageAlive();
