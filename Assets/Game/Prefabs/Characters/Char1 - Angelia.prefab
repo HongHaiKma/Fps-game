@@ -1110,8 +1110,6 @@ GameObject:
   - component: {fileID: 225342800819436718}
   - component: {fileID: 7411431785404258196}
   - component: {fileID: 4727081300126342855}
-  - component: {fileID: 4565809008320294791}
-  - component: {fileID: 4240106427634814895}
   m_Layer: 7
   m_Name: Char1 - Angelia
   m_TagString: Untagged
@@ -4462,36 +4460,6 @@ MonoBehaviour:
     - {x: -0.36621836, y: -0.7958525, z: 0.48218548}
     - {x: 0.36621836, y: -0.7958525, z: 0.48218548}
     - {x: 0, y: -0.70710677, z: 0.70710677}
---- !u!54 &4565809008320294791
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2722105138379529384}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!136 &4240106427634814895
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2722105138379529384}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.26
-  m_Height: 1.3
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.62, z: 0}
 --- !u!1 &2827624727333298156
 GameObject:
   m_ObjectHideFlags: 0
@@ -5605,7 +5573,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.26
+  m_Radius: 0.5
   m_Height: 1.3
   m_Direction: 1
   m_Center: {x: 0, y: -0.6, z: 0}
