@@ -14,6 +14,8 @@ public class InGameManager : Singleton<InGameManager>
     public Button btn_MiniMap;
     public GameObject g_Joystick;
 
+    public Color[] m_TeamColor;
+
     private void Awake()
     {
         GUIManager.Instance.AddClickEvent(btn_Skill, ActivateSkill);

@@ -48,14 +48,7 @@ public class ObjectsManager : Singleton<ObjectsManager>
             {
                 return;
             }
-            charrr.m_Team = TEAM.Team1;
-            charrr.m_HeadPart.m_Team = TEAM.Team1;
-            charrr.m_BodyPart.m_Team = TEAM.Team1;
-            charrr.m_HeadPart.gameObject.SetActive(true);
-            charrr.m_BodyPart.gameObject.SetActive(true);
-            charrr.LoadCharacterConfig();
-            charrr.SetupComponents();
-            charrr.m_HealthBar.SetHpBar();
+            charrr.SetupCharacter(TEAM.Team1);
             m_Team1.Add(charrr);
         }
     }
@@ -75,14 +68,7 @@ public class ObjectsManager : Singleton<ObjectsManager>
             {
                 return;
             }
-            charrr.m_Team = TEAM.Team2;
-            charrr.m_HeadPart.m_Team = TEAM.Team2;
-            charrr.m_BodyPart.m_Team = TEAM.Team2;
-            charrr.m_HeadPart.gameObject.SetActive(true);
-            charrr.m_BodyPart.gameObject.SetActive(true);
-            charrr.LoadCharacterConfig();
-            charrr.SetupComponents();
-            charrr.m_HealthBar.SetHpBar();
+            charrr.SetupCharacter(TEAM.Team2);
             m_Team2.Add(charrr);
         }
     }

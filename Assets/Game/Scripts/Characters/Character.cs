@@ -10,7 +10,6 @@ using Panda;
 public class Character : InGameObject
 {
     [Header("---Components---")]
-    public Rigidbody rb_Owner;
     public Transform tf_Owner;
     public Animator anim_Onwer;
     public NavMeshAgent nav_Agent;
@@ -197,8 +196,8 @@ public class Character : InGameObject
 
         m_ShootRange = 20.5f;
 
-        m_ChaseRange = 14f;
-        // m_ChaseRange = Mathf.Infinity;
+        // m_ChaseRange = 14f;
+        m_ChaseRange = Mathf.Infinity;
         m_ChaseStopRange = 15f;
 
         m_RotateCdMax = 2.5f;
@@ -231,6 +230,20 @@ public class Character : InGameObject
         m_AI = true;
         SetNavMeshStopRange(m_ChaseStopRange);
         SetNavMeshSpeed(m_MoveSpd);
+    }
+
+    public void SetupCharacter(TEAM _team)
+    {
+        m_Team = _team;
+        m_HeadPart.m_Team = _team;
+        m_BodyPart.m_Team = _team;
+        GetComponent<Outline>().OutlineColor = InGameManager.Instance.m_TeamColor[(int)_team];
+
+        m_HeadPart.gameObject.SetActive(true);
+        m_BodyPart.gameObject.SetActive(true);
+        LoadCharacterConfig();
+        SetupComponents();
+        m_HealthBar.SetHpBar();
     }
 
     public void ResetAllCooldown()
@@ -469,8 +482,8 @@ public class Character : InGameObject
 
         if (IsAI())
         {
-            // Debug.DrawRay(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 90f, Color.red);
-            Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 90f, Color.red);
+            Debug.DrawRay(tf_CheckShootPoint.position, tf_CheckShootPoint.forward * 90f, Color.red);
+            // Debug.DrawRay(tf_FirePoint.position, tf_FirePoint.forward * 90f, Color.red);
         }
         else
         {
@@ -685,7 +698,7 @@ public class Character : InGameObject
     {
         if (m_AimModelCd >= m_AimModelCdMax)
         {
-            if (Helper.Random2Probability(0))
+            if (Helper.Random2Probability(20))
             {
                 m_AimBodyPart = AimBodyPart.HEAD;
             }
@@ -1210,8 +1223,8 @@ public enum AimBodyPart
 
 public enum TEAM
 {
-    Team1 = 1,
-    Team2 = 2
+    Team1 = 0,
+    Team2 = 1
 }
 
 public enum CharState

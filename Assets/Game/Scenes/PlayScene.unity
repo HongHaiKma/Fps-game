@@ -2893,6 +2893,9 @@ MonoBehaviour:
   m_MiniMapTexture: {fileID: 8400000, guid: 25165f6d0a2af1a4a9c684bbded5c453, type: 2}
   btn_MiniMap: {fileID: 2018867217}
   g_Joystick: {fileID: 82104547}
+  m_TeamColor:
+  - {r: 0, g: 0.06464219, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
 --- !u!850595691 &1338302208
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -3183,6 +3186,9 @@ MonoBehaviour:
   - {fileID: 145502, guid: 203e588090d01ae4a88a5875556a0ec4, type: 3}
   m_CharPrefabs:
   - {fileID: 2722105138379529384, guid: 73b62837f49ea4243a870200730b45b4, type: 3}
+  - {fileID: 4462982759565529161, guid: cf9927f78cd8b6b4b857c1b23fa4d684, type: 3}
+  - {fileID: 6840232972134110263, guid: 0e9f48048445f2a49bcd030a201efff0, type: 3}
+  - {fileID: 6840232972134110263, guid: 6d40d47e4925f5f4ba024f54b5cc6ab9, type: 3}
 --- !u!1 &1430411810
 GameObject:
   m_ObjectHideFlags: 0
@@ -9115,7 +9121,7 @@ PrefabInstance:
       objectReference: {fileID: 33334536332026505}
     - target: {fileID: 6666628358932100548, guid: cee40ab94e1765744ab8438abe2574b6, type: 3}
       propertyPath: m_SpawnTeam
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cee40ab94e1765744ab8438abe2574b6, type: 3}
