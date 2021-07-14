@@ -318,28 +318,28 @@ public class Character : InGameObject
 
         EventManager1<Vector2>.CallEvent(GameEvent.SET_CMLOOK_VALUE, mouseInput);
 
-        ShootByMouse();
+        // ShootByMouse();
     }
 
-    public virtual void ShootByMouse()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            string bulletS = ConfigName.m_Bullet;
-            BulletConfigData infor;
-            if (!m_AI)
-            {
-                infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
-            }
-            else
-            {
-                infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_Crosshair);
-            }
-            GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
-            Bullet bullet = go.GetComponent<Bullet>();
-            bullet.SetupBullet(infor);
-        }
-    }
+    // public virtual void ShootByMouse()
+    // {
+    //     if (Input.GetMouseButtonDown(0))
+    //     {
+    //         string bulletS = ConfigName.m_Bullet;
+    //         BulletConfigData infor;
+    //         if (!m_AI)
+    //         {
+    //             infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
+    //         }
+    //         else
+    //         {
+    //             infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_Crosshair);
+    //         }
+    //         GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
+    //         Bullet bullet = go.GetComponent<Bullet>();
+    //         bullet.SetupBullet(infor);
+    //     }
+    // }
 
     #endregion
 
@@ -450,17 +450,10 @@ public class Character : InGameObject
         for (int i = 0; i < m_ShootBullet; i++)
         {
             string bulletS = ConfigName.m_BulletValkyrja;
-            // BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_CrosshairAim);
             BulletConfigData infor = new BulletConfigData(m_Team, m_Dmg, bulletS, tf_Crosshair);
             GameObject go = PrefabManager.Instance.SpawnBulletPool(infor.m_PrefabName, tf_FirePoint.position);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.SetupBullet(infor);
-
-            // // Helper.DebugLog("CanSHOTTTTTTTTTTTTTTTTTT");
-            // Vector3 v3_CollisionPoint = hits[index].point;
-            // string vfx = ConfigName.vfx1;
-            // PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
-            // iTaken.OnHit(m_Dmg);
         }
 
         if (!m_AI)
@@ -519,47 +512,9 @@ public class Character : InGameObject
 
         for (int i = 0; i < hitCount; i++)
         {
-            // if ((m_CheckLayer.value & (1 << hit[i].transform.gameObject.layer)) != 0 || (m_LayerMap.value & (1 << hit[i].transform.gameObject.layer)) != 0)
-            // {
             hits.Add(hit[i]);
-            // }
         }
 
-        // hits.Sort(delegate (RaycastHit a, RaycastHit b)
-        // {
-        //     return Vector3.Distance(tf_FirePoint.position, a.point)
-        // .CompareTo(
-        //     Vector3.Distance(tf_FirePoint.position, b.point));
-        // });
-
-        // if (Input.GetKeyDown(KeyCode.F) && !IsAI())
-        // {
-        //     for (int i = 0; i < hits.Count; i++)
-        //     {
-        //         // if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0 && (m_LayerMap.value & (1 << hits[i].transform.gameObject.layer)) == 0)
-        //         if ((m_CheckLayer.value & (1 << hits[i].transform.gameObject.layer)) == 0)
-        //         {
-        //             Helper.DebugLog("layer name:" + LayerMask.LayerToName(hits[i].transform.gameObject.layer));
-        //             hits.Remove(hits[i]);
-        //         }
-        //     }
-
-        //     int indexx = 0;
-
-        //     for (int i = 0; i < hits.Count; i++)
-        //     {
-        //         ITakenDamage iTakenn = hits[indexx].transform.GetComponent<ITakenDamage>();
-        //         if (iTakenn != null && iTakenn.GetInGameObjectType() == InGameObjectType.CHARACTER)
-        //         {
-        //             hits.Remove(hits[i]);
-        //         }
-        //     }
-
-        //     for (int i = 0; i < hits.Count; i++)
-        //     {
-        //         Helper.DebugLog(hits[i].transform.name);
-        //     }
-        // }
         LayerMask rayMask = 1 << LayerMask.NameToLayer("Char");
         for (int i = 0; i < hits.Count; i++)
         {
@@ -614,28 +569,12 @@ public class Character : InGameObject
 
         if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hits[index].transform.position, m_ShootRange))
         {
-            // if (IsAI())
-            // {
-            //     Helper.DebugLog("BBBBBBBBBBBBBBBBBBBBBBBBB");
-            // }
             if (m_CharState != CharState.SHOOT_FLAG)
             {
-                // if (IsAI())
-                // {
-                //     Helper.DebugLog("CCCCCCCCCCCCCCCCCCCCC");
-                // }
                 if (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER_BODY)
                 {
-                    // if (IsAI())
-                    // {
-                    //     Helper.DebugLog("DDDDDDDDDDDDDDDDDDDDD");
-                    // }
                     if (m_Team != iTaken.GetTeam())
                     {
-                        // if (IsAI())
-                        // {
-                        //     Helper.DebugLog("AAAAAAAAAAAAAAAAAAAAA");
-                        // }
                         Vector3 v3_CollisionPoint = hits[index].point;
                         string vfx = ConfigName.vfx1;
                         PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
@@ -1071,6 +1010,7 @@ public class Character : InGameObject
     {
         EventManager.CallEvent(GameEvent.SET_CHAR_TARGET);
         m_Hp -= _dmg * _crit;
+        m_HealthBar.SetHpBar();
         if (!IsDead())
         {
             HandleApplyDamageAlive();
@@ -1084,7 +1024,7 @@ public class Character : InGameObject
     public virtual void HandleApplyDamageAlive()
     {
         // m_Hp -= _dmg * _crit;
-        m_HealthBar.SetHpBar();
+        // m_HealthBar.SetHpBar();
     }
 
     public virtual void HandleApplyDamageDead()
@@ -1198,8 +1138,7 @@ public class Character : InGameObject
     {
         if (other.tag.Equals("DeadPlane"))
         {
-            m_Hp = 0;
-            HandleApplyDamageDead();
+            ApplyDamage(m_Hp, 1f);
         }
     }
 }
