@@ -79,7 +79,11 @@ public class CamController : Singleton<CamController>
                 float hitPointDistance = Helper.CalDistance(hit[0].point, CamController.Instance.tf_Owner.position);
                 float charDistance = Helper.CalDistance(m_Char.tf_Owner.position, CamController.Instance.tf_Owner.position);
 
+                bool checkDistance = hitPointDistance < charDistance;
+                // bool checkTeam = m_Char.GetTeam() != 
+
                 if (hitPointDistance < charDistance)
+                // if (Helper.IsBehind(m_Char.tf_Owner, hit[0].point))
                 {
                     continue;
                 }

@@ -13,7 +13,8 @@ public class Helper
 
     public static float CalDistance(Vector3 _origin, Vector3 _des)
     {
-        return Vector3.Distance(_origin, _des);
+        // return Vector3.Distance(_origin, _des);
+        return (_origin - _des).sqrMagnitude;
     }
 
     // public static float CalDistanceXZ(Vector3 _origin, Vector3 _des)
@@ -23,6 +24,14 @@ public class Helper
 
     //     return Vector3.Distance(origin, des);
     // }
+
+    public static bool IsBehind(Transform _target, Vector3 _checker)
+    {
+        Vector3 forward = _target.TransformDirection(Vector3.forward);
+        Vector3 toOther = _checker - _target.position;
+
+        return (Vector3.Dot(forward, toOther) < 1);
+    }
 
     public static bool InRange(Vector3 _origin, Vector3 _des, float _maxDistance)
     {

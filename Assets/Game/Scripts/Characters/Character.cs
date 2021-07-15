@@ -569,36 +569,18 @@ public class Character : InGameObject
 
         if (iTaken != null && (m_ShootCd >= m_ShootCdMax) && Helper.InRange(tf_Owner.position, hits[index].transform.position, m_ShootRange))
         {
-            if (m_CharState != CharState.SHOOT_FLAG)
+            bool checkChar = iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER_BODY;
+            bool checkFlag = iTaken.GetInGameObjectType() == InGameObjectType.FLAG;
+            if (checkChar || checkFlag)
             {
-                if (iTaken.GetInGameObjectType() == InGameObjectType.CHARACTER_BODY)
+                if (m_Team != iTaken.GetTeam())
                 {
-                    if (m_Team != iTaken.GetTeam())
-                    {
-                        Vector3 v3_CollisionPoint = hits[index].point;
-                        string vfx = ConfigName.vfx1;
-                        PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
-                        iTaken.OnHit(m_Dmg);
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    ShootTarget(iTaken, hits[index].point);
+                    return true;
                 }
-            }
-            else
-            {
-                if (iTaken.GetInGameObjectType() == InGameObjectType.FLAG)
+                else
                 {
-                    if (m_Team != iTaken.GetTeam())
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
@@ -607,6 +589,15 @@ public class Character : InGameObject
 
         return false;
     }
+
+    public void ShootTarget(ITakenDamage _iTaken, Vector3 _point)
+    {
+        Vector3 v3_CollisionPoint = _point;
+        string vfx = ConfigName.vfx1;
+        PrefabManager.Instance.SpawnVFXPool(vfx, v3_CollisionPoint);
+        _iTaken.OnHit(m_Dmg);
+    }
+
     #endregion
 
     #region AIMING
